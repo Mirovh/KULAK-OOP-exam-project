@@ -63,13 +63,33 @@ public class AlchemicIngredient {
     }
 
     /**
-     * Get the name of the ingredient.
+     * Get the basic name of the ingredient. (without pre- and suffixes)
      *
-     * @return The name of the ingredient.
+     * @return The name of the ingredient without pre- and suffixes.
      */
     @Basic
-    public String getName() {
+    public String getBasicName() {
         return name;
+    }
+
+    /**
+     * Get the special alternative name of the ingredient (mixture).
+     *
+     * @return The special name of the ingredient.
+     */
+    @Basic
+    public String getSpecialName() {
+        return getBasicName(); // TODO: implement
+    }
+
+    /**
+     * Get the full name of the ingredient. (with pre- and suffixes)
+     *
+     * @return The full name of the ingredient.
+     */
+    @Basic
+    public String getFullName() {
+        return getBasicName(); // TODO: implement pre- and suffixes
     }
 
     /**
