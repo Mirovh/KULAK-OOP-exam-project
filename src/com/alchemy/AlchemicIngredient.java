@@ -1,3 +1,5 @@
+package com.alchemy;
+
 import be.kuleuven.cs.som.annotate.*;
 
 import java.sql.Array;
@@ -41,7 +43,7 @@ public class AlchemicIngredient {
      * name - defensive programming
      **********************************************************/
 
-    private final static String ingredientPartRegex = "^[a-zA-Z'()]*$";
+    private final static String ingredientPartRegex = "^[a-zA-Z'()\\s]*$";
 
     private String name;
 
@@ -69,7 +71,7 @@ public class AlchemicIngredient {
      */
     @Basic
     public String getBasicName() {
-        return name;
+        return this.name;
     }
 
     /**
