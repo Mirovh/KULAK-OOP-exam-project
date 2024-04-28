@@ -37,6 +37,7 @@ public class AlchemicIngredientTest {
         assertThrows(AlchemicIngredient.IllegalNameException.class, () -> ingredient.setName("Ba"));
         assertThrows(AlchemicIngredient.IllegalNameException.class, () -> ingredient.setName("abC"));
         assertThrows(AlchemicIngredient.IllegalNameException.class, () -> ingredient.setName("ABc mixed with abC"));
+        assertThrows(AlchemicIngredient.IllegalNameException.class, () -> ingredient.setName("FULL CAPS"));
         try{
             ingredient.setName("Valid Name");
         } catch (AlchemicIngredient.IllegalNameException e) {
@@ -49,6 +50,11 @@ public class AlchemicIngredientTest {
         }
         try {
             ingredient.setName("Ab Cd mixed with Ef");
+        } catch (AlchemicIngredient.IllegalNameException e) {
+            fail("Valid name should not throw an exception: " + e.getMessage());
+        }
+        try {
+            ingredient.setName("Abc");
         } catch (AlchemicIngredient.IllegalNameException e) {
             fail("Valid name should not throw an exception: " + e.getMessage());
         }

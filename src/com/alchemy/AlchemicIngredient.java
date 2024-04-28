@@ -136,6 +136,12 @@ public class AlchemicIngredient {
                     word.length() < 2) {
                 return false;
             }
+            // all other characters must be lowercase
+            for (int i = 1; i < word.length(); i++) {
+                if (!Character.isLowerCase(word.charAt(i))) {
+                    return false;
+                }
+            }
         }
         return true;
     }
