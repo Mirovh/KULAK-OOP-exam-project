@@ -43,7 +43,7 @@ public class AlchemicIngredient {
      * name - defensive programming
      **********************************************************/
 
-    private final static String ingredientPartRegex = "^[a-zA-Z'()\\s]*$";
+    private final static String ingredientPartRegex = "^[a-zA-Z'\\(\\)\\s]*$";
 
     private String name;
 
