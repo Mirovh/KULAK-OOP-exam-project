@@ -94,8 +94,8 @@ public class AlchemicIngredientTest {
             fail("Valid name should not throw an exception: " + e.getMessage());
         }
         try {
-            ingredient2.setSpecialName("Valid \'name");
-            assertEquals("Valid \\'name", ingredient2.getSpecialName());
+            ingredient2.setSpecialName("Valid 'name");
+            assertEquals("Valid 'name", ingredient2.getSpecialName());
         } catch (AlchemicIngredient.IllegalSpecialNameException e) {
             fail("Valid name should not throw an exception: " + e.getMessage());
         }
