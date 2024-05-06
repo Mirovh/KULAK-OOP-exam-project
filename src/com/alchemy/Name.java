@@ -1,5 +1,7 @@
 package com.alchemy;
 
+import be.kuleuven.cs.som.annotate.*;
+
 /**
  * A class representing the name of an alchemic ingredient.
  *
@@ -76,15 +78,12 @@ public class Name {
      * @throws IllegalSpecialNameException if the special name is invalid or the ingredient does not have enough name parts
      * @post The special name of the ingredient is set to the given name.
      *      | new.getSpecialName() == name
-     * @post If the special name is invalid or the ingredient does not have enough name parts, the special name is set to null.
-     *     | if (!isValidIngredientPartName(name) || this.nameParts.length <= 1) then new.getSpecialName() == null
      */
     @Raw
     public void setSpecialName(String name) throws IllegalSpecialNameException {
         if (isValidIngredientPartName(name) && this.nameParts.length > 1) {
             this.specialName = name;
         } else {
-            this.specialName = null;
             throw new IllegalSpecialNameException(name);
         }
     }

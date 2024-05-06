@@ -2,10 +2,6 @@ package com.alchemy;
 
 import be.kuleuven.cs.som.annotate.*;
 
-import java.sql.Array;
-
-import com.alchemy.Name;
-
 /**
  * A class representing a certain amount of a substance used to create potions and such.
  *
@@ -20,7 +16,7 @@ public class AlchemicIngredient {
      * Variables
      **********************************************************/
 
-    private Name name;
+    private final Name name;
 
     /**********************************************************
      * Constructors
@@ -33,8 +29,6 @@ public class AlchemicIngredient {
      * @param amount The amount of the ingredient.
      * @throws IllegalNameException If the given name is not a valid mixture name.
      * @effect The name of the ingredient is set to the given name.
-     *         If the given name is not valid, a default name is set.
-     *         | setName(name)
      * @effect The amount is set to the given amount (must be valid).
      *         | setSize(size)
      */
