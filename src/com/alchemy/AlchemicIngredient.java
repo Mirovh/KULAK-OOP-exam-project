@@ -129,10 +129,10 @@ public class AlchemicIngredient {
         if (!name.matches(ingredientPartRegex) || name.isEmpty()) {
             return false;
         }
-        // each word must start with a capital letter and be at least 2 characters long
+        // each word must not start with a lowercase letter and be at least 2 characters long
         String[] words = name.split(" ");
         for (String word : words) {
-            if (!Character.isUpperCase(word.charAt(0)) ||
+            if (Character.isLowerCase(word.charAt(0)) ||
                     word.length() < 2) {
                 return false;
             }
