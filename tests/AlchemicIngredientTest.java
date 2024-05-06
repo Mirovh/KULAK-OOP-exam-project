@@ -78,21 +78,41 @@ public class AlchemicIngredientTest {
 
     @Test
     public void testGetSpecialName() {
+        AlchemicIngredient ingredient2 = new AlchemicIngredient("Test Ingredient", 10);
+        assertNull(ingredient2.getSpecialName());
+        assertThrows(AlchemicIngredient.IllegalSpecialNameException.class, () -> ingredient2.setSpecialName("Invalid Mixture"));
+        assertThrows(AlchemicIngredient.IllegalSpecialNameException.class, () -> ingredient2.setSpecialName("invalid name"));
+        assertThrows(AlchemicIngredient.IllegalSpecialNameException.class, () -> ingredient2.setSpecialName(""));
+        assertThrows(AlchemicIngredient.IllegalSpecialNameException.class, () -> ingredient2.setSpecialName("Ba"));
+        assertThrows(AlchemicIngredient.IllegalSpecialNameException.class, () -> ingredient2.setSpecialName("FULL CAPS"));
+        assertThrows(AlchemicIngredient.IllegalSpecialNameException.class, () -> ingredient2.setSpecialName("Not \"Valid\" Name"));
+        AlchemicIngredient ingredient3 = new AlchemicIngredient("Test Ingredient mixed with Another Ingredient", 10);
         try {
-            AlchemicIngredient ingredient2 = new AlchemicIngredient("Test Ingredient", 10);
-            assertEquals("Test Ingredient", ingredient2.getSpecialName()); // TODO: update when implemented
-        } catch (AlchemicIngredient.IllegalNameException e) {
+            ingredient3.setSpecialName("Valid Name");
+            assertEquals("Valid Name", ingredient3.getSpecialName());
+        } catch (Exception e) {
+            fail("Valid name should not throw an exception: " + e.getMessage());
+        }
+        try {
+            ingredient3.setSpecialName("Valid \'name");
+            assertEquals("Valid \\'name", ingredient3.getSpecialName());
+        } catch (Exception e) {
+            fail("Valid name should not throw an exception: " + e.getMessage());
+        }
+        try {
+            ingredient3.setSpecialName("Valid (name)");
+            assertEquals("Valid (name)", ingredient3.getSpecialName());
+        } catch (Exception e) {
             fail("Valid name should not throw an exception: " + e.getMessage());
         }
     }
 
     @Test
     public void testGetFullName() {
-        try {
-            AlchemicIngredient ingredient2 = new AlchemicIngredient("Test Ingredient", 10);
-            assertEquals("Test Ingredient", ingredient2.getFullName()); // TODO: update when implemented
-        } catch (AlchemicIngredient.IllegalNameException e) {
-            fail("Valid name should not throw an exception: " + e.getMessage());
-        }
+        AlchemicIngredient ingredient2 = new AlchemicIngredient("Test Ingredient", 10);
+        AlchemicIngredient ingredient3 = new AlchemicIngredient("Test Ingredient mixed with Another Ingredient", 10);
+        assertEquals("Test Ingredient", ingredient2.getFullName());
+        ingredient3.setSpecialName("Special Name");
+        assertEquals("Special Name (Test Ingredient mixed with Another Ingredient)", ingredient3.getFullName());
     }
 }

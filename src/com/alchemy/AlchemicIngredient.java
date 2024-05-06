@@ -44,8 +44,11 @@ public class AlchemicIngredient {
      **********************************************************/
 
     private final static String ingredientPartRegex = "^[a-zA-Z'\\(\\)\\s]*$";
+    private final static String[] blacklistedWordsIngredientPart = {"mixed", "with"};
+    private String[] blacklistedWordsMixture = {};
 
-    private String name;
+    private String[] nameParts = new String[0];
+    private String specialName = null;
 
     /**
      * Set the name of the ingredient to the given name.
@@ -58,9 +61,31 @@ public class AlchemicIngredient {
     @Raw
     public void setName(String name) throws IllegalNameException {
         if (isValidMixtureName(name)) {
-            this.name = name;
+            this.nameParts = name.split(" mixed with ");
         } else {
             throw new IllegalNameException(name);
+        }
+    }
+
+    /**
+     * Set the special alias name of the ingredient to the given name.
+     * The special name is used to refer to a mixture of ingredients.
+     * The special name must be a valid ingredient part name.
+     * 
+     * @param name The special name to set.
+     * @throws IllegalSpecialNameException if the special name is invalid or the ingredient does not have enough name parts
+     * @post The special name of the ingredient is set to the given name.
+     *      | new.getSpecialName() == name
+     * @post If the special name is invalid or the ingredient does not have enough name parts, the special name is set to null.
+     *     | if (!isValidIngredientPartName(name) || this.nameParts.length <= 1) then new.getSpecialName() == null
+     */
+    @Raw
+    public void setSpecialName(String name) throws IllegalSpecialNameException {
+        if (isValidIngredientPartName(name) && this.nameParts.length > 1) {
+            this.specialName = name;
+        } else {
+            this.specialName = null;
+            throw new IllegalSpecialNameException(name);
         }
     }
 
@@ -71,7 +96,7 @@ public class AlchemicIngredient {
      */
     @Basic
     public String getBasicName() {
-        return this.name;
+        return String.join(" mixed with ", nameParts);
     }
 
     /**
@@ -81,17 +106,32 @@ public class AlchemicIngredient {
      */
     @Basic
     public String getSpecialName() {
-        return getBasicName(); // TODO: implement
+        return specialName;
     }
 
     /**
-     * Get the full name of the ingredient. (with pre- and suffixes)
+     * Get the full name of the ingredient. 
+     * (special name followed by basic name with pre- and suffixes, or just the basic name with pre- and suffixes if no special name is set.)
      *
      * @return The full name of the ingredient.
      */
     @Basic
     public String getFullName() {
-        return getBasicName(); // TODO: implement pre- and suffixes
+        if (specialName != null) {
+            return specialName + " (" + addPreAndSuffixes(getBasicName()) + ")";
+        } else {
+            return addPreAndSuffixes(getBasicName());
+        }
+    }
+
+    /**
+     * Add pre- and suffixes to the given name.
+     * 
+     * @param name The name to add pre- and suffixes to.
+     * @return The name with pre- and suffixes added.
+     */
+    private String addPreAndSuffixes(String name) {
+        return name; // TODO: implement
     }
 
     /**
@@ -99,11 +139,16 @@ public class AlchemicIngredient {
      * A valid mixture name consists of multiple ingredient part names separated by " mixed with ".
      * Each ingredient part should have every word capitalized and be at least 2 characters long.
      * If the name consists of only one part, it should be at least 3 characters long.
+     * The name must not contain any blacklisted words. (This includes pre- and suffixes.)
      *
      * @param name The mixture name to be checked.
      * @return True if the mixture name is valid, false otherwise.
      */
-    private static boolean isValidMixtureName(String name) {
+    private boolean isValidMixtureName(String name) {
+        // the name mustn't contain any blacklisted words
+        for (String word : blacklistedWordsMixture) {
+            if (name.contains(word)) return false;
+        }
         // split the name into parts
         String[] parts = name.split(" mixed with ");
         // if there is only one part, it has to be at least 3 characters long
@@ -120,11 +165,20 @@ public class AlchemicIngredient {
      * Checks if the given ingredient part name is valid.
      * A valid ingredient part name must match the ingredient part regex and must not be empty.
      * Each word must start with a capital letter and be at least 2 characters long.
+     * All other characters must be lowercase.
+     * The name must not contain any blacklisted words. (eg. "mixed" or "with")
      *
      * @param name The ingredient part name to be checked.
      * @return True if the ingredient part name is valid, false otherwise.
      */
-    private static boolean isValidIngredientPartName(String name) {
+    private boolean isValidIngredientPartName(String name) {
+        // the name mustn't contain any blacklisted words
+        for (String word : blacklistedWordsIngredientPart) {
+            if (name.contains(word)) return false;
+        }
+        for (String word : blacklistedWordsMixture) {
+            if (name.contains(word)) return false;
+        }
         // the name must match the ingredient part regex and must not be empty
         if (!name.matches(ingredientPartRegex) || name.isEmpty()) {
             return false;
@@ -157,6 +211,20 @@ public class AlchemicIngredient {
          */
         IllegalNameException(String name) {
             super("The name '" + name + "' is not a valid mixture name.");
+        }
+    }
+
+    /**
+     * Exception thrown when an invalid special name is provided.
+     */
+    public static class IllegalSpecialNameException extends Exception {
+        /**
+         * Constructs an IllegalSpecialNameException with the given name.
+         *
+         * @param name The invalid special name.
+         */
+        IllegalSpecialNameException(String name) {
+            super("The name '" + name + "' could not be set as a special name.");
         }
     }
 }
