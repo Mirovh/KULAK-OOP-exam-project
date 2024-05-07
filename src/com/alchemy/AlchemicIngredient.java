@@ -61,4 +61,9 @@ public class AlchemicIngredient {
     public String getFullName() {
         return name.getFullName();
     }
+
+    public Integer getQuantity(){return null;}
+    /**********************************************************
+     * IngredientType - total programming
+     **********************************************************/
 }
