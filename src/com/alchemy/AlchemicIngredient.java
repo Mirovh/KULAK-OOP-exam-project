@@ -1,5 +1,6 @@
 package com.alchemy;
 import be.kuleuven.cs.som.annotate.*;
+import org.junit.Before;
 
 /**
  * A class representing a certain amount of a substance used to create potions and such.
@@ -69,6 +70,29 @@ public class AlchemicIngredient {
     public Temperature getTemperature(){
         return temperature;
     }
+    /**********************************************************
+     * ingredientState
+     **********************************************************/
+    private IngredientState state;
+    public enum IngredientState {
+        Powder(true),Liquid(false);
+        private final boolean solid;
+        IngredientState(boolean solid){
+            this.solid = solid;
+        }
+        public boolean isSolid(){return solid;}
+    }
+    @Basic
+    public void switchState(){
+        if(state.isSolid()){
+            state = IngredientState.Liquid;
+        }
+        else{
+            state = IngredientState.Powder;
+        }
+    }
+    @Basic
+    public IngredientState getState(){return this.state;}
     /**********************************************************
      * IngredientType - total programming
      **********************************************************/
