@@ -35,10 +35,16 @@ public class AlchemicIngredient {
      *         | setSize(size)
      */
     @Raw
-    public AlchemicIngredient(String name, int amount) throws Name.IllegalNameException {
+    public AlchemicIngredient(String name, int amount, boolean solid) throws Name.IllegalNameException {
         this.name = new Name(name);
         temperature = new Temperature(0L, 20L);//TODO: Change to standardTemperature
         //setAmount(amount);
+        if(solid){
+            state = IngredientState.Powder;
+        }
+        else{
+            state = IngredientState.Liquid;
+        }
     }
 
     /**********************************************************
@@ -74,6 +80,10 @@ public class AlchemicIngredient {
      * ingredientState
      **********************************************************/
     private IngredientState state;
+
+    /**
+     * enum to keep track of the state of the ingredient
+     */
     public enum IngredientState {
         Powder(true),Liquid(false);
         private final boolean solid;
@@ -82,8 +92,12 @@ public class AlchemicIngredient {
         }
         public boolean isSolid(){return solid;}
     }
+
+    /**
+     * @effect state is changed.
+     */
     @Basic
-    public void switchState(){
+    public void switchState(){ //TODO: Possibility to make this more secure, so only transmorgrifier can call this?
         if(state.isSolid()){
             state = IngredientState.Liquid;
         }

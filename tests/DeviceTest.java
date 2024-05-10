@@ -15,8 +15,8 @@ public class DeviceTest {
     @Before
     public void setUpFixture() {
         try {
-            ingredient = new AlchemicIngredient("Test Ingredient", 10);
-            ingredient2 = new AlchemicIngredient("Test Ingredient", 10);
+            ingredient = new AlchemicIngredient("Test Ingredient", 10,true);
+            ingredient2 = new AlchemicIngredient("Test Ingredient", 10,false);
             container1 = new IngredientContainer(ingredient,20);
             container2 = new IngredientContainer(ingredient2,30);
             lab = new Laboratory();
@@ -94,5 +94,18 @@ public class DeviceTest {
         IngredientContainer heatedContainer3 = oven.getContents();
         Assert.assertTrue(55<=heatedContainer3.getContents().getTemperature().getHotness()&& heatedContainer3.getContents().getTemperature().getHotness()<=65 );
         Assert.assertEquals(0L,(long)heatedContainer3.getContents().getTemperature().getColdness());
+    }
+    @Test
+    public void TransmorgrifierTest() throws Exception{
+       Transmorgrifier transmorgrifier = new Transmorgrifier();
+       lab.addDevice(transmorgrifier);
+       transmorgrifier.addIngredient(container1);
+       transmorgrifier.react();
+       IngredientContainer changedContainer = transmorgrifier.getContents();
+       Assert.assertFalse(changedContainer.getContents().getState().isSolid());
+       transmorgrifier.addIngredient(changedContainer);
+       transmorgrifier.react();
+        IngredientContainer changedContainer2 = transmorgrifier.getContents();
+        Assert.assertTrue(changedContainer2.getContents().getState().isSolid());
     }
 }
