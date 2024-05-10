@@ -1,10 +1,20 @@
 package com.alchemy;
 import java.util.ArrayList;
+/**
+ * An abstract class used to define the standard methods of a device
+ *
+ * @author MiroVanHoef
+ * @author BenDeMets
+ * @author SimonVandeputte
+ * @version 1.0
+ */
 public abstract class Device {
     /**********************************************************
      * Variables
      **********************************************************/
     protected AlchemicIngredient ingredient;
+
+    private Laboratory laboratory;
 
     /**********************************************************
      * Getters and Setters
@@ -21,20 +31,24 @@ public abstract class Device {
         return container;
     }
 
+    public void setLaboratory(Laboratory laboratory) {
+        this.laboratory = laboratory;
+    }
+
     /**********************************************************
      * Mutators
      **********************************************************/
     /**
      * @param container the container containing the ingredient that has to be added to the device
-     * @throws Exception if the device is full, deviceFullException is thrown.
+     * @throws DeviceFullException if the device is full, deviceFullException is thrown.
      */
-    public void addIngredient(IngredientContainer container) throws Exception {
+    protected void addIngredient(IngredientContainer container) throws DeviceFullException {
         ingredient = container.getContents();
         container.Destroy();
 
     }
 
-    public void react() {
+    protected void react() throws NotInLaboratoryException {
     }
 
     /**********************************************************
@@ -44,10 +58,13 @@ public abstract class Device {
      * @param ingredient Check if ingredient can be added to the device
      * @return true
      */
-    public boolean canAddIngredient(AlchemicIngredient ingredient) {
-        return true;
-    }
+    public boolean canAddIngredient(AlchemicIngredient ingredient) {return true;}
 
+    /**
+     * Check if device is in a Laboratory
+     * @return true if laboratory exists
+     */
+    public boolean isInLaboratory(){return laboratory!=null;}
     /**********************************************************
      * Exceptions
      **********************************************************/
@@ -58,5 +75,9 @@ public abstract class Device {
         public DeviceFullException(String e) {
             super(e);
         }
+    }
+
+    public static class NotInLaboratoryException extends Exception {
+        public NotInLaboratoryException(String e){super(e);}
     }
 }

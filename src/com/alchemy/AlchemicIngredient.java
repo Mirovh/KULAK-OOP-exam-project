@@ -1,5 +1,4 @@
 package com.alchemy;
-
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -18,6 +17,8 @@ public class AlchemicIngredient {
 
     private final Name name;
 
+    private Temperature temperature;//TODO: set standardTemperature on construction
+
     /**********************************************************
      * Constructors
      **********************************************************/
@@ -35,6 +36,7 @@ public class AlchemicIngredient {
     @Raw
     public AlchemicIngredient(String name, int amount) throws Name.IllegalNameException {
         this.name = new Name(name);
+        temperature = new Temperature(0L, 20L);//TODO: Change to standardTemperature
         //setAmount(amount);
     }
 
@@ -62,7 +64,11 @@ public class AlchemicIngredient {
         return name.getFullName();
     }
 
-    public Integer getQuantity(){return null;}
+    public Integer getQuantity(){return 0;}//TODO: Change
+
+    public Temperature getTemperature(){
+        return temperature;
+    }
     /**********************************************************
      * IngredientType - total programming
      **********************************************************/
