@@ -45,7 +45,6 @@ public abstract class Device {
     protected void addIngredient(IngredientContainer container) throws DeviceFullException {
         ingredient = container.getContents();
         container.Destroy();
-
     }
 
     protected void react() throws NotInLaboratoryException {

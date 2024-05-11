@@ -26,7 +26,7 @@ public class Temperature {
      * @param coldness the coldness of the temperature
      * @param hotness the hotness of the temperature
      */
-    Temperature(Long coldness, Long hotness){
+    public Temperature(Long coldness, Long hotness){
         if(coldness != 0 && hotness != 0){
             this.hotness = hotness;
             this.coldness = 0L;
