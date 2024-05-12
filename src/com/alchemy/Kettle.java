@@ -47,9 +47,9 @@ public class Kettle extends Device{
                 throw new NotInLaboratoryException("Kettle not in Laboratory");
             }
             else{
-                String newName;
+                Name newName;
                 //AlchemicIngredient.IngredientState newState;
-                int newQuantity;//Todo: Implement quality
+                int newQuantity;//Todo: Implement quantity
                 Temperature newTemperature;
 
                 /**ingredient.clear();

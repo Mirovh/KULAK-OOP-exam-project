@@ -20,7 +20,7 @@ public class AlchemicIngredient {
 
     private final Name name;
 
-    private Temperature temperature;//TODO: set standardTemperature on construction
+    private Temperature temperature;
 
     private IngredientState state;
 
@@ -29,13 +29,15 @@ public class AlchemicIngredient {
 
 
     /**********************************************************
-     * Constructors
+     * Constructors TODO: Implement quantity to constructor of ALchemicIngredient
      **********************************************************/
 
     /**
-     * Initialize a new ingredient with a given amount and name.
+     * Initialize a new ingredient of an ingredientType with given variables
      *
      * @param name   The name of the ingredient.
+     * @param temperature The standard temperature of the ingredient
+     * @param state the standard state of the Ingredient
      * @param amount The amount of the ingredient.
      * @throws Name.IllegalNameException If the given name is not a valid mixture name.
      * @effect The name of the ingredient is set to the given name.
@@ -44,22 +46,43 @@ public class AlchemicIngredient {
      */
     @Raw
     public AlchemicIngredient(String name, Temperature temperature, IngredientState.State state, int amount) throws Name.IllegalNameException {
-        this(new IngredientType(name,temperature,new IngredientState(state)));
+        this(new IngredientType(name,temperature,new IngredientState(state)),amount);
     }
+
+    /**
+     * Initialize a new ingredient of an ingredientType with given variables
+     *
+     * @param name   The name of the ingredient.
+     * @param temperature The standard temperature of the ingredient
+     * @param state the standard state of the Ingredient
+     * @param amount The amount of the ingredient.
+     * @throws Name.IllegalNameException If the given name is not a valid mixture name.
+     * @effect The name of the ingredient is set to the given name.
+     * @effect The amount is set to the given amount (must be valid).
+     * | setSize(size)
+     */
     @Raw
     public AlchemicIngredient(String name, Temperature temperature, IngredientState state, int amount) throws Name.IllegalNameException {
-        this(new IngredientType(name,temperature,state));
+        this(new IngredientType(name,temperature,state),amount);
     }
 
-
-    public AlchemicIngredient(IngredientType standardType) {
+    /**
+     * Create a given amount of given type ingredient
+     * @param standardType the type of the ingredient
+     * @param amount the amount of ingredient made
+     */
+    public AlchemicIngredient(IngredientType standardType, int amount) {
         this.standardType = standardType;
         this.name = standardType.getName();
         this.temperature = standardType.getStandardTemperature();
         this.state = standardType.getStandardState();
     }
-    public AlchemicIngredient() {
-        this(new IngredientType());
+    /**
+     * Create a given amount of standardType ingredient
+     * @param amount the amount of ingredient made
+     */
+    public AlchemicIngredient(int amount) {
+        this(new IngredientType(),amount);
     }
 
     /**********************************************************

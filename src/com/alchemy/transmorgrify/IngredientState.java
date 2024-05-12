@@ -20,6 +20,10 @@ public class IngredientState {
     /**********************************************************
      * Constructors
      **********************************************************/
+    /**
+     * constructor to make a state based on a boolean
+     * @param solid whether the state is solid
+     */
     public IngredientState(boolean solid){
         if(solid){
             state = State.Powder;
@@ -28,6 +32,10 @@ public class IngredientState {
             state = State.Liquid;
         }
     }
+    /**
+     * constructor to make a state
+     * @param state whether the state is solid
+     */
     public IngredientState(State state){
         this.state = state;
     }
@@ -50,6 +58,7 @@ public class IngredientState {
      * Mutators
      **********************************************************/
     /**
+     * method to change the state to the other one (change from fluid to solid or the other way)
      * @effect state is changed.
      */
     @Basic

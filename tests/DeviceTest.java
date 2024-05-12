@@ -17,8 +17,8 @@ public class DeviceTest {
     IngredientContainer container2;
     @Before
     public void setUpFixture() {
-        ingredient = new AlchemicIngredient();
-        ingredient2 = new AlchemicIngredient();
+        ingredient = new AlchemicIngredient(10);
+        ingredient2 = new AlchemicIngredient(10);
         container1 = new IngredientContainer(ingredient,20);
         container2 = new IngredientContainer(ingredient2,30);
         lab = new Laboratory();

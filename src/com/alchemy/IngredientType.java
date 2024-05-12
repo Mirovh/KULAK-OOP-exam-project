@@ -4,30 +4,48 @@ import com.alchemy.Temperature.Temperature;
 import com.alchemy.transmorgrify.IngredientState;
 
 /**
- * A class representing a type for Ingredient
+ * A class representing a type for Ingredient, which stores some final variables for an ingredient
  *
  * @author MiroVanHoef
  * @author BenDeMets
  * @author SimonVandeputte
  * @version 1.0
  */
-public class IngredientType {//TODO: Documentation
+public class IngredientType {
     /**********************************************************
      * Variables
      **********************************************************/
+    /**
+     * The standard temperature of the ingredient, also the temperature the ingredient will have on construction.
+     */
     final private Temperature standardTemperature;
-
+    /**
+     * The name of the ingredient
+     */
     final private Name name;
+    /**
+     * The state the ingredient will start in
+     */
     final private IngredientState standardState;
     /**********************************************************
-     * Constructors
+     * Constructors //
      **********************************************************/
+    /**
+     * initializes an IngredientType with given parameters
+     * @param name the name of the IngredientType
+     * @param standardTemperature the standard Temperature of the IngredientType
+     * @param standardState the standardState of the IngredientType
+     * @throws Name.IllegalNameException is thrown if the name is invalid
+     */
     public IngredientType(String name, Temperature standardTemperature, IngredientState standardState) throws Name.IllegalNameException {
         this.standardTemperature = standardTemperature;
         this.name = new Name(name);
         this.standardState = standardState;
     }
 
+    /**
+     * this is the standardIngredient, which is Water with a standardTemperature of [0,20] and a standard liauid state
+     */
     public IngredientType() {
         try {
             name = new Name("Water");
