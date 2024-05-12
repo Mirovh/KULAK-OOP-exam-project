@@ -193,7 +193,17 @@ public class Name {
      * @return The name with pre- and suffixes added.
      */
     private String addPreAndSuffixes(String name) {
-        return name; // TODO: implement
+        StringBuilder nameBuilder = new StringBuilder(name);
+
+        for (String prefix : prefixes) {
+            nameBuilder.insert(0, prefix + " ");
+        }
+
+        for (String suffix : suffixes) {
+            nameBuilder.append(" ").append(suffix);
+        }
+
+        return nameBuilder.toString();
     }
 
 
