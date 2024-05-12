@@ -1,4 +1,4 @@
-package com.alchemy;
+package com.alchemy.Temperature;
 import java.util.ArrayList;
 /**
  * Temperature - total programming
@@ -67,7 +67,7 @@ public class Temperature {
      * if the change is less than 0, temperature will be cooled instead
      * @param change the change in temperature
      */
-    public void heat(Long change){
+    void heat(Long change){
         if(change <0){
             cool(change);
             return;
@@ -83,7 +83,7 @@ public class Temperature {
      * if the change is less than 0, temperature will be heated instead
      * @param change the change in temperature
      */
-    public void cool(Long change){
+    void cool(Long change){
         if(change<0){
             heat(change);
 

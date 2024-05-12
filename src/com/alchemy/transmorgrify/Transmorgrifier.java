@@ -1,4 +1,8 @@
-package com.alchemy;
+package com.alchemy.transmorgrify;
+
+import com.alchemy.Device;
+import com.alchemy.IngredientContainer;
+
 /**
  * A class representing an Oven, used to heat up an ingredient
  *
@@ -7,7 +11,7 @@ package com.alchemy;
  * @author SimonVandeputte
  * @version 1.0
  */
-public class Transmorgrifier extends Device{
+public class Transmorgrifier extends Device {
     /**********************************************************
      * Constructors
      **********************************************************/
@@ -15,7 +19,7 @@ public class Transmorgrifier extends Device{
     @Override
     public void react() throws NotInLaboratoryException {
         if(!isInLaboratory()){throw new NotInLaboratoryException("Transmorgrifier not in a Laboratory");}
-        ingredient.switchState();
+        ingredient.getState().switchState();
     }
     @Override
     public void addIngredient(IngredientContainer container) throws DeviceFullException{

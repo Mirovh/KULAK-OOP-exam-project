@@ -1,6 +1,8 @@
 package com.alchemy;
+import com.alchemy.Temperature.Temperature;
+
 import java.util.ArrayList;
-import java.util.Random;
+
 /**
  * A class representing an Oven, used to heat up an ingredient
  *
@@ -46,7 +48,7 @@ public class Kettle extends Device{
             }
             else{
                 String newName;
-                AlchemicIngredient.IngredientState newState;
+                //AlchemicIngredient.IngredientState newState;
                 int newQuantity;//Todo: Implement quality
                 Temperature newTemperature;
 

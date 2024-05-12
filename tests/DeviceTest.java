@@ -1,4 +1,7 @@
 import com.alchemy.*;
+import com.alchemy.Temperature.CoolingBox;
+import com.alchemy.Temperature.Oven;
+import com.alchemy.transmorgrify.Transmorgrifier;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -102,10 +105,10 @@ public class DeviceTest {
        transmorgrifier.addIngredient(container1);
        transmorgrifier.react();
        IngredientContainer changedContainer = transmorgrifier.getContents();
-       Assert.assertFalse(changedContainer.getContents().getState().isSolid());
+       Assert.assertFalse(changedContainer.getContents().getState().getState().isSolid());
        transmorgrifier.addIngredient(changedContainer);
        transmorgrifier.react();
         IngredientContainer changedContainer2 = transmorgrifier.getContents();
-        Assert.assertTrue(changedContainer2.getContents().getState().isSolid());
+        Assert.assertTrue(changedContainer2.getContents().getState().getState().isSolid());
     }
 }

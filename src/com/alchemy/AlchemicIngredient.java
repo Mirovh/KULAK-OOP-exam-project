@@ -1,6 +1,7 @@
 package com.alchemy;
 import be.kuleuven.cs.som.annotate.*;
-import org.junit.Before;
+import com.alchemy.Temperature.Temperature;
+import com.alchemy.transmorgrify.IngredientState;
 
 /**
  * A class representing a certain amount of a substance used to create potions and such.
@@ -19,6 +20,8 @@ public class AlchemicIngredient {
     private final Name name;
 
     private Temperature temperature;//TODO: set standardTemperature on construction
+
+    private IngredientState state;
 
     /**********************************************************
      * Constructors
@@ -39,12 +42,7 @@ public class AlchemicIngredient {
         this.name = new Name(name);
         temperature = new Temperature(0L, 20L);//TODO: Change to standardTemperature
         //setAmount(amount);
-        if(solid){
-            state = IngredientState.Powder;
-        }
-        else{
-            state = IngredientState.Liquid;
-        }
+        state = new IngredientState(solid);
     }
 
     /**********************************************************
@@ -76,37 +74,8 @@ public class AlchemicIngredient {
     public Temperature getTemperature(){
         return temperature;
     }
-    /**********************************************************
-     * ingredientState
-     **********************************************************/
-    private IngredientState state;
-
-    /**
-     * enum to keep track of the state of the ingredient
-     */
-    public enum IngredientState {
-        Powder(true),Liquid(false);
-        private final boolean solid;
-        IngredientState(boolean solid){
-            this.solid = solid;
-        }
-        public boolean isSolid(){return solid;}
-    }
-
-    /**
-     * @effect state is changed.
-     */
     @Basic
-    public void switchState(){ //TODO: Possibility to make this more secure, so only transmorgrifier can call this?
-        if(state.isSolid()){
-            state = IngredientState.Liquid;
-        }
-        else{
-            state = IngredientState.Powder;
-        }
-    }
-    @Basic
-    public IngredientState getState(){return this.state;}
+    public IngredientState getState(){return state;}
     /**********************************************************
      * IngredientType - total programming
      **********************************************************/

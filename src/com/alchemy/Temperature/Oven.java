@@ -1,44 +1,32 @@
-package com.alchemy;
+package com.alchemy.Temperature;
+import com.alchemy.Device;
+import com.alchemy.IngredientContainer;
+
+import java.util.Random;
 
 /**
- * A class representing a coolingbox, used to cool an ingredient
+ * A class representing an Oven, used to heat up an ingredient
  *
  * @author MiroVanHoef
  * @author BenDeMets
  * @author SimonVandeputte
  * @version 1.0
  */
-public class CoolingBox extends Device{
+public class Oven extends Device {
     /**********************************************************
      * Variables
      **********************************************************/
-    /**
-     *
-     */
     private Temperature temperature;
+
     /**********************************************************
      * Constructors
      **********************************************************/
-    /**
-     * creates a CoolingBox with given coldness and hotness
-     * @param coldness the coldness of the temperature of the CoolingBox
-     * @param hotness the hotness of the temperature of the CoolingBox
-     */
-    public CoolingBox(Long coldness, Long hotness){
+    public Oven(Long coldness, Long hotness){
         this.temperature = new Temperature(0L,0L);setTemperature(coldness,hotness);
     }
-
-    /**
-     * creates a coolingbox with temperature 0,20
-     */
-    public CoolingBox(){
+    public Oven(){
         this.temperature = new Temperature(0L,20L);
     }
-    /**
-     * method for adding an ingredient to the coolingbox
-     * @param container the container containing the ingredient that has to be added to the device
-     * @throws DeviceFullException if there already is an ingredient in the coolingbox, the device is considered full
-     */
 
     /**********************************************************
      * Getters and Setters
@@ -52,7 +40,7 @@ public class CoolingBox extends Device{
      */
     public void setTemperature(Long coldness,Long hotness){
         temperature.heat(temperature.getColdness());
-        temperature.cool(temperature.getHotness());
+        temperature.cool(temperature.getHotness());//temperature is set to 0,0
         temperature.cool(coldness);
         temperature.heat(hotness);
     }
@@ -61,10 +49,15 @@ public class CoolingBox extends Device{
      * Mutators
      **********************************************************/
 
+    /**
+     * method for adding an ingredient to the oven
+     * @param container the container containing the ingredient that has to be added to the device
+     * @throws DeviceFullException if there already is an ingredient in the oven, the device is considered full
+     */
     @Override
     public void addIngredient(IngredientContainer container) throws DeviceFullException{
         if (ingredient != null){
-            throw new DeviceFullException("CoolingBox Full");
+            throw new DeviceFullException("Oven Full");
         }
         else{
             super.addIngredient(container);
@@ -74,30 +67,30 @@ public class CoolingBox extends Device{
 
     /**
      * method to start the reaction
-     * @effect the temperature of the content in the coolingbox will be cooled to the temperature of the coolingbox
-     *if the ingredient is colder than the temperature of the coolingbox, nothing happens.
+     * @effect the temperature of the content in the oven will be heated to the temperature of the oven with a deviation of up to 5 degrees
+     *if the ingredient is hotter than the temperature of the oven, nothing happens.
      */
-
     @Override
-    public void react() throws NotInLaboratoryException {
+    public void react() throws NotInLaboratoryException{
         if(!isInLaboratory()){
-            throw new NotInLaboratoryException("CoolingBox not in Laboratory");
+            throw new NotInLaboratoryException("Oven not in Laboratory");
         }
         if(ingredient == null){
             return;
         }
         else{
-            Temperature ingredientTemperature = ingredient.getTemperature();
+            Temperature ingredientTemperature= ingredient.getTemperature();
             Long ingredientHotness = ingredientTemperature.getHotness();
             Long ingredientColdness = ingredientTemperature.getColdness();
             Long hotness = temperature.getHotness();
             Long coldness = temperature.getColdness();
-            if(ingredientHotness < hotness | ingredientColdness > coldness){
+            if(ingredientHotness > hotness | ingredientColdness< coldness |(ingredientHotness.equals(hotness) && ingredientColdness.equals(coldness))){
                 return;
             }
             else{
-                ingredientTemperature.cool(ingredientHotness-hotness+coldness-ingredientColdness);
-
+                Random rand = new Random();
+                int randomDeviation = rand.nextInt(11)-5;
+                ingredientTemperature.heat(ingredientColdness-coldness+hotness-ingredientHotness + randomDeviation);
             }
         }
     }

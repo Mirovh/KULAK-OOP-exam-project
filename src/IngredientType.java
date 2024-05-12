@@ -1,5 +1,5 @@
-import com.alchemy.AlchemicIngredient;
-import com.alchemy.Temperature;
+import com.alchemy.Temperature.Temperature;
+import com.alchemy.transmorgrify.IngredientState;
 
 /**
  * A class representing a type for Ingredient
@@ -16,11 +16,11 @@ public class IngredientType {
     final private Temperature standardTemperature;
 
     final private String name;
-    final private AlchemicIngredient.IngredientState standardState;
+    final private IngredientState standardState;
     /**********************************************************
      * Constructors
      **********************************************************/
-    public IngredientType(String name, Temperature standardTemperature, AlchemicIngredient.IngredientState standardState) {
+    public IngredientType(String name, Temperature standardTemperature, IngredientState standardState) {
         this.standardTemperature = standardTemperature;
         this.name = name;
         this.standardState = standardState;
@@ -29,7 +29,7 @@ public class IngredientType {
     public IngredientType() {
         name = "Water";
         standardTemperature = new Temperature(0L,20L);
-        standardState = AlchemicIngredient.IngredientState.Liquid;
+        standardState = new IngredientState(IngredientState.State.Liquid);
     }
 
     /**********************************************************
@@ -43,7 +43,7 @@ public class IngredientType {
         return name;
     }
 
-    public AlchemicIngredient.IngredientState getStandardState() {
+    public IngredientState getStandardState() {
         return standardState;
     }
 }
