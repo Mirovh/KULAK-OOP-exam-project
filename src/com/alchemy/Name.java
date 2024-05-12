@@ -147,23 +147,12 @@ public class Name {
     }
 
     /**
-     * Remove a prefix from the name of the ingredient.
-     *
-     * @param prefix The prefix to remove.
+     * Removes all pre- and suffixes
      */
-    public void removePrefix(String prefix) {
-        prefixes.remove(prefix);
+    public void clearPreAndSuffixes() {
+        prefixes.clear();
+        suffixes.clear();
     }
-
-    /**
-     * Remove a suffix from the name of the ingredient.
-     *
-     * @param suffix The suffix to remove.
-     */
-    public void removeSuffix(String suffix) {
-        suffixes.remove(suffix);
-    }
-
     /**
      * Get all prefixes of the name of the ingredient.
      *

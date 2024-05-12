@@ -21,8 +21,8 @@ public class Temperature {
      * Constructors
      **********************************************************/
     /**
-     * @post initializes a new Temperature object. If both parameters differ from 0, only hotness is taken, coldness is set to 0
-     * if the hotness or coldness is higher than the temperatureLimit, the value of that variable is set to the limit
+     * @post initializes a new Temperature object. If both parameters differ from 0, only hotness is used, coldness is set to 0.
+     * If the hotness or coldness is higher than the temperatureLimit, the value of that variable is set to the limit
      * @param coldness the coldness of the temperature
      * @param hotness the hotness of the temperature
      */
@@ -43,7 +43,12 @@ public class Temperature {
         }
 
     }
-
+    /**
+     * @post initializes a new Temperature object. If both parameters differ from 0, only hotness is used, coldness is set to 0.
+     * If the hotness or coldness is higher than the temperatureLimit, the value of that variable is set to the limit
+     * @param coldness the coldness of the temperature
+     * @param hotness the hotness of the temperature
+     */
     public Temperature(int coldness, int hotness){this((long)coldness,(long)hotness);}
     /**********************************************************
      * Getters and Setters
@@ -62,7 +67,7 @@ public class Temperature {
     return list;
     }
     /**********************************************************
-     * Manipulators
+     * Methods
      **********************************************************/
     /**
      * @post coldness goes down by "change" amount.If coldness is zero, hotness goes up for the rest of the amount.
@@ -122,4 +127,18 @@ public class Temperature {
         list.add(lower);
         return list;
     }
+
+    /**
+     * Method that checks if this temperature is hotter than another temperature
+     * @param otherTemp the temperature that this temperature gets compared to
+     * @return true if this temperature is hotter than otherTemp
+     */
+    public Boolean isHotterThan(Temperature otherTemp){return(coldness>otherTemp.getColdness()|hotness>otherTemp.getHotness());}
+
+    /**
+     * Method that checks if this temperature is colder than another temperature
+     * @param otherTemp the temperature that this temperature gets compared to
+     * @return true if this temperature is colder than otherTemp
+     */
+    public Boolean isColderThan(Temperature otherTemp){return(coldness<otherTemp.getColdness()|hotness<otherTemp.getColdness());}
 }

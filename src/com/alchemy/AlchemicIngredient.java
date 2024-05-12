@@ -2,7 +2,7 @@ package com.alchemy;
 import be.kuleuven.cs.som.annotate.*;
 import com.alchemy.Temperature.Temperature;
 import com.alchemy.transmorgrify.IngredientState;
-import java.util.ArrayList;
+
 import java.util.List;
 /**
  * A class representing a certain amount of a substance used to create potions and such.
@@ -83,14 +83,13 @@ public class AlchemicIngredient {
     }
 
     public String getFullName() {
+        updateFullName();
         return name.getFullName();
     }
 
     public Integer getQuantity(){return 0;}//TODO: Change
 
-    public Temperature getTemperature(){
-        return temperature;
-    }
+    public Temperature getTemperature(){return temperature;}
     @Basic
     public IngredientState getState(){return state;}
 
@@ -107,13 +106,7 @@ public class AlchemicIngredient {
         name.addSuffix(suffix);
     }
 
-    private void removePrefix(String prefix) {
-        name.removePrefix(prefix);
-    }
-
-    private void removeSuffix(String suffix) {
-        name.removeSuffix(suffix);
-    }
+    private void clearPreAndSuffixes(){name.clearPreAndSuffixes();}
 
     private List<String> getPrefixes() {
         return name.getPrefixes();
@@ -121,6 +114,13 @@ public class AlchemicIngredient {
 
     private List<String> getSuffixes() {
         return name.getSuffixes();
+    }
+
+    private void updateFullName(){
+        clearPreAndSuffixes();
+            if(temperature.isColderThan(standardType.getStandardTemperature())){addPrefix("Cooled");}
+            else if(temperature.isHotterThan(standardType.getStandardTemperature())){addPrefix("Heated");
+            }
     }
 
     /**********************************************************
