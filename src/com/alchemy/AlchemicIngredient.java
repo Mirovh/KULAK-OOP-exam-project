@@ -29,7 +29,7 @@ public class AlchemicIngredient {
      *
      * @param name   The name of the ingredient.
      * @param amount The amount of the ingredient.
-     * @throws IllegalNameException If the given name is not a valid mixture name.
+     * @throws Name.IllegalNameException If the given name is not a valid mixture name.
      * @effect The name of the ingredient is set to the given name.
      * @effect The amount is set to the given amount (must be valid).
      *         | setSize(size)
