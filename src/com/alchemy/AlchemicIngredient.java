@@ -23,6 +23,10 @@ public class AlchemicIngredient {
 
     private IngredientState state;
 
+    private final IngredientType standardType;
+
+
+
     /**********************************************************
      * Constructors
      **********************************************************/
@@ -35,14 +39,26 @@ public class AlchemicIngredient {
      * @throws Name.IllegalNameException If the given name is not a valid mixture name.
      * @effect The name of the ingredient is set to the given name.
      * @effect The amount is set to the given amount (must be valid).
-     *         | setSize(size)
+     * | setSize(size)
      */
     @Raw
-    public AlchemicIngredient(String name, int amount, boolean solid) throws Name.IllegalNameException {
-        this.name = new Name(name);
-        temperature = new Temperature(0L, 20L);//TODO: Change to standardTemperature
-        //setAmount(amount);
-        state = new IngredientState(solid);
+    public AlchemicIngredient(String name, Temperature temperature, IngredientState.State state, int amount) throws Name.IllegalNameException {
+        this(new IngredientType(name,temperature,new IngredientState(state)));
+    }
+    @Raw
+    public AlchemicIngredient(String name, Temperature temperature, IngredientState state, int amount) throws Name.IllegalNameException {
+        this(new IngredientType(name,temperature,state));
+    }
+
+
+    public AlchemicIngredient(IngredientType standardType) {
+        this.standardType = standardType;
+        this.name = standardType.getName();
+        this.temperature = standardType.getStandardTemperature();
+        this.state = standardType.getStandardState();
+    }
+    public AlchemicIngredient() {
+        this(new IngredientType());
     }
 
     /**********************************************************
@@ -77,6 +93,6 @@ public class AlchemicIngredient {
     @Basic
     public IngredientState getState(){return state;}
     /**********************************************************
-     * IngredientType - total programming
+     * com.alchemy.IngredientType - total programming
      **********************************************************/
 }

@@ -1,6 +1,8 @@
 import com.alchemy.AlchemicIngredient;
 import com.alchemy.Name;
 
+import com.alchemy.Temperature.Temperature;
+import com.alchemy.transmorgrify.IngredientState;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,12 +13,16 @@ public class AlchemicIngredientTest {
 
     AlchemicIngredient ingredient;
     AlchemicIngredient ingredient2;
+
+    Temperature temp = new Temperature(0,20);
+
+    IngredientState state = new IngredientState(true);
     
     @Before
     public void setUpFixture() {
         try {
-            ingredient = new AlchemicIngredient("Test Ingredient", 10,true);
-            ingredient2 = new AlchemicIngredient("Test Ingredient mixed with Another Ingredient", 10,true);
+            ingredient = new AlchemicIngredient("Test Ingredient",temp,state,10);
+            ingredient2 = new AlchemicIngredient("Test Ingredient mixed with Another Ingredient",temp,state, 10);
         } catch (Name.IllegalNameException e) {
             fail("Valid name should not throw an exception: " + e.getMessage());
         }
@@ -24,10 +30,10 @@ public class AlchemicIngredientTest {
 
     @Test
     public void testConstructor() {
-        assertThrows(Name.IllegalNameException.class, () -> new AlchemicIngredient("Invalid Name1", 10,true));
-        assertThrows(Name.IllegalNameException.class, () -> new AlchemicIngredient("", 10,true));
+        assertThrows(Name.IllegalNameException.class, () -> new AlchemicIngredient("Invalid Name1",temp,state,10));
+        assertThrows(Name.IllegalNameException.class, () -> new AlchemicIngredient("",temp,state,10));
         try {
-            new AlchemicIngredient("Valid Name", 10,true);
+            new AlchemicIngredient("Valid Name",temp,state,10);
         } catch (Name.IllegalNameException e) {
             fail("Valid name should not throw an exception: " + e.getMessage());
         }
@@ -72,7 +78,7 @@ public class AlchemicIngredientTest {
     @Test
     public void testGetBasicName() {
         try {
-            AlchemicIngredient ingredient2 = new AlchemicIngredient("Test Ingredient", 10,true);
+            AlchemicIngredient ingredient2 = new AlchemicIngredient("Test Ingredient", temp, state,10);
             assertEquals("Test Ingredient", ingredient2.getBasicName());
         } catch (Name.IllegalNameException e) {
             fail("Valid name should not throw an exception: " + e.getMessage());

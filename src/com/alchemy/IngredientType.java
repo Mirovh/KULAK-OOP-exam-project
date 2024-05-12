@@ -1,3 +1,5 @@
+package com.alchemy;
+
 import com.alchemy.Temperature.Temperature;
 import com.alchemy.transmorgrify.IngredientState;
 
@@ -9,25 +11,29 @@ import com.alchemy.transmorgrify.IngredientState;
  * @author SimonVandeputte
  * @version 1.0
  */
-public class IngredientType {
+public class IngredientType {//TODO: Documentation
     /**********************************************************
      * Variables
      **********************************************************/
     final private Temperature standardTemperature;
 
-    final private String name;
+    final private Name name;
     final private IngredientState standardState;
     /**********************************************************
      * Constructors
      **********************************************************/
-    public IngredientType(String name, Temperature standardTemperature, IngredientState standardState) {
+    public IngredientType(String name, Temperature standardTemperature, IngredientState standardState) throws Name.IllegalNameException {
         this.standardTemperature = standardTemperature;
-        this.name = name;
+        this.name = new Name(name);
         this.standardState = standardState;
     }
 
     public IngredientType() {
-        name = "Water";
+        try {
+            name = new Name("Water");
+        } catch (Name.IllegalNameException e) {
+            throw new RuntimeException(e);
+        }
         standardTemperature = new Temperature(0L,20L);
         standardState = new IngredientState(IngredientState.State.Liquid);
     }
@@ -39,7 +45,7 @@ public class IngredientType {
         return standardTemperature;
     }
 
-    public String getName() {
+    public Name getName() {
         return name;
     }
 

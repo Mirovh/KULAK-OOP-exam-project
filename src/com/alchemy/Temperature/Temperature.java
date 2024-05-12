@@ -43,6 +43,8 @@ public class Temperature {
         }
 
     }
+
+    public Temperature(int coldness, int hotness){this((long)coldness,(long)hotness);}
     /**********************************************************
      * Getters and Setters
      **********************************************************/

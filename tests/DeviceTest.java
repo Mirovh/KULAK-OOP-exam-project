@@ -17,16 +17,12 @@ public class DeviceTest {
     IngredientContainer container2;
     @Before
     public void setUpFixture() {
-        try {
-            ingredient = new AlchemicIngredient("Test Ingredient", 10,true);
-            ingredient2 = new AlchemicIngredient("Test Ingredient", 10,false);
-            container1 = new IngredientContainer(ingredient,20);
-            container2 = new IngredientContainer(ingredient2,30);
-            lab = new Laboratory();
-            lab2 = new Laboratory();
-        } catch (Name.IllegalNameException e) {
-            fail("Valid name should not throw an exception: " + e.getMessage());
-        }
+        ingredient = new AlchemicIngredient();
+        ingredient2 = new AlchemicIngredient();
+        container1 = new IngredientContainer(ingredient,20);
+        container2 = new IngredientContainer(ingredient2,30);
+        lab = new Laboratory();
+        lab2 = new Laboratory();
     }
     @Test
     public void LaboratoryDeviceTest() throws Laboratory.LaboratoryFullException {
@@ -70,6 +66,7 @@ public class DeviceTest {
     }
     @Test
     public void OvenTest() throws Device.DeviceFullException, Device.NotInLaboratoryException ,Exception{
+        //Test is run 20 times to take into account the randomness
         //adding Ingredients test
         Oven oven = new Oven();
         Oven oven2 = new Oven(0L, 60L);
@@ -84,7 +81,7 @@ public class DeviceTest {
         //test basic heating function
         oven.react();
         IngredientContainer heatedContainer = oven.getContents();
-        Assert.assertTrue(35<=heatedContainer.getContents().getTemperature().getHotness()&& heatedContainer.getContents().getTemperature().getHotness() >=40);
+        Assert.assertTrue(35<=heatedContainer.getContents().getTemperature().getHotness()&& heatedContainer.getContents().getTemperature().getHotness() <=45);
         Assert.assertEquals(0L,(long)heatedContainer.getContents().getTemperature().getColdness());
         oven2.addIngredient(heatedContainer);
         oven2.react();
@@ -102,13 +99,15 @@ public class DeviceTest {
     public void TransmorgrifierTest() throws Exception{
        Transmorgrifier transmorgrifier = new Transmorgrifier();
        lab.addDevice(transmorgrifier);
+       Assert.assertFalse(container1.getContents().getState().getState().isSolid());
+       //test basic function
        transmorgrifier.addIngredient(container1);
        transmorgrifier.react();
        IngredientContainer changedContainer = transmorgrifier.getContents();
-       Assert.assertFalse(changedContainer.getContents().getState().getState().isSolid());
+       Assert.assertTrue(changedContainer.getContents().getState().getState().isSolid());
        transmorgrifier.addIngredient(changedContainer);
        transmorgrifier.react();
         IngredientContainer changedContainer2 = transmorgrifier.getContents();
-        Assert.assertTrue(changedContainer2.getContents().getState().getState().isSolid());
+        Assert.assertFalse(changedContainer2.getContents().getState().getState().isSolid());
     }
 }

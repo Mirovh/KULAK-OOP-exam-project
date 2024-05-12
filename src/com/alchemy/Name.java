@@ -15,7 +15,7 @@ import be.kuleuven.cs.som.annotate.*;
 public class Name {
 
     private final static String ingredientPartRegex = "^[a-zA-Z'\\(\\)\\s]*$";
-    private final static String[] blacklistedWordsIngredientPart = {"mixed", "with"};
+    private final static String[] blacklistedWordsIngredientPart = {"mixed", "with","Heated","Cooled"};
     private String[] blacklistedWords = {};
 
     private String[] nameParts = new String[0];
