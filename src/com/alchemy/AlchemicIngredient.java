@@ -2,7 +2,8 @@ package com.alchemy;
 import be.kuleuven.cs.som.annotate.*;
 import com.alchemy.Temperature.Temperature;
 import com.alchemy.transmorgrify.IngredientState;
-
+import java.util.ArrayList;
+import java.util.List;
 /**
  * A class representing a certain amount of a substance used to create potions and such.
  *
@@ -92,7 +93,37 @@ public class AlchemicIngredient {
     }
     @Basic
     public IngredientState getState(){return state;}
+
+
     /**********************************************************
-     * com.alchemy.IngredientType - total programming
+     * Methods
+     **********************************************************/
+
+    private void addPrefix(String prefix) {
+        name.addPrefix(prefix);
+    }
+
+    private void addSuffix(String suffix) {
+        name.addSuffix(suffix);
+    }
+
+    private void removePrefix(String prefix) {
+        name.removePrefix(prefix);
+    }
+
+    private void removeSuffix(String suffix) {
+        name.removeSuffix(suffix);
+    }
+
+    private List<String> getPrefixes() {
+        return name.getPrefixes();
+    }
+
+    private List<String> getSuffixes() {
+        return name.getSuffixes();
+    }
+
+    /**********************************************************
+     * IngredientType - total programming
      **********************************************************/
 }

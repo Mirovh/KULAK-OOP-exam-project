@@ -2,6 +2,9 @@ package com.alchemy;
 
 import be.kuleuven.cs.som.annotate.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A class representing the name of an alchemic ingredient.
  *
@@ -19,6 +22,8 @@ public class Name {
     private String[] blacklistedWords = {};
 
     private String[] nameParts = new String[0];
+    private List<String> prefixes = new ArrayList<>();
+    private List<String> suffixes = new ArrayList<>();
     private String specialName = null;
 
     
@@ -123,6 +128,59 @@ public class Name {
         }
     }
 
+    /**
+     * Add a prefix to the name of the ingredient.
+     *
+     * @param prefix The prefix to add.
+     */
+    public void addPrefix(String prefix) {
+        prefixes.add(prefix);
+    }
+
+    /**
+     * Add a suffix to the name of the ingredient.
+     *
+     * @param suffix The suffix to add.
+     */
+    public void addSuffix(String suffix) {
+        suffixes.add(suffix);
+    }
+
+    /**
+     * Remove a prefix from the name of the ingredient.
+     *
+     * @param prefix The prefix to remove.
+     */
+    public void removePrefix(String prefix) {
+        prefixes.remove(prefix);
+    }
+
+    /**
+     * Remove a suffix from the name of the ingredient.
+     *
+     * @param suffix The suffix to remove.
+     */
+    public void removeSuffix(String suffix) {
+        suffixes.remove(suffix);
+    }
+
+    /**
+     * Get all prefixes of the name of the ingredient.
+     *
+     * @return The prefixes of the name of the ingredient.
+     */
+    public List<String> getPrefixes() {
+        return prefixes;
+    }
+
+    /**
+     * Get all suffixes of the name of the ingredient.
+     *
+     * @return The suffixes of the name of the ingredient.
+     */
+    public List<String> getSuffixes() {
+        return suffixes;
+    }
 
     /**********************************************************
      * Helper methods
