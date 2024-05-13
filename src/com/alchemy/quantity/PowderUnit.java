@@ -31,7 +31,7 @@ public enum PowderUnit implements Unit {
     }
 
     @Override
-    public Unit getBaseUnit() {
+    public PowderUnit getBaseUnit() {
         return values()[0];
     }
 

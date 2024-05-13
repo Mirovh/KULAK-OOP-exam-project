@@ -31,7 +31,7 @@ public enum FluidUnit implements Unit {
     }
 
     @Override
-    public Unit getBaseUnit() {
+    public FluidUnit getBaseUnit() {
         return values()[0];
     }
 

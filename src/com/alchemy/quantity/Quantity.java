@@ -1,5 +1,7 @@
 package com.alchemy.quantity;
 
+import be.kuleuven.cs.som.annotate.*;
+
 /**
  * Represents a quantity with a specific amount and unit.
  * @invar The amount of the quantity is always non-negative.
@@ -26,10 +28,12 @@ public class Quantity {
      * Constructs a new Quantity with the specified amount and unit.
      *
      * @param amount the amount of the quantity
-     *               | amount >= 0
+     *           | amount >= 0
      * @param unit the unit of the quantity
-     *             | unit != null
+     *           | unit != null
      * @post The amount and unit of the quantity are set to the specified values.
+     *          | this.amount = amount
+     *          | this.unit = unit
      */
     public Quantity(Long amount, Unit unit) {
         this.amount = amount;
@@ -40,13 +44,67 @@ public class Quantity {
      * Converts this quantity to the specified unit.
      *
      * @param unit the unit to convert to
-     *             | unit != null
+     *      | unit != null
      * @post The amount of the quantity is converted to the specified unit.
+     *      | this.amount = this.unit.convertTo(unit, this.amount)
      * @post The unit of the quantity is set to the specified unit.
+     *     | this.unit = unit
      */
     public void convertTo(Unit unit) {
         this.amount = this.unit.convertTo(unit, this.amount);
         this.unit = unit;
+    }
+
+    /**
+     * Converts this quantity to the specified fluid unit.
+     *
+     * @param unit the fluid unit to convert to
+     *      | unit != null
+     * @post The amount of the quantity is converted to the specified fluid unit.
+     *      | this.amount = this.unit.convertTo(unit, this.amount)
+     * @post The unit of the quantity is set to the specified fluid unit.
+     *     | this.unit = unit
+     */
+    public void convertToFluidUnit(FluidUnit unit) {
+        // storerooms and spoons are the same for both fluid and powder units
+        this.convertTo(PowderUnit.SPOON);
+        this.unit = FluidUnit.SPOON;
+        this.convertTo(unit);
+    }
+
+    /**
+     * Converts this quantity to the specified powder unit.
+     *
+     * @param unit the powder unit to convert to
+     *             | unit != null
+     * @post The amount of the quantity is converted to the specified powder unit.
+     *      | this.amount = this.unit.convertTo(unit, this.amount)
+     * @post The unit of the quantity is set to the specified powder unit.
+     *    | this.unit = unit
+     */
+    public void convertToPowderUnit(PowderUnit unit) {
+        // storerooms and spoons are the same for both fluid and powder units
+        this.convertTo(FluidUnit.SPOON);
+        this.unit = PowderUnit.SPOON;
+        this.convertTo(unit);
+    }
+
+    /**
+     * Returns wetter this quantity is a fluid unit.
+     *
+     * @return true if the unit is a fluid unit, false otherwise
+     */
+    public boolean isFluidUnit() {
+        return unit instanceof FluidUnit;
+    }
+
+    /**
+     * Returns whether the unit of this quantity is a powder unit.
+     *
+     * @return true if the unit is a powder unit, false otherwise
+     */
+    public boolean isPowderUnit() {
+        return unit instanceof PowderUnit;
     }
 
     /**
