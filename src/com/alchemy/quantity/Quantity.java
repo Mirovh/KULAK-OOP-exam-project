@@ -45,6 +45,7 @@ public class Quantity {
      *
      * @param unit the unit to convert to
      *      | unit != null
+     *      | if (unit instanceof FluidUnit) { this.isFluidUnit() } else { this.isPowderUnit() }
      * @post The amount of the quantity is converted to the specified unit.
      *      | this.amount = this.unit.convertTo(unit, this.amount)
      * @post The unit of the quantity is set to the specified unit.
