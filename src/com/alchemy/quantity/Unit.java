@@ -44,6 +44,8 @@ public interface Unit {
         }
     }
 
+    Unit[] values();
+
     Unit getBaseUnit();
 
     String getName();
