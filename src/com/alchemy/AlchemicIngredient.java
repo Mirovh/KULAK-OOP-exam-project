@@ -19,7 +19,7 @@ public class AlchemicIngredient {
      * Variables
      **********************************************************/
 
-    private final Name name;
+    private final IngredientName ingredientName;
 
     private Temperature temperature;
 
@@ -40,13 +40,13 @@ public class AlchemicIngredient {
      * @param temperature The standard temperature of the ingredient
      * @param state the standard state of the Ingredient
      * @param amount The amount of the ingredient.
-     * @throws Name.IllegalNameException If the given name is not a valid mixture name.
+     * @throws IngredientName.IllegalNameException If the given name is not a valid mixture name.
      * @effect The name of the ingredient is set to the given name.
      * @effect The amount is set to the given amount (must be valid).
      * | setSize(size)
      */
     @Raw
-    public AlchemicIngredient(String name, Temperature temperature, IngredientState.State state, int amount) throws Name.IllegalNameException {
+    public AlchemicIngredient(String name, Temperature temperature, IngredientState.State state, int amount) throws IngredientName.IllegalNameException {
         this(new IngredientType(name,temperature,new IngredientState(state)),amount);
     }
 
@@ -57,13 +57,13 @@ public class AlchemicIngredient {
      * @param temperature The standard temperature of the ingredient
      * @param state the standard state of the Ingredient
      * @param amount The amount of the ingredient.
-     * @throws Name.IllegalNameException If the given name is not a valid mixture name.
+     * @throws IngredientName.IllegalNameException If the given name is not a valid mixture name.
      * @effect The name of the ingredient is set to the given name.
      * @effect The amount is set to the given amount (must be valid).
      * | setSize(size)
      */
     @Raw
-    public AlchemicIngredient(String name, Temperature temperature, IngredientState state, int amount) throws Name.IllegalNameException {
+    public AlchemicIngredient(String name, Temperature temperature, IngredientState state, int amount) throws IngredientName.IllegalNameException {
         this(new IngredientType(name,temperature,state),amount);
     }
 
@@ -74,7 +74,7 @@ public class AlchemicIngredient {
      */
     public AlchemicIngredient(IngredientType standardType, int amount) {
         this.standardType = standardType;
-        this.name = standardType.getName();
+        this.ingredientName = standardType.getName();
         this.temperature = standardType.getStandardTemperature();
         this.state = standardType.getStandardState();
     }
@@ -90,25 +90,25 @@ public class AlchemicIngredient {
      * Getters and Setters
      **********************************************************/
 
-    public void setName(String name) throws Name.IllegalNameException {
-        this.name.setName(name);
+    public void setName(String name) throws IngredientName.IllegalNameException {
+        this.ingredientName.setName(name);
     }
 
-    public void setSpecialName(String specialName) throws Name.IllegalSpecialNameException {
-        this.name.setSpecialName(specialName);
+    public void setSpecialName(String specialName) throws IngredientName.IllegalSpecialNameException {
+        this.ingredientName.setSpecialName(specialName);
     }
 
     public String getBasicName() {
-        return name.getBasicName();
+        return ingredientName.getBasicName();
     }
 
     public String getSpecialName() {
-        return name.getSpecialName();
+        return ingredientName.getSpecialName();
     }
 
     public String getFullName() {
         updateFullName();
-        return name.getFullName();
+        return ingredientName.getFullName();
     }
 
     public Quantity getQuantity(){return null;}//TODO: Change
@@ -123,21 +123,22 @@ public class AlchemicIngredient {
      **********************************************************/
 
     private void addPrefix(String prefix) {
-        name.addPrefix(prefix);
+        ingredientName.addPrefix(prefix);
     }
 
     private void addSuffix(String suffix) {
-        name.addSuffix(suffix);
+        ingredientName.addSuffix(suffix);
     }
 
-    private void clearPreAndSuffixes(){name.clearPreAndSuffixes();}
+    private void clearPreAndSuffixes(){
+        ingredientName.clearPreAndSuffixes();}
 
     private List<String> getPrefixes() {
-        return name.getPrefixes();
+        return ingredientName.getPrefixes();
     }
 
     private List<String> getSuffixes() {
-        return name.getSuffixes();
+        return ingredientName.getSuffixes();
     }
 
     private void updateFullName(){

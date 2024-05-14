@@ -15,7 +15,7 @@ import java.util.List;
  * @author SimonVandeputte
  * @version 1.0
  */
-public class Name {
+public class IngredientName {
 
     private final static String ingredientPartRegex = "^[a-zA-Z'\\(\\)\\s]*$";
     private final static String[] blacklistedWordsIngredientPart = {"mixed", "with","Heated","Cooled"};
@@ -31,7 +31,7 @@ public class Name {
      * Constructors
      **********************************************************/
 
-    public Name(String name, String specialName, String[] blacklistedWords) throws IllegalNameException, IllegalSpecialNameException {
+    public IngredientName(String name, String specialName, String[] blacklistedWords) throws IllegalNameException, IllegalSpecialNameException {
         this.blacklistedWords = blacklistedWords;
         setName(name);
         if (specialName != null) {
@@ -39,16 +39,16 @@ public class Name {
         }
     }
 
-    public Name(String name, String[] blacklistedWords) throws IllegalNameException {
+    public IngredientName(String name, String[] blacklistedWords) throws IllegalNameException {
         this.blacklistedWords = blacklistedWords;
         setName(name);
     }
 
-    public Name(String name, String specialName) throws IllegalNameException, IllegalSpecialNameException {
+    public IngredientName(String name, String specialName) throws IllegalNameException, IllegalSpecialNameException {
         this(name, specialName, new String[0]);
     }
 
-    public Name(String name) throws IllegalNameException {
+    public IngredientName(String name) throws IllegalNameException {
         this(name, new String[0]);
     }
     

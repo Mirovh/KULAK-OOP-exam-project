@@ -22,7 +22,7 @@ public class IngredientType {
     /**
      * The name of the ingredient
      */
-    final private Name name;
+    final private IngredientName ingredientName;
     /**
      * The state the ingredient will start in
      */
@@ -35,11 +35,11 @@ public class IngredientType {
      * @param name the name of the IngredientType
      * @param standardTemperature the standard Temperature of the IngredientType
      * @param standardState the standardState of the IngredientType
-     * @throws Name.IllegalNameException is thrown if the name is invalid
+     * @throws IngredientName.IllegalNameException is thrown if the name is invalid
      */
-    public IngredientType(String name, Temperature standardTemperature, IngredientState standardState) throws Name.IllegalNameException {
+    public IngredientType(String name, Temperature standardTemperature, IngredientState standardState) throws IngredientName.IllegalNameException {
         this.standardTemperature = standardTemperature;
-        this.name = new Name(name);
+        this.ingredientName = new IngredientName(name);
         this.standardState = standardState;
     }
 
@@ -48,8 +48,8 @@ public class IngredientType {
      */
     public IngredientType() {
         try {
-            name = new Name("Water");
-        } catch (Name.IllegalNameException e) {
+            ingredientName = new IngredientName("Water");
+        } catch (IngredientName.IllegalNameException e) {
             throw new RuntimeException(e);
         }
         standardTemperature = new Temperature(0L,20L);
@@ -63,8 +63,8 @@ public class IngredientType {
         return standardTemperature;
     }
 
-    public Name getName() {
-        return name;
+    public IngredientName getName() {
+        return ingredientName;
     }
 
     public IngredientState getStandardState() {
