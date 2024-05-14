@@ -142,6 +142,17 @@ public class Quantity {
     }
 
     /**
+     * Checks if this quantity is greater than (one of) the specified unit.
+     *
+     * @param unit the unit to compare with
+     *             | unit != null
+     * @return true if this quantity is greater, false otherwise
+     */
+    public boolean isGreaterThan(Unit unit) {
+        return this.isGreaterThan(new Quantity(1L, unit));
+    }
+
+    /**
      * Checks if this quantity is smaller than the specified quantity.
      *
      * @param quantity the quantity to compare with
@@ -150,6 +161,17 @@ public class Quantity {
      */
     public boolean isSmallerThan(Quantity quantity) {
         return this.unit.convertToBase(this.amount) < quantity.unit.convertToBase(quantity.amount);
+    }
+
+    /**
+     * Checks if this quantity is smaller than (one of) the specified unit.
+     *
+     * @param unit the unit to compare with
+     *             | unit != null
+     * @return true if this quantity is smaller, false otherwise
+     */
+    public boolean isSmallerThan(Unit unit) {
+        return this.isSmallerThan(new Quantity(1L, unit));
     }
 
     /**
@@ -164,6 +186,17 @@ public class Quantity {
     }
 
     /**
+     * Checks if this quantity is equal to (one of) the specified unit.
+     *
+     * @param unit the unit to compare with
+     *             | unit != null
+     * @return true if this quantity is equal, false otherwise
+     */
+    public boolean isEqualTo(Unit unit) {
+        return this.isEqualTo(new Quantity(1L, unit));
+    }
+
+    /**
      * Checks if this quantity is greater than or equal to the specified quantity.
      *
      * @param quantity the quantity to compare with
@@ -172,6 +205,17 @@ public class Quantity {
      */
     public boolean isGreaterThanOrEqualTo(Quantity quantity) {
         return this.unit.convertToBase(this.amount) >= quantity.unit.convertToBase(quantity.amount);
+    }
+
+    /**
+     * Checks if this quantity is greater than or equal to (one of) the specified unit.
+     *
+     * @param unit the unit to compare with
+     *             | unit != null
+     * @return true if this quantity is greater than or equal, false otherwise
+     */
+    public boolean isGreaterThanOrEqualTo(Unit unit) {
+        return this.isGreaterThanOrEqualTo(new Quantity(1L, unit));
     }
 
     /**
@@ -184,4 +228,16 @@ public class Quantity {
     public boolean isSmallerThanOrEqualTo(Quantity quantity) {
         return this.unit.convertToBase(this.amount) <= quantity.unit.convertToBase(quantity.amount);
     }
+
+    /**
+     * Checks if this quantity is smaller than or equal to (one of) the specified unit.
+     *
+     * @param unit the unit to compare with
+     *             | unit != null
+     * @return true if this quantity is smaller than or equal, false otherwise
+     */
+    public boolean isSmallerThanOrEqualTo(Unit unit) {
+        return this.isSmallerThanOrEqualTo(new Quantity(1L, unit));
+    }
+
 }

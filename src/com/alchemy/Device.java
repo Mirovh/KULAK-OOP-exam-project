@@ -1,5 +1,8 @@
 package com.alchemy;
-import java.util.ArrayList;
+
+import com.alchemy.quantity.Quantity;
+import com.alchemy.quantity.Unit;
+
 /**
  * An abstract class used to define the standard methods of a device
  *
@@ -25,8 +28,9 @@ public abstract class Device {
      * container is returned and rest of contents are destroyed.
      */
     public IngredientContainer getContents() {
-        int size = ingredient.getQuantity(); //TODO: calculate minimal needed quantity
-        IngredientContainer container = new IngredientContainer(ingredient, size);
+        Quantity quantity = ingredient.getQuantity();
+        Unit containerUnit = quantity.getSmallestContainer();
+        IngredientContainer container = new IngredientContainer(ingredient, containerUnit);
         ingredient = null;
         return container;
     }
@@ -44,7 +48,7 @@ public abstract class Device {
      */
     protected void addIngredient(IngredientContainer container) throws DeviceFullException {
         ingredient = container.getContents();
-        container.Destroy();
+        container.destroy();
     }
 
     protected void react() throws NotInLaboratoryException {

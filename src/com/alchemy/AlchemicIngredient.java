@@ -1,6 +1,7 @@
 package com.alchemy;
 import be.kuleuven.cs.som.annotate.*;
 import com.alchemy.Temperature.Temperature;
+import com.alchemy.quantity.Quantity;
 import com.alchemy.transmorgrify.IngredientState;
 
 import java.util.List;
@@ -110,7 +111,7 @@ public class AlchemicIngredient {
         return name.getFullName();
     }
 
-    public Integer getQuantity(){return 0;}//TODO: Change
+    public Quantity getQuantity(){return null;}//TODO: Change
 
     public Temperature getTemperature(){return temperature;}
     @Basic

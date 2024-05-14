@@ -26,8 +26,8 @@ public class Kettle extends Device{
      **********************************************************/
     @Override
     public void addIngredient(IngredientContainer container){
-        ingredient.add(container.getContents());
-        container.Destroy();
+        ingredient.add(container.getContent());
+        container.destroy();
     }
     //TODO: GetContent
 
