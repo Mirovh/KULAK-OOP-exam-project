@@ -47,7 +47,7 @@ public abstract class Device {
      * @throws DeviceFullException if the device is full, deviceFullException is thrown.
      */
     protected void addIngredient(IngredientContainer container) throws DeviceFullException {
-        ingredient = container.getContents();
+        ingredient = container.getContent();
         container.destroy();
     }
 

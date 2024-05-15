@@ -44,7 +44,7 @@ public class IngredientType {
     }
 
     /**
-     * this is the standardIngredient, which is Water with a standardTemperature of [0,20] and a standard liauid state
+     * this is the standardIngredient, which is Water with a standardTemperature of [0,20] and a standard liquid state
      */
     public IngredientType() {
         try {
