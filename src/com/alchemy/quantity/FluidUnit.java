@@ -40,4 +40,9 @@ public enum FluidUnit implements Unit {
     public String getName() {
         return name;
     }
+
+    @Override
+    public FluidUnit[] getValues() {
+        return values();
+    }
 }

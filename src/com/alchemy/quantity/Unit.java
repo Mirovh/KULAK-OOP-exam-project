@@ -1,7 +1,6 @@
 package com.alchemy.quantity;
 
 import java.util.Arrays;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +43,7 @@ public interface Unit {
         }
     }
 
-    Unit[] values();
+    Unit[] getValues();
 
     Unit getBaseUnit();
 

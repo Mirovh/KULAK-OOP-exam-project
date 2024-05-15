@@ -1,7 +1,5 @@
 package com.alchemy.quantity;
 
-import be.kuleuven.cs.som.annotate.*;
-
 /**
  * Represents a quantity with a specific amount and unit.
  * @invar The amount of the quantity is always non-negative.
@@ -116,7 +114,7 @@ public class Quantity {
     public Unit getSmallestContainer() {
         Unit smallestContainerUnit = null;
         Long smallestContainerAmount = Long.MAX_VALUE;
-        for (Unit other : unit.values()) {
+        for (Unit other : unit.getValues()) {
             Long converted = unit.convertTo(other, amount);
             if (smallestContainerAmount > 1 && converted < smallestContainerAmount) {
                 smallestContainerAmount = converted;

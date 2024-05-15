@@ -40,4 +40,9 @@ public enum PowderUnit implements Unit {
     public String getName() {
         return name;
     }
+
+    @Override
+    public PowderUnit[] getValues() {
+        return values();
+    }
 }
