@@ -1,5 +1,7 @@
 package com.alchemy;
 
+import com.alchemy.quantity.FluidUnit;
+import com.alchemy.quantity.PowderUnit;
 import com.alchemy.quantity.Quantity;
 import com.alchemy.quantity.Unit;
 
@@ -28,9 +30,29 @@ public abstract class Device {
      * container is returned and rest of contents are destroyed.
      */
     public IngredientContainer getContents() {
+        Unit size = PowderUnit.PINCH;//is changed later on, but has to be declared because otherwise IntelliJ is angry
         Quantity quantity = ingredient.getQuantity();
-        Unit containerUnit = quantity.getSmallestContainer();
-        IngredientContainer container = new IngredientContainer(ingredient, containerUnit);
+        if(ingredient.getState().getState().isSolid()){
+            for (PowderUnit unit:PowderUnit.values()){
+                if(quantity.isSmallerThan(unit)){
+                    size = unit;
+                    break;
+                }
+                size = PowderUnit.STOREROOM;
+            }
+        }
+        else{
+            for(FluidUnit unit:FluidUnit.values()){
+                if(quantity.isSmallerThan(unit)){
+                    size = unit;
+                    break;
+                }
+                size = PowderUnit.STOREROOM;
+            }
+
+        }
+
+        IngredientContainer container = new IngredientContainer(ingredient, size);
         ingredient = null;
         return container;
     }

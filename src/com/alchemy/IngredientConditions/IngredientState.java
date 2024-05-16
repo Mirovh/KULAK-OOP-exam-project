@@ -1,4 +1,4 @@
-package com.alchemy.transmorgrify;
+package com.alchemy.IngredientConditions;
 
 import be.kuleuven.cs.som.annotate.Basic;
 

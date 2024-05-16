@@ -1,7 +1,7 @@
 package com.alchemy;
 
-import com.alchemy.Temperature.Temperature;
-import com.alchemy.transmorgrify.IngredientState;
+import com.alchemy.IngredientConditions.Temperature;
+import com.alchemy.IngredientConditions.IngredientState;
 
 /**
  * A class representing a type for Ingredient, which stores some final variables for an ingredient
@@ -40,6 +40,18 @@ public class IngredientType {
     public IngredientType(String name, Temperature standardTemperature, IngredientState standardState) throws IngredientName.IllegalNameException {
         this.standardTemperature = standardTemperature;
         this.ingredientName = new IngredientName(name);
+        this.standardState = standardState;
+    }
+    /**
+     * initializes an IngredientType with given parameters
+     * @param name the name of the IngredientType
+     * @param standardTemperature the standard Temperature of the IngredientType
+     * @param standardState the standardState of the IngredientType
+     * @throws IngredientName.IllegalNameException is thrown if the name is invalid
+     */
+    public IngredientType(IngredientName name, Temperature standardTemperature, IngredientState standardState) throws IngredientName.IllegalNameException {
+        this.standardTemperature = standardTemperature;
+        this.ingredientName = name;
         this.standardState = standardState;
     }
 

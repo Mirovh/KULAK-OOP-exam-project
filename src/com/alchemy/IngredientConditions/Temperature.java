@@ -1,5 +1,6 @@
-package com.alchemy.Temperature;
+package com.alchemy.IngredientConditions;
 import java.util.ArrayList;
+import java.lang.Math;
 /**
  * Temperature - total programming
  *
@@ -141,4 +142,6 @@ public class Temperature {
      * @return true if this temperature is colder than otherTemp
      */
     public Boolean isColderThan(Temperature otherTemp){return(coldness<otherTemp.getColdness()|hotness<otherTemp.getColdness());}
+
+    public Long differenceFrom(Temperature otherTemp){return(Math.abs(coldness-otherTemp.getColdness())+Math.abs(hotness-otherTemp.getHotness()));}
 }

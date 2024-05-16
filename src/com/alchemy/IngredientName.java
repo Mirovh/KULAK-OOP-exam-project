@@ -3,6 +3,7 @@ package com.alchemy;
 import be.kuleuven.cs.som.annotate.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -169,6 +170,9 @@ public class IngredientName {
      */
     public List<String> getSuffixes() {
         return suffixes;
+    }
+
+    public ArrayList<String> getPartNames(){return new ArrayList<>(Arrays.asList(nameParts));
     }
 
     /**********************************************************

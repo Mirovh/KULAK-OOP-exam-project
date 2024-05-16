@@ -1,8 +1,8 @@
 import com.alchemy.AlchemicIngredient;
 import com.alchemy.IngredientName;
 
-import com.alchemy.Temperature.Temperature;
-import com.alchemy.transmorgrify.IngredientState;
+import com.alchemy.IngredientConditions.Temperature;
+import com.alchemy.IngredientConditions.IngredientState;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -66,11 +66,12 @@ public class Quantity {
      * @post The unit of the quantity is set to the specified fluid unit.
      *     | this.unit = unit
      */
-    public void convertToFluidUnit(FluidUnit unit) {
+    public Long convertToFluidUnit(FluidUnit unit) {
         // storerooms and spoons are the same for both fluid and powder units
         this.convertTo(PowderUnit.SPOON);
         this.unit = FluidUnit.SPOON;
         this.convertTo(unit);
+        return amount;
     }
 
     /**
@@ -83,15 +84,16 @@ public class Quantity {
      * @post The unit of the quantity is set to the specified powder unit.
      *    | this.unit = unit
      */
-    public void convertToPowderUnit(PowderUnit unit) {
+    public Long convertToPowderUnit(PowderUnit unit) {
         // storerooms and spoons are the same for both fluid and powder units
         this.convertTo(FluidUnit.SPOON);
         this.unit = PowderUnit.SPOON;
         this.convertTo(unit);
+        return(amount);
     }
 
     /**
-     * Returns wetter this quantity is a fluid unit.
+     * Returns whether this quantity is a fluid unit.
      *
      * @return true if the unit is a fluid unit, false otherwise
      */
