@@ -21,8 +21,8 @@ public class DeviceTest {
         ingredient2 = new AlchemicIngredient(10);
         container1 = new IngredientContainer(ingredient,20);
         container2 = new IngredientContainer(ingredient2,30);
-        lab = new Laboratory();
-        lab2 = new Laboratory();
+        lab = new Laboratory(1);
+        lab2 = new Laboratory(1);
     }
     @Test
     public void LaboratoryDeviceTest() throws Laboratory.LaboratoryFullException {
