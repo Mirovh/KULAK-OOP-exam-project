@@ -220,7 +220,8 @@ public class IngredientName {
             if (name.contains(word)) return false;
         }
         // split the name into parts
-        String[] parts = name.split(" mixed with ");
+        String[] parts = name.split("\\s*( mixed with |,| and )\\s*");
+
         // if there is only one part, it has to be at least 3 characters long
         if (name.length() < 3) return false;
         // each part has to be a valid ingredient part name
@@ -228,7 +229,20 @@ public class IngredientName {
             if (!isValidIngredientPartName(part)) return false;
         }
         // all parts combined with ' mixed with ' should equal the original name
-        return String.join(" mixed with ", parts).equals(name);
+        StringBuilder joinedString = new StringBuilder();
+
+        for (int i = 0; i < parts.length; i++) {
+            joinedString.append(parts[i]);
+            if (i < parts.length - 2) {
+                joinedString.append(", ");
+            } else if (i == parts.length - 2) {
+                joinedString.append(" and ");
+            } else if (i == parts.length - 1 && parts.length > 1) {
+                joinedString.insert(0, " mixed with ");
+            }
+        }
+
+        return joinedString.toString().equals(name);
     }
 
     /**
