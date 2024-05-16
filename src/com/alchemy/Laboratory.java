@@ -29,7 +29,7 @@ public class Laboratory {
      * getter for the amount of total space in the lab
      * @return laboratorySpace The amount of total space in the laboratory
      */
-    public int getSpace(){          //TODO: add method to calculate total sapce in lab
+    public int getSpace(){          //TODO: add method to calculate total space in lab
         return 0;                   //temp
     }
 
@@ -66,9 +66,7 @@ public class Laboratory {
         StringBuilder contents = new StringBuilder("The lab contains: ");
         for (AlchemicIngredient ingredient : ingredients) {
             contents.append(ingredient.getAmount())
-                    .append(" ")
-                    .append(ingredient.getUnit())
-                    .append(" of ")
+                    .append(" drops of ")
                     .append(ingredient.getBasicName())
                     .append(", ");
         }
@@ -89,7 +87,7 @@ public class Laboratory {
         String ingredientString = "";
         for (AlchemicIngredient Ingredients : ingredients) {
             if (Ingredients.equals(ingredient)) {
-                ingredientString = Ingredients.getAmount() + " " + Ingredients.getUnit() + " of " + Ingredients.getBasicName();
+                ingredientString = Ingredients.getAmount() + " drops of " + Ingredients.getBasicName();
                 break;
             }
         }
@@ -138,7 +136,7 @@ public class Laboratory {
             IngredientContainer partialContainer = new IngredientContainer(container.getContent(), container.getContainerUnit());
             partialContainer.getContent().reduceQuantity(amount);
             if (canAddContainer(partialContainer)){
-                containers.add(partialContainer);
+                ingredients.add(partialContainer);
                 container.getContent().reduceQuantity(amount);
             } else{
                 throw new IllegalArgumentException("Not enough space to add container");
