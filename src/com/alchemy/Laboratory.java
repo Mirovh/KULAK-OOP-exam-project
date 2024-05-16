@@ -174,7 +174,7 @@ public class Laboratory {
         if (labIngredient == null) {
             throw new IllegalArgumentException("Ingredient not found");
         }
-        IngredientContainer labContainer = new IngredientContainer(labIngredient, containerUnit);               // bij verwijderen van meerdere containers geen manier om deze bij te houden
+        IngredientContainer labContainer = new IngredientContainer(labIngredient, containerUnit);               //TODO: bij verwijderen van meerdere containers geen manier om deze bij te houden
         return labContainer;
     }
 
