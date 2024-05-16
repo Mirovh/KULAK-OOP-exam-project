@@ -212,8 +212,8 @@ public class AlchemicIngredient {
 
     private void updateFullName(){
         clearPreAndSuffixes();
-            if(temperature.isColderThan(standardType.getStandardTemperature())){addPrefix("Cooled");}
-            else if(temperature.isHotterThan(standardType.getStandardTemperature())){addPrefix("Heated");
+            if(temperature.isColderThan(standardType.getStandardTemperature())){addPrefix("Cooled ");}
+            else if(temperature.isHotterThan(standardType.getStandardTemperature())){addPrefix("Heated ");
             }
     }
 

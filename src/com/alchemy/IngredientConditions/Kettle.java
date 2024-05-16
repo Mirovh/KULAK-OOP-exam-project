@@ -48,8 +48,7 @@ public class Kettle extends Device {
 
     /**
      * method to start the reaction
-     * @effect the temperature of the content in the oven will be heated to the temperature of the oven with a deviation of up to 5 degrees
-     *if the ingredient is hotter than the temperature of the oven, nothing happens.
+     * @effect the contents will be changed to a new ingredient with the details specified in newName(), newState(), newQuantity(), newTemp() and newStandardTemp()
      */
     @Override
     public void react() throws NotInLaboratoryException{
@@ -72,6 +71,12 @@ public class Kettle extends Device {
                 throw new RuntimeException(e);
             }
             AlchemicIngredient newIngredient = new AlchemicIngredient(newIngredientType,newQuantity);
+            if(standardTemp.isColderThan(newTemp)){
+                newIngredient.getTemperature().heat(standardTemp.differenceFrom(newTemp));
+            }
+            else{
+                newIngredient.getTemperature().cool(standardTemp.differenceFrom(newTemp));
+            }
             ingredient.clear();
             ingredient.add(newIngredient);
         }
