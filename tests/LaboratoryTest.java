@@ -1,8 +1,6 @@
 import com.alchemy.*;
-import com.alchemy.Temperature.CoolingBox;
-import com.alchemy.Temperature.Temperature;
+import com.alchemy.IngredientConditions.*;
 import com.alchemy.quantity.PowderUnit;
-import com.alchemy.transmorgrify.IngredientState;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +20,7 @@ public class LaboratoryTest {
     Temperature temp = new Temperature(0,20);
     IngredientState stateSolid = new IngredientState(true);
     IngredientState stateLiquid = new IngredientState(false);
+
     @Before
     public void setUpFixture(){
         Laboratory testLab = new Laboratory(1); // amount of storerooms
@@ -34,7 +33,7 @@ public class LaboratoryTest {
         }
         containerLiquid = new IngredientContainer(ingredientLiquid, BOTTLE);
         containerSolid = new IngredientContainer(ingredientSolid, BOX);
-        exceedingAmount = new IngredientContainer(exceedingIngredient, PowderUnit.STOREROOM);
+        exceedingAmount = new IngredientContainer(exceedingIngredient, PowderUnit.STOREROOM);           //Is this allowed?
         emptyContainer = new IngredientContainer(BOTTLE);
     }
     @Test
@@ -42,6 +41,7 @@ public class LaboratoryTest {
         assertEquals(1, testLab.getStorerooms);
         assertTrue(testLab.getIngredients().isEmpty());  //new lab is empty
     }
+
     @Test
     public void testAddContainer(){
         testLab.addContainer(emptyContainer);
@@ -56,6 +56,7 @@ public class LaboratoryTest {
         assertNull(containerLiquid);    //container should be destroyed //TODO: destructor for container
         assertNull(containerSolid);    //container should be destroyed
     }
+
     @Test
     public void testRemoveContainer(){
         IngredientContainer containerLabLiquid;
@@ -73,6 +74,7 @@ public class LaboratoryTest {
         assertThrows(IllegalArgumentException.class, () -> testLab.removeIngredient(ingredientLiquid, 50));      //exceeds amount of ingredient
         assertThrows(IllegalArgumentException.class, () -> testLab.removeIngredient(ingredientLiquid, -50));
     }
+
     @Test
     public void testAddStoreroom() {
         testLab.addStoreroom(0);
@@ -81,6 +83,7 @@ public class LaboratoryTest {
         assertEquals(3, testLab.getStoreroom);
         assertThrows(IllegalArgumentException.class, () -> testLab.addStoreroom(-5));
     }
+
     @Test
     public void testRemoveStoreroom() {
         assertThrows(IllegalArgumentException.class, () -> testLab.removeStoreroom(-5));
@@ -95,6 +98,7 @@ public class LaboratoryTest {
         testLab.removeStoreroom(1);
         assertEquals(2, testLab.getStoreroom);
     }
+
     @Test
     public void testGetContents() {
         assertEquals("The lab is empty", testLab.getContents());        //empty lab gives special string
@@ -103,6 +107,7 @@ public class LaboratoryTest {
         assertEquals("The lab contains: 50 spoons of testLiquid, 50 spoons of testSolid", testLab.getContents());    //different String might be better
         assertEquals("The lab contains: 50 spoons of testLiquid", testLab.getContents(ingredientLiquid));
     }
+
     @Test
     public void LaboratoryDeviceTest() throws Laboratory.LaboratoryFullException {
         CoolingBox fridge = new CoolingBox();

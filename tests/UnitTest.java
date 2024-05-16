@@ -13,6 +13,7 @@ public class UnitTest {
     Quantity mediumTestPowder;
     Quantity largeTestFluid;
     Quantity largeTestPowder;
+
     @Before
     public void setUpFixture(){
         smallTestFluid = new Quantity(840, DROP);
@@ -22,6 +23,7 @@ public class UnitTest {
         largeTestFluid = new Quantity(1, BARREL);
         largeTestPowder = new Quantity(1, CHEST);
     }
+
     @Test
     public void testFluidCreation(){
         assertTrue(smallTestFluid.isEqualTo(mediumTestFluid));
@@ -29,6 +31,7 @@ public class UnitTest {
         assertTrue(smallTestFluid.isFluidUnit());
         assertFalse(mediumTestFluid.isPowderUnit());
     }
+
     @Test
     public void testPowderCreation(){
         assertTrue(smallTestPowder.isEqualTo(mediumTestPowder));
@@ -36,6 +39,7 @@ public class UnitTest {
         assertTrue(smallTestPowder.isPowderUnit());
         assertFalse(mediumTestPowder.isFluidUnit());
     }
+
     @Test
     public void testComparison(){
         assertTrue(largeTestFluid.isGreaterThan(smallTestFluid));

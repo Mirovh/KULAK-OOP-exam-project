@@ -19,6 +19,7 @@ public class DeviceTest {
     IngredientContainer container1;
     IngredientContainer container2;
     Unit basicUnit = PowderUnit.BOX;
+
     @Before
     public void setUpFixture() {
         ingredient = new AlchemicIngredient(10L);
@@ -28,6 +29,7 @@ public class DeviceTest {
         lab = new Laboratory();
         lab2 = new Laboratory();
     }
+
     @Test
     public void CoolingBoxTest() throws Device.DeviceFullException, Device.NotInLaboratoryException, Exception {
         //adding Ingredients test
@@ -58,6 +60,7 @@ public class DeviceTest {
         Assert.assertEquals(40L,(long)cooledContainer3.getContent().getTemperature().getColdness());
         Assert.assertEquals(0L,(long)cooledContainer3.getContent().getTemperature().getHotness());
     }
+
     @Test
     public void OvenTest() throws Device.DeviceFullException, Device.NotInLaboratoryException ,Exception{
         //Test is run 20 times to take into account the randomness
@@ -89,6 +92,7 @@ public class DeviceTest {
         Assert.assertTrue(55<=heatedContainer3.getContent().getTemperature().getHotness()&& heatedContainer3.getContent().getTemperature().getHotness()<=65 );
         Assert.assertEquals(0L,(long)heatedContainer3.getContent().getTemperature().getColdness());
     }
+
     @Test
     public void TransmorgrifierTest() throws Exception{
        Transmorgrifier transmorgrifier = new Transmorgrifier();
