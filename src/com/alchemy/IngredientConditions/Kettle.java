@@ -102,7 +102,7 @@ public class Kettle extends Device {
             for (int i = 1; i < strippedNames.size() -1; i++) {
                 name.append(strippedNames.get(i)).append(" , ");
             }
-            name.append(strippedNames.get(strippedNames.size() -2)).append(" and ");
+            name.append(strippedNames.get(strippedNames.size() -1)).append(" and ");
             name.append(strippedNames.getLast());
             try {
                 return new IngredientName(name.toString());
