@@ -62,13 +62,13 @@ public class LaboratoryTest {
         IngredientContainer containerLabSolid;
         testLab.addContainer(containerLiquid);
         testLab.addContainer(containerSolid);
-        testLab.removeIngredient(ingredientLiquid, containerLabLiquid, BOTTLE, 0);
+        testLab.removeIngredient(ingredientLiquid, BOTTLE, 0);
         assertNull(containerLabLiquid);     //no new container when nothing gets removed
-        testLab.removeIngredient(ingredientLiquid, containerLabLiquid, BOTTLE, 20);   //remove creates a new container
+        testLab.removeIngredient(ingredientLiquid, BOTTLE, 20);   //remove creates a new container
         assertEquals(80, testLab.getContentsAmount);    //TODO: op 80 moet een conversie gebeuren om assertie te doen kloppen
         assertEquals(20, containerLabLiquid.getContent());
-        testLab.removeIngredient(ingredientLiquid, containerLabLiquid, BOTTLE, 30);
-        testLab.removeIngredient(ingredientLiquid, containerLabLiquid, BOTTLE, 50);   //remove creates a new container
+        testLab.removeIngredient(ingredientLiquid, BOTTLE, 30);
+        testLab.removeIngredient(ingredientLiquid, BOTTLE, 50);   //remove creates a new container
         assertTrue(testLab.isEmpty());
         assertThrows(IllegalArgumentException.class, () -> testLab.removeIngredient(ingredientLiquid, 50));      //exceeds amount of ingredient
         assertThrows(IllegalArgumentException.class, () -> testLab.removeIngredient(ingredientLiquid, -50));
@@ -100,7 +100,7 @@ public class LaboratoryTest {
         assertEquals("The lab is empty", testLab.getContents());        //empty lab gives special string
         testLab.addContainer(containerLiquid);
         testLab.addContainer(containerSolid);
-        assertEquals("The lab contains: 50 spoons of testLiquid and 50 spoons of testSolid", testLab.getContents());    //different String might be better
+        assertEquals("The lab contains: 50 spoons of testLiquid, 50 spoons of testSolid", testLab.getContents());    //different String might be better
         assertEquals("The lab contains: 50 spoons of testLiquid", testLab.getContents(ingredientLiquid));
     }
     @Test

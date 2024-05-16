@@ -48,5 +48,19 @@ public class UnitTest {
         assertTrue(mediumTestPowder.isSmallerThanOrEqualTo(smallTestPowder));
     }
 
-    //TODO: conversionTests
+    @Test
+    public void testConversion(){
+        smallTestFluid.convertTo(JUG);
+         assertTrue(JUG, smallTestFluid.getUnit());
+         assertTrue(smallTestFluid.isFluidUnit());
+         assertTrue(smallTestFluid.isEqualTo(mediumTestPowder));
+         mediumTestPowder.convertTo(DROP);
+         assertTrue(DROP, mediumTestPowder.getUnit);
+         assertTrue(mediumTestPowder.isPowderUnit());
+         assertTrue(mediumTestPowder.isEqualTo(smallTestPowder));
+         largeTestPowder.convertTo(PowderUnit.SPOON);
+         assertFalse(largeTestPowder.isSmallerThanOrEqualTo(mediumTestPowder));
+        assertThrows(IllegalArgumentException.class, () -> mediumTestFluid.convertTo(CHEST));
+        assertThrows(IllegalArgumentException.class, () -> mediumTestPowder.convertTo(DROP));
+    }
 }
