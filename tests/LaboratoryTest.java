@@ -23,7 +23,7 @@ public class LaboratoryTest {
 
     @Before
     public void setUpFixture(){
-        Laboratory testLab = new Laboratory(1); // amount of storerooms
+        Laboratory testLab = new Laboratory(); // amount of storerooms
         try {
             AlchemicIngredient ingredientSolid = new AlchemicIngredient("testSolid", temp, stateSolid, 50);
             AlchemicIngredient ingredientLiquid = new AlchemicIngredient("testLiquid",temp,stateLiquid, 50);

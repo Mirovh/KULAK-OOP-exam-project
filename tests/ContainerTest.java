@@ -45,7 +45,7 @@ public class ContainerTest {
         assertEquals(BOX, containerPowder.getContainerUnit());
         assertThrows(IllegalArgumentException.class, () -> exceedingAmount = new IngredientContainer(exceedingIngredient, JUG));    //can be implemented differently, not sure how we handle this situation
         assertNull(emptyContainer.getContent());
-        assertThrows(IllegalArgumentException.class, () ->  new IngredientContainer(DROP);                              //not really containers
+        assertThrows(IllegalArgumentException.class, () ->  new IngredientContainer(DROP));                              //not really containers
         assertThrows(IllegalArgumentException.class, () ->  new IngredientContainer(PINCH));
         assertThrows(IllegalArgumentException.class, () ->  new IngredientContainer(FluidUnit.SPOON));
         assertThrows(IllegalArgumentException.class, () ->  new IngredientContainer(PowderUnit.SPOON));

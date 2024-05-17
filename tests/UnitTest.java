@@ -55,11 +55,11 @@ public class UnitTest {
     @Test
     public void testConversion(){
         smallTestFluid.convertTo(JUG);
-         assertTrue(JUG, smallTestFluid.getUnit());
+         assertEquals(JUG, smallTestFluid.getUnit());
          assertTrue(smallTestFluid.isFluidUnit());
          assertTrue(smallTestFluid.isEqualTo(mediumTestPowder));
          mediumTestPowder.convertTo(DROP);
-         assertTrue(DROP, mediumTestPowder.getUnit);
+         assertEquals(DROP, mediumTestPowder.getUnit());
          assertTrue(mediumTestPowder.isPowderUnit());
          assertTrue(mediumTestPowder.isEqualTo(smallTestPowder));
          largeTestPowder.convertTo(PowderUnit.SPOON);

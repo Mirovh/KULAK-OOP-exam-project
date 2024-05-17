@@ -65,6 +65,7 @@ public class Quantity {
      *      | this.amount = this.unit.convertTo(unit, this.amount)
      * @post The unit of the quantity is set to the specified fluid unit.
      *     | this.unit = unit
+     * @return the amount of the quantity in the new Unit
      */
     public Long convertToFluidUnit(FluidUnit unit) {
         // storerooms and spoons are the same for both fluid and powder units
@@ -83,6 +84,7 @@ public class Quantity {
      *      | this.amount = this.unit.convertTo(unit, this.amount)
      * @post The unit of the quantity is set to the specified powder unit.
      *    | this.unit = unit
+     * @return the amount of the quantity in the new Unit
      */
     public Long convertToPowderUnit(PowderUnit unit) {
         // storerooms and spoons are the same for both fluid and powder units
@@ -118,20 +120,38 @@ public class Quantity {
     public Unit getSmallestContainer() {
         Unit smallestContainerUnit = null;
         Long smallestContainerAmount = Long.MAX_VALUE;
-        for (Unit other : unit.values()) {
-            Long converted = unit.convertTo(other, amount);
-            if (smallestContainerAmount > 1 && converted < smallestContainerAmount) {
-                smallestContainerAmount = converted;
-                smallestContainerUnit = other;
-            } else if (smallestContainerAmount <= 1 && converted > smallestContainerAmount && converted <= 1) {
-                smallestContainerAmount = converted;
-                smallestContainerUnit = other;
+        if(this.isPowderUnit()) {
+            for (Unit other : PowderUnit.values()) {
+                Long converted = unit.convertTo(other, amount);
+                if (smallestContainerAmount > 1 && converted < smallestContainerAmount) {
+                    smallestContainerAmount = converted;
+                    smallestContainerUnit = other;
+                } else if (smallestContainerAmount <= 1 && converted > smallestContainerAmount && converted <= 1) {
+                    smallestContainerAmount = converted;
+                    smallestContainerUnit = other;
 
+                }
+            }
+        }
+        else{
+            for (Unit other : FluidUnit.values()) {
+                Long converted = unit.convertTo(other, amount);
+                if (smallestContainerAmount > 1 && converted < smallestContainerAmount) {
+                    smallestContainerAmount = converted;
+                    smallestContainerUnit = other;
+                } else if (smallestContainerAmount <= 1 && converted > smallestContainerAmount && converted <= 1) {
+                    smallestContainerAmount = converted;
+                    smallestContainerUnit = other;
+
+                }
             }
         }
         return smallestContainerUnit;
     }
 
+    public Unit getUnit(){
+        return this.unit;
+    }
     /**
      * Checks if this quantity is greater than the specified quantity.
      *
