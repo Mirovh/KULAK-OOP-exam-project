@@ -50,7 +50,6 @@ public class Kettle extends Device {
      * @return arraylist of containers with an element for each ingredient with the smallest possible container containing the contents of the device. If quantity is too large, biggest possible
      * container is returned and rest of contents are destroyed.
      */
-
     public ArrayList<IngredientContainer> getContent(){
         ArrayList<IngredientContainer> containers = new ArrayList<>();
         for(AlchemicIngredient ingredient: ingredients){
