@@ -151,25 +151,29 @@ public class Laboratory {
      * @throws IllegalArgumentException if the laboratory does not have enough free space to accommodate the specified amount of the ingredient in the container,
      *                                  or if the container does not have enough of the ingredient.
      */
-    public void addContainer(IngredientContainer container, Long amount){
+    public void addContainer(IngredientContainer container, Long amount) throws IngredientName.IllegalNameException {
         if (container.getContent().getQuantity().isFluidUnit()) {
             if (container.getContent() != null && container.getContent().getQuantity().isSmallerThanOrEqualTo(DROP, amount)) {
-                IngredientContainer partialContainer = new IngredientContainer(container.getContent(), container.getContainerUnit());
-                partialContainer.getContent().reduceAmount(amount);
-                if (canAddContainer(partialContainer)) {
-                    containers.add(partialContainer);
-                    container.getContent().reduceAmount(amount);
+                container.getContent().bringBackToStandardTemperature();
+                AlchemicIngredient PartialIngredient = new AlchemicIngredient(container.getContent().getFullName(),container.getContent().getTemperature(), container.getContent().getState() , (container.getContent().getQuantity().convertTo(DROP) - amount);
+                AlchemicIngredient labIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), amount);
+                IngredientContainer partialContainer = new IngredientContainer(PartialIngredient, container.getContainerUnit());
+                IngredientContainer labContainer = new IngredientContainer(labIngredient, container.getContainerUnit());
+                if (canAddContainer(labContainer)) {
+                    containers.add(labContainer);
                 } else {
                     throw new IllegalArgumentException("Not enough space to add container");
                 }
             }
         }else {
             if (container.getContent() != null && container.getContent().getQuantity().isSmallerThanOrEqualTo(PINCH, amount)) {
-                IngredientContainer partialContainer = new IngredientContainer(container.getContent(), container.getContainerUnit());
-                partialContainer.getContent().reduceAmount(amount);
-                if (canAddContainer(partialContainer)) {
-                    containers.add(partialContainer);
-                    container.getContent().reduceAmount(amount);
+                container.getContent().bringBackToStandardTemperature();
+                AlchemicIngredient PartialIngredient = new AlchemicIngredient(container.getContent().getFullName(),container.getContent().getTemperature(), container.getContent().getState() , (container.getContent().getQuantity().convertTo(DROP) - amount);
+                AlchemicIngredient labIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), amount);
+                IngredientContainer partialContainer = new IngredientContainer(PartialIngredient, container.getContainerUnit());
+                IngredientContainer labContainer = new IngredientContainer(labIngredient, container.getContainerUnit());
+                if (canAddContainer(labContainer)) {
+                    containers.add(labContainer);
                 } else {
                     throw new IllegalArgumentException("Not enough space to add container");
                 }
@@ -195,7 +199,6 @@ public class Laboratory {
                 if (container.getContent().getQuantity().isSmallerThan(DROP, amount) < amount && amount >= 0) {
                     throw new IllegalArgumentException("Not enough ingredient to remove");
                 }
-                container.getContent().reduceAmount((amount);
                 if (container.getContent().getQuantity().isEqualTo(new Quantity(0, DROP)){
                     ingredient = new AlchemicIngredient(ingredient.getFullName(), ingredient.getTemperature(), ingredient.getState(), container.getContent().getQuantity().getUnit().convertTo(DROP,50400L) - amount );
                     containers.remove(container);
