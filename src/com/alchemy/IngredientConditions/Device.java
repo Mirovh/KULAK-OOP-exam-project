@@ -1,5 +1,8 @@
-package com.alchemy;
+package com.alchemy.IngredientConditions;
 
+import com.alchemy.AlchemicIngredient;
+import com.alchemy.IngredientContainer;
+import com.alchemy.Laboratory;
 import com.alchemy.quantity.FluidUnit;
 import com.alchemy.quantity.PowderUnit;
 import com.alchemy.quantity.Quantity;
@@ -63,7 +66,7 @@ public abstract class Device {
         container.destroy();
     }
 
-    protected void react() throws NotInLaboratoryException {
+    public void react() throws NotInLaboratoryException {
     }
 
     /**********************************************************

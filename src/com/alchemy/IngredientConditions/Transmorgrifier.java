@@ -1,6 +1,5 @@
 package com.alchemy.IngredientConditions;
 
-import com.alchemy.Device;
 import com.alchemy.IngredientContainer;
 
 /**

@@ -1,8 +1,5 @@
 package com.alchemy;
-import com.alchemy.IngredientConditions.CoolingBox;
-import com.alchemy.IngredientConditions.Kettle;
-import com.alchemy.IngredientConditions.Oven;
-import com.alchemy.IngredientConditions.Temperature;
+import com.alchemy.IngredientConditions.*;
 import com.alchemy.quantity.Quantity;
 import com.alchemy.recipes.Recipe;
 import com.alchemy.recipes.Recipe.*;
@@ -79,14 +76,14 @@ public class Laboratory {
         for (IngredientContainer container : containers) {
             if (container.getContent().getQuantity().isFluidUnit()) {
                 contents.append(container.getContainerUnit().convertTo(DROP, 50400L));
-                        .append(" drops of ")
-                        .append(container.getContent().getBasicName())
-                        .append(", ");
+                        contents.append(" drops of ");
+                        contents.append(container.getContent().getBasicName());
+                        contents.append(", ");
             }else{
                 contents.append(container.getContainerUnit().convertTo(PINCH, 50400L));
-                        .append(" drops of ")
-                        .append(container.getContent().getBasicName())
-                        .append(", ");
+                        contents.append(" pinches of ");
+                        contents.append(container.getContent().getBasicName());
+                        contents.append(", ");
             }
         }
         if (!contents.isEmpty()) {
@@ -154,8 +151,14 @@ public class Laboratory {
     public void addContainer(IngredientContainer container, Long amount) throws IngredientName.IllegalNameException {
         if (container.getContent().getQuantity().isFluidUnit()) {
             if (container.getContent() != null && container.getContent().getQuantity().isSmallerThanOrEqualTo(DROP, amount)) {
-                container.getContent().bringBackToStandardTemperature();
-                AlchemicIngredient PartialIngredient = new AlchemicIngredient(container.getContent().getFullName(),container.getContent().getTemperature(), container.getContent().getState() , (container.getContent().getQuantity().convertTo(DROP) - amount);
+                try {
+                    bringBackToStandardTemperature(container.getContent());
+                } catch (Device.DeviceFullException e) {
+                    throw new RuntimeException(e);
+                } catch (LaboratoryMissingDeviceException e) {
+                    throw new RuntimeException(e);
+                }
+                AlchemicIngredient PartialIngredient = new AlchemicIngredient(container.getContent().getFullName(),container.getContent().getTemperature(), container.getContent().getState() , (container.getContent().getQuantity().convertToFluidUnit(DROP) - amount));
                 AlchemicIngredient labIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), amount);
                 IngredientContainer partialContainer = new IngredientContainer(PartialIngredient, container.getContainerUnit());
                 IngredientContainer labContainer = new IngredientContainer(labIngredient, container.getContainerUnit());
@@ -167,8 +170,12 @@ public class Laboratory {
             }
         }else {
             if (container.getContent() != null && container.getContent().getQuantity().isSmallerThanOrEqualTo(PINCH, amount)) {
-                container.getContent().bringBackToStandardTemperature();
-                AlchemicIngredient PartialIngredient = new AlchemicIngredient(container.getContent().getFullName(),container.getContent().getTemperature(), container.getContent().getState() , (container.getContent().getQuantity().convertTo(DROP) - amount);
+                try {
+                    bringBackToStandardTemperature(container.getContent());
+                } catch (Device.DeviceFullException | LaboratoryMissingDeviceException e) {
+                    throw new RuntimeException(e);
+                }
+                AlchemicIngredient PartialIngredient = new AlchemicIngredient(container.getContent().getFullName(),container.getContent().getTemperature(), container.getContent().getState() , (container.getContent().getQuantity().convertToFluidUnit(DROP) - amount));
                 AlchemicIngredient labIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), amount);
                 IngredientContainer partialContainer = new IngredientContainer(PartialIngredient, container.getContainerUnit());
                 IngredientContainer labContainer = new IngredientContainer(labIngredient, container.getContainerUnit());
@@ -196,10 +203,10 @@ public class Laboratory {
         for (IngredientContainer container : containers) {
             if (container.getContent().equals(ingredient)) {
                 if (container.getContent().getQuantity().isFluidUnit()) {
-                if (container.getContent().getQuantity().isSmallerThan(DROP, amount) < amount && amount >= 0) {
+                if (container.getContent().getQuantity().isSmallerThan(DROP, amount) && amount >= 0) {
                     throw new IllegalArgumentException("Not enough ingredient to remove");
                 }
-                if (container.getContent().getQuantity().isEqualTo(new Quantity(0, DROP)){
+                if (container.getContent().getQuantity().isEqualTo(new Quantity(0, DROP))){
                     ingredient = new AlchemicIngredient(ingredient.getFullName(), ingredient.getTemperature(), ingredient.getState(), container.getContent().getQuantity().getUnit().convertTo(DROP,50400L) - amount );
                     containers.remove(container);
                 }
@@ -501,7 +508,7 @@ public class Laboratory {
                 for(AlchemicIngredient ingredient: usedIngredients){
                     IngredientContainer labContainer = null;
                     try {
-                        bringBackToStandardTemperature(ingredient);
+                       ingredient = bringBackToStandardTemperature(ingredient);
                     } catch (Device.DeviceFullException e) {
                         throw new RuntimeException(e);
                     }

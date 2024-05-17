@@ -1,9 +1,7 @@
 import com.alchemy.*;
 import com.alchemy.IngredientConditions.*;
 import com.alchemy.quantity.FluidUnit;
-import com.alchemy.quantity.PowderUnit;
 import com.alchemy.quantity.Quantity;
-import com.alchemy.quantity.Unit;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
