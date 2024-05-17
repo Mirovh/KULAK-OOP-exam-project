@@ -1,6 +1,10 @@
 package com.alchemy.quantity;
 
+<<<<<<< Updated upstream
 import be.kuleuven.cs.som.annotate.*;
+=======
+import be.kuleuven.cs.som.annotate.Basic;
+>>>>>>> Stashed changes
 
 /**
  * Represents a quantity with a specific amount and unit.
@@ -217,12 +221,13 @@ public class Quantity {
      *
      * @param unit the unit to compare with
      *             | unit != null
+     * @param amount the amount of the unit to compare with
      * @return true if this quantity is greater, false otherwise
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
     @Basic
-    public boolean isGreaterThan(Unit unit) {
-        return this.isGreaterThan(new Quantity(1L, unit));
+    public boolean isGreaterThan(Unit unit, long amount) {
+        return this.isGreaterThan(new Quantity(amount, unit));
     }
 
     /**
@@ -241,14 +246,20 @@ public class Quantity {
     /**
      * Checks if this quantity is smaller than (one of) the specified unit.
      *
+<<<<<<< Updated upstream
      * @param unit the unit to compare with
      *             | unit != null
+=======
+     * @param unit   the unit to compare with
+     *               | unit != null
+     * @param amount the amount of the unit to compare with
+>>>>>>> Stashed changes
      * @return true if this quantity is smaller, false otherwise
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
     @Basic
-    public boolean isSmallerThan(Unit unit) {
-        return this.isSmallerThan(new Quantity(1L, unit));
+    public boolean isSmallerThan(Unit unit, long amount) {
+        return this.isSmallerThan(new Quantity(amount, unit));
     }
 
     /**
@@ -269,12 +280,13 @@ public class Quantity {
      *
      * @param unit the unit to compare with
      *             | unit != null
+     * @param amount the amount of the unit to compare with
      * @return true if this quantity is equal, false otherwise
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
     @Basic
-    public boolean isEqualTo(Unit unit) {
-        return this.isEqualTo(new Quantity(1L, unit));
+    public boolean isEqualTo(Unit unit, long amount) {
+        return this.isEqualTo(new Quantity(amount, unit));
     }
 
     /**
@@ -295,12 +307,13 @@ public class Quantity {
      *
      * @param unit the unit to compare with
      *             | unit != null
+     * @param amount the amount of the unit to compare with
      * @return true if this quantity is greater than or equal, false otherwise
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
     @Basic
-    public boolean isGreaterThanOrEqualTo(Unit unit) {
-        return this.isGreaterThanOrEqualTo(new Quantity(1L, unit));
+    public boolean isGreaterThanOrEqualTo(Unit unit, long amount) {
+        return this.isGreaterThanOrEqualTo(new Quantity(amount, unit));
     }
 
     /**
@@ -319,14 +332,20 @@ public class Quantity {
     /**
      * Checks if this quantity is smaller than or equal to (one of) the specified unit.
      *
+<<<<<<< Updated upstream
      * @param unit the unit to compare with
      *             | unit != null
+=======
+     * @param unit   the unit to compare with
+     *               | unit != null
+     * @param amount the amount of the unit to compare with
+>>>>>>> Stashed changes
      * @return true if this quantity is smaller than or equal, false otherwise
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
     @Basic
-    public boolean isSmallerThanOrEqualTo(Unit unit) {
-        return this.isSmallerThanOrEqualTo(new Quantity(1L, unit));
+    public boolean isSmallerThanOrEqualTo(Unit unit, long amount) {
+        return this.isSmallerThanOrEqualTo(new Quantity(amount, unit));
     }
 
 }
