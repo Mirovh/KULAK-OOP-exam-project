@@ -4,8 +4,15 @@ import be.kuleuven.cs.som.annotate.*;
 
 /**
  * Represents a quantity with a specific amount and unit.
+ * Nominally programmed.
+ *
  * @invar The amount of the quantity is always non-negative.
  * @invar The unit of the quantity is always non-null.
+ *
+ * @author MiroVanHoef
+ * @author BenDeMets
+ * @author SimonVandeputte
+ * @version 1.0
  */
 public class Quantity {
     /**

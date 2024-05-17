@@ -6,7 +6,14 @@ import java.util.List;
 
 /**
  * Represents a collection of recipes.
+ * Defensively programmed.
+ *
  * @invar Each recipe in a recipe book is non-null.
+ *
+ * @author MiroVanHoef
+ * @author BenDeMets
+ * @author SimonVandeputte
+ * @version 1.0
  */
 public class RecipeBook {
     private List<Recipe> recipes;
@@ -48,6 +55,9 @@ public class RecipeBook {
      *      | new.getRecipes().get(new.getRecipes().size() - 1) == recipe
      */
     public void addRecipe(Recipe recipe) {
+        if (recipe == null) {
+            throw new IllegalArgumentException("The recipe cannot be null.");
+        }
         recipes.add(recipe);
     }
 
@@ -56,10 +66,14 @@ public class RecipeBook {
      *
      * @param recipe the recipe to remove
      *               | recipe != null
+     *               | getRecipes().contains(recipe)
      * @post The recipe is removed from the RecipeBook.
      *       | !new.getRecipes().contains(recipe)
      */
     public void removeRecipe(Recipe recipe) {
+        if (recipe == null) {
+            throw new IllegalArgumentException("The recipe cannot be null.");
+        }
         recipes.remove(recipe);
     }
 
@@ -72,6 +86,9 @@ public class RecipeBook {
      */
     @Basic
     public Recipe getRecipe(int index) {
+        if (index < 0 || index >= recipes.size()) {
+            throw new IllegalArgumentException("The index is out of bounds.");
+        }
         return recipes.get(index);
     }
 

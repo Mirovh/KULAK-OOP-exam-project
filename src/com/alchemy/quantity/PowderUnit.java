@@ -1,7 +1,6 @@
 package com.alchemy.quantity;
 
-import be.kuleuven.cs.som.annotate.Basic;
-import be.kuleuven.cs.som.annotate.Raw;
+import be.kuleuven.cs.som.annotate.*;
 
 /**
  * Represents the units for powder measurements.
@@ -9,6 +8,11 @@ import be.kuleuven.cs.som.annotate.Raw;
  * @note Always initialize the base unit first.
  * @note DO NOT initialize a unit with a comparison to itself or a unit that has not been initialized yet.
  * @note The smallest unit should be the first and the largest unit should be the last in the enum.
+ *
+ * @author MiroVanHoef
+ * @author BenDeMets
+ * @author SimonVandeputte
+ * @version 1.0
  */
 public enum PowderUnit implements Unit {
     /**
