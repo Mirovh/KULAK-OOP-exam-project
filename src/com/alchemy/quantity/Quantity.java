@@ -1,7 +1,5 @@
 package com.alchemy.quantity;
 
-import be.kuleuven.cs.som.annotate.*;
-
 /**
  * Represents a quantity with a specific amount and unit.
  * Nominally programmed.
@@ -74,6 +72,19 @@ public class Quantity {
         this.amount = this.unit.convertTo(unit, this.amount);
         this.unit = unit;
         return amount;
+    }
+
+    /**
+     * Converts this quantity to the base unit.
+     *
+     * @post The amount of the quantity is converted to the base unit.
+     *      | this.amount = this.unit.convertToBase(this.amount)
+     * @post The unit of the quantity is set to the base unit.
+     *     | this.unit = this.unit.getBaseUnit()
+     */
+    public void convertToBase() {
+        this.amount = this.unit.convertToBase(this.amount);
+        this.unit = this.unit.getBaseUnit();
     }
 
     /**
@@ -241,8 +252,9 @@ public class Quantity {
     /**
      * Checks if this quantity is smaller than (one of) the specified unit.
      *
-     * @param unit the unit to compare with
-     *             | unit != null
+     * @param unit   the unit to compare with
+     *               | unit != null
+     * @param amount
      * @return true if this quantity is smaller, false otherwise
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
@@ -319,14 +331,24 @@ public class Quantity {
     /**
      * Checks if this quantity is smaller than or equal to (one of) the specified unit.
      *
-     * @param unit the unit to compare with
-     *             | unit != null
+     * @param unit   the unit to compare with
+     *               | unit != null
+     * @param amount
      * @return true if this quantity is smaller than or equal, false otherwise
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
     @Basic
     public boolean isSmallerThanOrEqualTo(Unit unit) {
         return this.isSmallerThanOrEqualTo(new Quantity(1L, unit));
+    }
+
+    /**
+     * Returns a string representation of this quantity.
+     *
+     * @return a string representation of this quantity
+     */
+    public String toString() {
+        return amount + " " + unit.getName();
     }
 
 }

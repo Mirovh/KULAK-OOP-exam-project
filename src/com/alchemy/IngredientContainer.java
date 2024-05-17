@@ -2,6 +2,7 @@ package com.alchemy;
 
 import com.alchemy.quantity.FluidUnit;
 import com.alchemy.quantity.PowderUnit;
+import com.alchemy.quantity.Quantity;
 import com.alchemy.quantity.Unit;
 /**********************************************************
  * Represents a container for alchemic ingredients.
@@ -64,7 +65,7 @@ public class IngredientContainer {
         if (ingredient == null) {
             throw new IllegalArgumentException("The ingredient cannot be null.");
         }
-        return ingredient.getQuantity().isSmallerThanOrEqualTo(this.containerUnit);
+        return ingredient.getQuantity().isSmallerThanOrEqualTo(this.containerUnit, amount);
     }
 
     /**
@@ -99,6 +100,15 @@ public class IngredientContainer {
             throw new IllegalArgumentException("The ingredient does not fit in the container.");
         }
         this.content = content;
+    }
+
+    /**
+     * Returns a string representation of this IngredientContainer.
+     *
+     * @return a string representation of this IngredientContainer
+     */
+    public String toString() {
+        return content.getQuantity().toString() + " of " + content.getBasicName();
     }
 
     /**

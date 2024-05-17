@@ -1,13 +1,11 @@
 package com.alchemy.IngredientConditions;
 import com.alchemy.*;
-import com.alchemy.IngredientConditions.Temperature;
 import com.alchemy.quantity.FluidUnit;
 import com.alchemy.quantity.PowderUnit;
 import com.alchemy.quantity.Quantity;
 import com.alchemy.quantity.Unit;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**********************************************************
  * A class representing a kettle, used to mix multiple ingredients

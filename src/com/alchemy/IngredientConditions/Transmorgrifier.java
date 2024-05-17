@@ -1,6 +1,5 @@
 package com.alchemy.IngredientConditions;
 
-import com.alchemy.Device;
 import com.alchemy.IngredientContainer;
 import com.alchemy.quantity.FluidUnit;
 import com.alchemy.quantity.PowderUnit;
