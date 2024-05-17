@@ -2,6 +2,8 @@ package com.alchemy.IngredientConditions;
 
 import com.alchemy.Device;
 import com.alchemy.IngredientContainer;
+import com.alchemy.quantity.FluidUnit;
+import com.alchemy.quantity.PowderUnit;
 
 /**
  * A class representing a transmorgrifier, used to change the state of an ingredient
@@ -22,12 +24,17 @@ public class Transmorgrifier extends Device {
     /**
      * method to start the reaction
      * @throws NotInLaboratoryException if the transmorgrifier isn't in a Laboratory
-     * //TODO: quantity conversion
      */
     @Override
     public void react() throws NotInLaboratoryException {
         if(!isInLaboratory()){throw new NotInLaboratoryException("Transmorgrifier not in a Laboratory");}
         ingredient.getState().switchState();
+        if(ingredient.getState().isSolid()) {
+            ingredient.getQuantity().convertToPowderUnit(PowderUnit.PINCH);
+        }
+        else{
+            ingredient.getQuantity().convertToFluidUnit(FluidUnit.DROP);
+        }
     }
 
     /**

@@ -5,6 +5,7 @@ import java.lang.Math;
  * Temperature - total programming
  *
  * class to keep track of temperatures, with methods to heat and cool.
+ * @invar hotness and coldness can't both differ from 0 at the same time
  *
  * @author MiroVanHoef
  * @author BenDeMets
@@ -15,8 +16,17 @@ public class Temperature {
     /**********************************************************
      * Variables
      **********************************************************/
+    /**
+     * Variable referencing the hotness of the temperature
+     */
     private Long hotness;
+    /**
+     * Variable referencing the coldness of the temperature
+     */
     private Long coldness;
+    /**
+     * Variable referencing the limit of the hotness and coldness
+     */
     static Long temperatureLimit = 10000L;
     /**********************************************************
      * Constructors

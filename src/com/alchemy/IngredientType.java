@@ -1,10 +1,12 @@
 package com.alchemy;
 
+import be.kuleuven.cs.som.annotate.Raw;
 import com.alchemy.IngredientConditions.Temperature;
 import com.alchemy.IngredientConditions.IngredientState;
 
 /**
  * A class representing a type for Ingredient, which stores some final variables for an ingredient
+ * @invar none of the variables in IngredientType are null
  *
  * @author MiroVanHoef
  * @author BenDeMets
@@ -37,6 +39,7 @@ public class IngredientType {
      * @param standardState the standardState of the IngredientType
      * @throws IngredientName.IllegalNameException is thrown if the name is invalid
      */
+    @Raw
     public IngredientType(String name, Temperature standardTemperature, IngredientState standardState) throws IngredientName.IllegalNameException {
         this.standardTemperature = standardTemperature;
         this.ingredientName = new IngredientName(name);
@@ -49,6 +52,7 @@ public class IngredientType {
      * @param standardState the standardState of the IngredientType
      * @throws IngredientName.IllegalNameException is thrown if the name is invalid
      */
+    @Raw
     public IngredientType(IngredientName name, Temperature standardTemperature, IngredientState standardState) throws IngredientName.IllegalNameException {
         this.standardTemperature = standardTemperature;
         this.ingredientName = name;
@@ -58,6 +62,7 @@ public class IngredientType {
     /**
      * this is the standardIngredient, which is Water with a standardTemperature of [0,20] and a standard liquid state
      */
+    @Raw
     public IngredientType() {
         try {
             ingredientName = new IngredientName("Water");

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 /**
  * A class representing a certain amount of a substance used to create potions and such.
+ * @invar the name, temperature, type, state and quantity aren't null
  *
  * @author MiroVanHoef
  * @author BenDeMets
@@ -20,20 +21,31 @@ public class AlchemicIngredient {
      * Variables
      **********************************************************/
 
+    /**
+     * Variable referencing the name of the ingredient
+     */
     private final IngredientName ingredientName;
-
+    /**
+     * Variable referencing the Temperature of the ingredient
+     */
     private Temperature temperature;
-
+    /**
+     * Variable referencing the State of the ingredient
+     */
     private IngredientState state;
-
+    /**
+     * Variable referencing the IngredientType of the ingredient
+     */
     private final IngredientType standardType;
-
+    /**
+     * Variable referencing the Quantity of the ingredient
+     */
     private final Quantity quantity;
 
 
 
     /**********************************************************
-     * Constructors TODO: Implement quantity to constructor of ALchemicIngredient
+     * Constructors
      **********************************************************/
 
     /**
@@ -125,6 +137,7 @@ public class AlchemicIngredient {
      * @param standardType the type of the ingredient
      * @param quantity The quantity of the ingredient
      */
+    @Raw
     public AlchemicIngredient(IngredientType standardType, Quantity quantity) {
         this.standardType = standardType;
         this.ingredientName = standardType.getName();
@@ -137,6 +150,7 @@ public class AlchemicIngredient {
      * @param standardType the type of the ingredient
      * @param quantity The amount of the ingredient in the smallest unit of the state it is in.
      */
+    @Raw
     public AlchemicIngredient(IngredientType standardType, long quantity) {
         this.standardType = standardType;
         this.ingredientName = standardType.getName();
@@ -154,6 +168,7 @@ public class AlchemicIngredient {
      * Create a given amount of standardType ingredient
      * @param quantity the amount of ingredient made
      */
+    @Raw
     public AlchemicIngredient(Quantity quantity) {
         this(new IngredientType(), quantity);
     }
@@ -161,6 +176,7 @@ public class AlchemicIngredient {
      * Create a given amount of standardType ingredient
      * @param quantity the amount of ingredient made in the smallest unit of the state it is in
      */
+    @Raw
     public AlchemicIngredient(Long quantity) {
         this(new IngredientType(), quantity);
     }
@@ -168,11 +184,7 @@ public class AlchemicIngredient {
     /**********************************************************
      * Getters and Setters
      **********************************************************/
-
-    public void setName(String name) throws IngredientName.IllegalNameException {
-        this.ingredientName.setName(name);
-    }
-
+    
     public void setSpecialName(String specialName) throws IngredientName.IllegalSpecialNameException {
         this.ingredientName.setSpecialName(specialName);
     }
@@ -190,7 +202,7 @@ public class AlchemicIngredient {
         return ingredientName.getFullName();
     }
 
-    public Quantity getQuantity(){return quantity;}//TODO: Change
+    public Quantity getQuantity(){return quantity;}
 
     public Temperature getTemperature(){return temperature;}
     @Basic
@@ -233,7 +245,4 @@ public class AlchemicIngredient {
             }
     }
 
-    /**********************************************************
-     * IngredientType - total programming
-     **********************************************************/
 }

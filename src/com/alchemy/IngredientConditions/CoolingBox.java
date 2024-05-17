@@ -16,7 +16,7 @@ public class CoolingBox extends Device {
      * Variables
      **********************************************************/
     /**
-     *
+     * Variable referencing the Temperature of the coolingBox
      */
     private Temperature temperature;
     /**********************************************************

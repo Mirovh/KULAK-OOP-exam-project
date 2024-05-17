@@ -17,8 +17,13 @@ public abstract class Device {
     /**********************************************************
      * Variables
      **********************************************************/
+    /**
+     * Variable referencing the ingredient inside the device
+     */
     protected AlchemicIngredient ingredient;
-
+    /**
+     * Variable referencing the laboratory the device is in
+     */
     private Laboratory laboratory;
 
     /**********************************************************
@@ -92,6 +97,9 @@ public abstract class Device {
         }
     }
 
+    /**
+     * Exception for when the device isn't in a laboratory while trying to be used
+     */
     public static class NotInLaboratoryException extends Exception {
         public NotInLaboratoryException(String e){super(e);}
     }
