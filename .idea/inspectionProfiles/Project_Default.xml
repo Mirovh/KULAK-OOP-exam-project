@@ -3,7 +3,7 @@
     <option name="myName" value="Project Default" />
     <inspection_tool class="DanglingJavadoc" enabled="false" level="INFORMATION" enabled_by_default="false" />
     <inspection_tool class="JavadocDeclaration" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="ADDITIONAL_TAGS" value="pre,post,invar" />
+      <option name="ADDITIONAL_TAGS" value="pre,post,invar,effect" />
     </inspection_tool>
   </profile>
 </component>
