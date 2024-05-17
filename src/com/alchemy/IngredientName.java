@@ -8,7 +8,6 @@ import java.util.List;
 
 /**
  * A class representing the name of an alchemic ingredient.
- *
  * Defensively programmed.
  *
  * @author MiroVanHoef
@@ -18,16 +17,53 @@ import java.util.List;
  */
 public class IngredientName {
 
+    /**********************************************************
+     * Constants
+     **********************************************************/
+
+    /**
+     * The regex used to check if a name is a valid ingredient part name.
+     */
     private final static String ingredientPartRegex = "^[a-zA-Z'\\(\\)\\s]*$";
+
+    /**
+     * The words that are not allowed in an ingredient part name. (eg "mixed" or "with")
+     */
     private final static String[] blacklistedWordsIngredientPart = {"mixed", "with","Heated","Cooled"};
+
+
+
+    /**********************************************************
+     * Variables
+     **********************************************************/
+
+    /**
+     * The words that are not allowed in the name. (eg pre- and suffixes)
+     */
     private String[] blacklistedWords = {};
 
+    /**
+     * The names of the parts of the ingredient.
+     */
     private String[] nameParts = new String[0];
+
+    /**
+     * The prefixes of the name of the ingredient.
+     */
     private List<String> prefixes = new ArrayList<>();
+
+    /**
+     * The suffixes of the name of the ingredient.
+     */
     private List<String> suffixes = new ArrayList<>();
+
+    /**
+     * The special name of the ingredient.
+     */
     private String specialName = null;
 
-    
+
+
     /**********************************************************
      * Constructors
      **********************************************************/
@@ -192,6 +228,7 @@ public class IngredientName {
      *
      * @return The prefixes of the name of the ingredient.
      */
+    @Basic
     public List<String> getPrefixes() {
         return prefixes;
     }
@@ -201,12 +238,22 @@ public class IngredientName {
      *
      * @return The suffixes of the name of the ingredient.
      */
+    @Basic
     public List<String> getSuffixes() {
         return suffixes;
     }
 
-    public ArrayList<String> getPartNames(){return new ArrayList<>(Arrays.asList(nameParts));
+    /**
+     * Get all parts of the name of the ingredient.
+     *
+     * @return The parts of the name of the ingredient.
+     */
+    @Basic
+    public ArrayList<String> getPartNames() {
+        return new ArrayList<>(Arrays.asList(nameParts));
     }
+
+
 
     /**********************************************************
      * Helper methods
@@ -218,6 +265,7 @@ public class IngredientName {
      * @param name The name to add pre- and suffixes to.
      * @return The name with pre- and suffixes added.
      */
+    @Basic
     private String addPreAndSuffixes(String name) {
         StringBuilder nameBuilder = new StringBuilder(name);
 
@@ -231,6 +279,7 @@ public class IngredientName {
 
         return nameBuilder.toString();
     }
+
 
 
     /**********************************************************
@@ -247,6 +296,7 @@ public class IngredientName {
      * @param name The mixture name to be checked.
      * @return True if the mixture name is valid, false otherwise.
      */
+    @Basic
     private boolean isValidMixtureName(String name) {
         // the name mustn't contain any blacklisted words
         for (String word : blacklistedWords) {
@@ -288,6 +338,7 @@ public class IngredientName {
      * @param name The ingredient part name to be checked.
      * @return True if the ingredient part name is valid, false otherwise.
      */
+    @Basic
     private boolean isValidIngredientPartName(String name) {
         // the name mustn't contain any blacklisted words
         for (String word : blacklistedWordsIngredientPart) {
@@ -316,6 +367,7 @@ public class IngredientName {
         }
         return true;
     }
+
 
 
     /**********************************************************
