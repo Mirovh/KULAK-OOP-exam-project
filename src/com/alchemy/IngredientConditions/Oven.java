@@ -44,6 +44,18 @@ public class Oven extends Device {
         temperature.cool(coldness);
         temperature.heat(hotness);
     }
+    /**
+     * method to set the temperature of the oven
+     * @param temperature the temperature the oven will be set to
+     */
+    public void setTemperature(Temperature temperature){
+        Long coldness = temperature.getColdness();
+        Long hotness = temperature.getHotness();
+        this.temperature.heat(temperature.getColdness());
+        this.temperature.cool(temperature.getHotness());
+        temperature.cool(coldness);
+        temperature.heat(hotness);
+    }
 
     /**********************************************************
      * Mutators
@@ -93,5 +105,13 @@ public class Oven extends Device {
                 ingredientTemperature.heat(ingredientColdness-coldness+hotness-ingredientHotness + randomDeviation);
             }
         }
+    }
+    /**
+     * method to higher ovens own temperature by 10 degrees
+     * @effect the temperature of oven will be heated by 10 degrees
+     */
+
+    public void heatOwnTemperature(){
+        temperature.heat(10L);
     }
 }

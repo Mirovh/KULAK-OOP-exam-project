@@ -48,14 +48,27 @@ public class CoolingBox extends Device {
      **********************************************************/
 
     /**
-     * method to set the temperature of the oven
+     * method to set the temperature of the coolingBox
      * @pre either hotness or coldness is 0
      * @param coldness the coldness the oven will be set to
-     * @param hotness the hotness the oven will be set to
+     * @param hotness the hotness the coolingBox will be set to
      */
     public void setTemperature(Long coldness,Long hotness){
         temperature.heat(temperature.getColdness());
         temperature.cool(temperature.getHotness());
+        temperature.cool(coldness);
+        temperature.heat(hotness);
+    }
+
+    /**
+     * method to set the temperature of the coolingBox
+     * @param temperature the temperature the coolinBox will be set to
+     */
+    public void setTemperature(Temperature temperature){
+        Long coldness = temperature.getColdness();
+        Long hotness = temperature.getHotness();
+        this.temperature.heat(temperature.getColdness());
+        this.temperature.cool(temperature.getHotness());
         temperature.cool(coldness);
         temperature.heat(hotness);
     }
@@ -103,5 +116,12 @@ public class CoolingBox extends Device {
 
             }
         }
+    }
+    /**
+     * method to cool coolingboxes own temperature by 10 degrees
+     * @effect the temperature of coolinbox will be lowered by 10 degrees
+     */
+    public void lowerOwnTemp(){
+        temperature.cool(10L);
     }
 }
