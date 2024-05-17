@@ -25,34 +25,38 @@ public class Laboratory {
         }
     }
 
-    /**
-     * getter for the amount of total space in the lab
-     * @return laboratorySpace The amount of total space in the laboratory
-     */
-    public int getSpace(){          //TODO: add method to calculate total space in lab
-        return 0;                   //temp
+
+    public double getFilledSpace() {
+        double FilledSpace = 0;
+
+        for (AlchemicIngredient ingredient : ingredients) {
+            if (ingredient.getQuantity().isFluidUnit()){
+                double amountOfFluid = ingredient.getQuantity().getAmount();
+                FilledSpace += amountOfFluid;
+            } else if (ingredient.getQuantity().isPowderUnit()) {
+                double amountOfPowder = ingredient.getQuantity().getAmount();
+                double powderInFluidUnit = amountOfPowder * 1.33;                           //hardcoded
+                FilledSpace += powderInFluidUnit;
+            }
+        }
+        return FilledSpace;
     }
+
 
     /**
      * Calculates and returns the free space available in the storeroom.
      *
      * @return the free space in the storeroom
      */
-    public int getFreeSpace() {
-        int usedSpace = 0;
-        for (AlchemicIngredient Ingredients : ingredients) {
-            usedSpace += Ingredients.getAmount();
-        }
-        return Storeroom.getSpace - usedSpace;
+    public Double getFreeSpace() {
+        Double FilledSpace = this.getFilledSpace();
+        Double Space = this.getSpace();
+        return Space - FilledSpace;
     }
 
-    /**
-     * Calculates and returns the free space available in the storeroom.
-     *
-     * @return the filled space in the storeroom
-     */
-    public int getFilledSpace(){
-        return Storeroom.getSpace - Laboratory.getFreeSpace();
+    public Double getSpace(){
+        int AmountOfStoreroom = this.getStoreroom();
+        return (Double) (double) (AmountOfStoreroom * 50400);                         //hardcoded
     }
 
     /**
@@ -65,12 +69,12 @@ public class Laboratory {
     public String getContents() {
         StringBuilder contents = new StringBuilder("The lab contains: ");
         for (AlchemicIngredient ingredient : ingredients) {
-            contents.append(ingredient.getAmount())
+            contents.append(ingredient.getQuantity().getAmount())
                     .append(" drops of ")
                     .append(ingredient.getBasicName())
                     .append(", ");
         }
-        if (contents.length() > 0) {
+        if (!contents.isEmpty()) {
             contents.setLength(contents.length() - 2);
         }
         return contents.toString();
@@ -87,7 +91,7 @@ public class Laboratory {
         String ingredientString = "";
         for (AlchemicIngredient Ingredients : ingredients) {
             if (Ingredients.equals(ingredient)) {
-                ingredientString = Ingredients.getAmount() + " drops of " + Ingredients.getBasicName();
+                ingredientString = Ingredients.getQuantity().getAmount() + " drops of " + Ingredients.getBasicName();
                 break;
             }
         }
@@ -102,7 +106,7 @@ public class Laboratory {
      *         false otherwise.
      */
     public boolean canAddContainer(IngredientContainer container){
-        if(Laboratory.getFreeSpace() <= container.getContent().getAmount);{
+        if(Laboratory.getFreeSpace() <= container.getContent().getQuantity().getAmount());{
             return true;
         } else{
             return false;
@@ -131,13 +135,13 @@ public class Laboratory {
      * @throws IllegalArgumentException if the laboratory does not have enough free space to accommodate the specified amount of the ingredient in the container,
      *                                  or if the container does not have enough of the ingredient.
      */
-    public void addContainer(IngredientContainer container, int amount){                    //TODO: addReduceQuantity in containers
-        if (container.getContent() != null && amount <= container.getContent().getAmount()) {
+    public void addContainer(IngredientContainer container, Long amount){                    //TODO: addReduceQuantity in containers
+        if (container.getContent() != null && amount <= container.getContent().getQuantity().getAmount()) {
             IngredientContainer partialContainer = new IngredientContainer(container.getContent(), container.getContainerUnit());
-            partialContainer.getContent().reduceQuantity(amount);
+            partialContainer.getContent().reduceAmount(amount);
             if (canAddContainer(partialContainer)){
-                ingredients.add(partialContainer);
-                container.getContent().reduceQuantity(amount);
+                ingredients.add(partialContainer.getContent());
+                container.getContent().reduceAmount(amount);
             } else{
                 throw new IllegalArgumentException("Not enough space to add container");
             }
@@ -158,11 +162,11 @@ public class Laboratory {
         AlchemicIngredient labIngredient = null;
         for (AlchemicIngredient ingredientInLab : ingredients) {
             if (ingredientInLab.equals(ingredient)) {
-                if (ingredientInLab.getAmount() < amount && amount >= 0) {
+                if (ingredientInLab.getQuantity().getAmount() < amount && amount >= 0) {
                     throw new IllegalArgumentException("Not enough ingredient to remove");
                 }
-                ingredientInLab.reduceQuantity(amount);
-                if (ingredientInLab.getAmount() == 0) {
+                ingredientInLab.reduceAmount((long) amount);
+                if (ingredientInLab.getQuantity().getAmount() == 0) {
                     ingredients.remove(ingredientInLab);
                 }
                 labIngredient = new AlchemicIngredient(ingredient.getFullName(), ingredient.getTemperature(), ingredient.getState(), amount);
@@ -172,8 +176,7 @@ public class Laboratory {
         if (labIngredient == null) {
             throw new IllegalArgumentException("Ingredient not found");
         }
-        IngredientContainer labContainer = new IngredientContainer(labIngredient, containerUnit);               //TODO: bij verwijderen van meerdere containers geen manier om deze bij te houden
-        return labContainer;
+        return new IngredientContainer(labIngredient, containerUnit);
     }
 
     /**
@@ -215,7 +218,7 @@ public class Laboratory {
      * @return true if the specified number of storerooms can be removed, false otherwise
      */
     public Boolean canRemoveStoreRoom(int storeroom){
-        return storeroom > Storeroom && storeroom > 0 && (Storeroom - storeroom).getSpace() >= Laboratory.getFilledSpace();
+        return storeroom > Storeroom && storeroom > 0 && (Storeroom - storeroom)* 50400 >= Laboratory.getFilledSpace();
     }
 
     /**

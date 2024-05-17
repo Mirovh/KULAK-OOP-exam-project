@@ -238,4 +238,10 @@ public class Quantity {
         return this.isSmallerThanOrEqualTo(new Quantity(1L, unit));
     }
 
+    public void setAmount(Long amount) {                                //TODO: temporary solution
+        this.amount = amount;
+    }
+    public Long getAmount() {
+        return this.amount;
+    }
 }
