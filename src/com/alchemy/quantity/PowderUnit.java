@@ -1,6 +1,7 @@
 package com.alchemy.quantity;
 
 import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Raw;
 
 /**
  * Represents the units for powder measurements.
@@ -27,12 +28,25 @@ public enum PowderUnit implements Unit {
     private final String name;
 
 
-
+    /**
+     * Initializes a new PowderUnit with the specified name.
+     *
+     * @param name The name of the unit
+     */
+    @Raw
     PowderUnit(String name) {
         this.name = name;
         this.conversionMap.put(this, 1L);
     }
 
+    /**
+     * Initializes a new PowderUnit with the specified name, and a conversion rate to another unit. (SPOON("spoon", 6L, PINCH) means that 6 PINCH is equal to 1 SPOON)
+     *
+     * @param name The name of the unit
+     * @param amount The conversion rate to the other unit
+     * @param unit The other unit to convert to
+     */
+    @Raw
     PowderUnit(String name, Long amount, PowderUnit unit) {
         this(name);
         this.conversionMap.put(unit, amount);

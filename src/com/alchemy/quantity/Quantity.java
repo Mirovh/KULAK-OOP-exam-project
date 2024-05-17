@@ -27,6 +27,7 @@ public class Quantity {
      * @post The amount and unit of the quantity are set to the specified values.
      * | this.amount = amount
      */
+    @Raw
     public Quantity(int amount, Unit unit) {
         this((long) amount, unit);
     }
@@ -42,6 +43,7 @@ public class Quantity {
      *          | this.amount = amount
      *          | this.unit = unit
      */
+    @Raw
     public Quantity(Long amount, Unit unit) {
         this.amount = amount;
         this.unit = unit;

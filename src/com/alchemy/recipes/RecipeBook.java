@@ -1,5 +1,7 @@
 package com.alchemy.recipes;
 
+import be.kuleuven.cs.som.annotate.*;
+
 import java.util.List;
 
 /**
@@ -31,6 +33,7 @@ public class RecipeBook {
      *
      * @return the recipes of this RecipeBook
      */
+    @Basic
     public List<Recipe> getRecipes() {
         return recipes;
     }
@@ -67,6 +70,7 @@ public class RecipeBook {
      *              | 0 <= index < recipes.size()
      * @return the recipe at the specified index
      */
+    @Basic
     public Recipe getRecipe(int index) {
         return recipes.get(index);
     }
