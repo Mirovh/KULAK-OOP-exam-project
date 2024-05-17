@@ -23,10 +23,14 @@ public class Kettle extends Device {
      **********************************************************/
     private ArrayList<AlchemicIngredient> ingredients;
 
-    static int pinchInSpoon = 6; //TODO: possibility to make this a static somewhere in UNIT?
-    static int dropInSpoon = 8;
-
     static Temperature targetTemp = new Temperature(0,20);
+
+    /**********************************************************
+     * Constants
+     **********************************************************/
+
+    static final int pinchInSpoon = Math.round(new Quantity(1, PowderUnit.PINCH).convertToPowderUnit(PowderUnit.SPOON));
+    static final int dropInSpoon = Math.round(new Quantity(1, FluidUnit.DROP).convertToFluidUnit(FluidUnit.SPOON));
 
     /**********************************************************
      * Constructors
