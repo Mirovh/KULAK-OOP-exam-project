@@ -7,6 +7,12 @@ import com.alchemy.AlchemicIngredient;
  * Represents a recipe for alchemic ingredients.
  * @invar The actions array always ends with ActionType.MIX.
  * @invar Every element of the ingredients array is non-null.
+ * defensively programmed
+ *
+ * @author MiroVanHoef
+ * @author BenDeMets
+ * @author SimonVandeputte
+ * @version 1.0
  */
 public class Recipe {
     /**

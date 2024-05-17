@@ -9,14 +9,15 @@ import com.alchemy.quantity.Unit;
 import java.util.ArrayList;
 import java.util.Objects;
 
-/**
- * A class representing an Oven, used to heat up an ingredient
+/**********************************************************
+ * A class representing a kettle, used to mix multiple ingredients
+ * defensively programmed
  *
  * @author MiroVanHoef
  * @author BenDeMets
  * @author SimonVandeputte
  * @version 1.0
- */
+**********************************************************/
 public class Kettle extends Device {
     /**********************************************************
      * Variables

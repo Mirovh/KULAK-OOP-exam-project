@@ -4,14 +4,15 @@ import com.alchemy.IngredientContainer;
 
 import java.util.Random;
 
-/**
+/**********************************************************
  * A class representing an Oven, used to heat up an ingredient
+ * defensively programmed
  *
  * @author MiroVanHoef
  * @author BenDeMets
  * @author SimonVandeputte
  * @version 1.0
- */
+**********************************************************/
 public class Oven extends Device {
     /**********************************************************
      * Variables

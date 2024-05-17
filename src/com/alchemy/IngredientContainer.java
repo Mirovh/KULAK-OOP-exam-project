@@ -3,11 +3,16 @@ package com.alchemy;
 import com.alchemy.quantity.FluidUnit;
 import com.alchemy.quantity.PowderUnit;
 import com.alchemy.quantity.Unit;
-
-/**
+/**********************************************************
  * Represents a container for alchemic ingredients.
  * @invar The containerUnit of the IngredientContainer is always non-null.
- */
+ * nominally programmed
+ *
+ * @author MiroVanHoef
+ * @author BenDeMets
+ * @author SimonVandeputte
+ * @version 1.0
+ **********************************************************/
 public class IngredientContainer {
     private AlchemicIngredient content;
     private final Unit containerUnit;

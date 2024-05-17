@@ -7,6 +7,7 @@ import com.alchemy.IngredientConditions.IngredientState;
 /**
  * A class representing a type for Ingredient, which stores some final variables for an ingredient
  * @invar none of the variables in IngredientType are null
+ * totally programmed
  *
  * @author MiroVanHoef
  * @author BenDeMets

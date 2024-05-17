@@ -4,6 +4,7 @@ import be.kuleuven.cs.som.annotate.Basic;
 
 /**********************************************************
  * Class made to define the states of the ingredient
+ * defensively programmed
  *
  * @author MiroVanHoef
  * @author BenDeMets

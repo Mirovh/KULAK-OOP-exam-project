@@ -5,14 +5,15 @@ import com.alchemy.IngredientContainer;
 import com.alchemy.quantity.FluidUnit;
 import com.alchemy.quantity.PowderUnit;
 
-/**
+/**********************************************************
  * A class representing a transmorgrifier, used to change the state of an ingredient
+ * defensively programmed
  *
  * @author MiroVanHoef
  * @author BenDeMets
  * @author SimonVandeputte
  * @version 1.0
- */
+**********************************************************/
 public class Transmorgrifier extends Device {
     /**********************************************************
      * Constructors

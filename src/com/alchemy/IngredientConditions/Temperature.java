@@ -1,17 +1,17 @@
 package com.alchemy.IngredientConditions;
 import java.util.ArrayList;
 import java.lang.Math;
-/**
- * Temperature - total programming
- *
+/**********************************************************
+ * Temperature
  * class to keep track of temperatures, with methods to heat and cool.
  * @invar hotness and coldness can't both differ from 0 at the same time
+ * totally programmed
  *
  * @author MiroVanHoef
  * @author BenDeMets
  * @author SimonVandeputte
  * @version 1.0
- */
+**********************************************************/
 public class Temperature {
     /**********************************************************
      * Variables

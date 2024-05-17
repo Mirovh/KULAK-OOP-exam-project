@@ -3,14 +3,15 @@ package com.alchemy.IngredientConditions;
 import com.alchemy.Device;
 import com.alchemy.IngredientContainer;
 
-/**
+/**********************************************************
  * A class representing a coolingbox, used to cool an ingredient
+ * defensively programmed
  *
  * @author MiroVanHoef
  * @author BenDeMets
  * @author SimonVandeputte
  * @version 1.0
- */
+**********************************************************/
 public class CoolingBox extends Device {
     /**********************************************************
      * Variables
@@ -62,7 +63,7 @@ public class CoolingBox extends Device {
 
     /**
      * method to set the temperature of the coolingBox
-     * @param temperature the temperature the coolinBox will be set to
+     * @param temperature the temperature the coolingBox will be set to
      */
     public void setTemperature(Temperature temperature){
         Long coldness = temperature.getColdness();
@@ -76,7 +77,11 @@ public class CoolingBox extends Device {
     /**********************************************************
      * Mutators
      **********************************************************/
-
+    /**
+     * method used to add an ingredient to the device
+     * @param container the container containing the ingredient that has to be added to the device
+     * @throws DeviceFullException if the device is full, deviceFullException is thrown.
+     */
     @Override
     public void addIngredient(IngredientContainer container) throws DeviceFullException{
         if (ingredient != null){
@@ -92,6 +97,9 @@ public class CoolingBox extends Device {
      * method to start the reaction
      * @effect the temperature of the content in the coolingbox will be cooled to the temperature of the coolingbox
      *if the ingredient is colder than the temperature of the coolingbox, nothing happens.
+     *  |if(!ingredientTemperature.isColderThan(temperature){
+     *  |ingredientTemperature = temperature
+     *  |}
      */
 
     @Override
@@ -108,12 +116,8 @@ public class CoolingBox extends Device {
             Long ingredientColdness = ingredientTemperature.getColdness();
             Long hotness = temperature.getHotness();
             Long coldness = temperature.getColdness();
-            if(ingredientHotness < hotness | ingredientColdness > coldness){
-                return;
-            }
-            else{
+            if(!ingredientTemperature.isColderThan(temperature)){
                 ingredientTemperature.cool(ingredientHotness-hotness+coldness-ingredientColdness);
-
             }
         }
     }
