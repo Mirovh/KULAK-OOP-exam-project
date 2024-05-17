@@ -1,4 +1,6 @@
 package com.alchemy.IngredientConditions;
+import be.kuleuven.cs.som.annotate.Basic;
+
 import java.util.ArrayList;
 import java.lang.Math;
 /**********************************************************
@@ -64,13 +66,15 @@ public class Temperature {
     /**********************************************************
      * Getters and Setters
      **********************************************************/
-
+    @Basic
     public Long getHotness(){
         return hotness;
     }
+    @Basic
     public Long getColdness(){
         return coldness;
     }
+    @Basic
     public ArrayList<Long> getTemperature(){
     ArrayList<Long> list = new ArrayList<>();
     list.add(coldness);
@@ -152,6 +156,10 @@ public class Temperature {
      * @return true if this temperature is colder than otherTemp
      */
     public Boolean isColderThan(Temperature otherTemp){return(coldness<otherTemp.getColdness()|hotness<otherTemp.getColdness());}
-
+    /**
+     * Method that calculates the difference in temperature from another temperature
+     * @param otherTemp the temperature that this temperature gets compared to
+     * @return the value of the difference in temperature
+     */
     public Long differenceFrom(Temperature otherTemp){return(Math.abs(coldness-otherTemp.getColdness())+Math.abs(hotness-otherTemp.getHotness()));}
 }

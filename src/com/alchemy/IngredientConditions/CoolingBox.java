@@ -1,5 +1,6 @@
 package com.alchemy.IngredientConditions;
 
+import be.kuleuven.cs.som.annotate.Basic;
 import com.alchemy.Device;
 import com.alchemy.IngredientContainer;
 
@@ -54,6 +55,7 @@ public class CoolingBox extends Device {
      * @param coldness the coldness the oven will be set to
      * @param hotness the hotness the coolingBox will be set to
      */
+    @Basic
     public void setTemperature(Long coldness,Long hotness){
         temperature.heat(temperature.getColdness());
         temperature.cool(temperature.getHotness());
@@ -65,13 +67,14 @@ public class CoolingBox extends Device {
      * method to set the temperature of the coolingBox
      * @param temperature the temperature the coolingBox will be set to
      */
+    @Basic
     public void setTemperature(Temperature temperature){
         Long coldness = temperature.getColdness();
         Long hotness = temperature.getHotness();
         this.temperature.heat(temperature.getColdness());
         this.temperature.cool(temperature.getHotness());
-        temperature.cool(coldness);
-        temperature.heat(hotness);
+        this.temperature.cool(coldness);
+        this.temperature.heat(hotness);
     }
 
     /**********************************************************

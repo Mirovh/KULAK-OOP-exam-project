@@ -18,6 +18,9 @@ public class Transmorgrifier extends Device {
     /**********************************************************
      * Constructors
      **********************************************************/
+    /**
+     * creates an empty Transmorgrifier
+     */
     public Transmorgrifier(){}
     /**********************************************************
      * Methods
