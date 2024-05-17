@@ -4,6 +4,7 @@ import be.kuleuven.cs.som.annotate.Basic;
 
 /**********************************************************
  * Class made to define the states of the ingredient
+ * defensively programmed
  *
  * @author MiroVanHoef
  * @author BenDeMets
@@ -53,8 +54,9 @@ public class IngredientState {
     /**********************************************************
      * Getters and Setters
      **********************************************************/
+    @Basic
     public State getState(){return state;}
-
+    @Basic
     public boolean isSolid(){return state.isSolid();}
     /**********************************************************
      * Mutators
@@ -63,7 +65,6 @@ public class IngredientState {
      * method to change the state to the other one (change from fluid to solid or the other way)
      * @effect state is changed.
      */
-    @Basic
     void switchState(){
         if(state.isSolid()){
             state = State.Liquid;

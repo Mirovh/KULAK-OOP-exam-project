@@ -1,22 +1,34 @@
 package com.alchemy.IngredientConditions;
+import be.kuleuven.cs.som.annotate.Basic;
+
 import java.util.ArrayList;
 import java.lang.Math;
-/**
- * Temperature - total programming
- *
+/**********************************************************
+ * Temperature
  * class to keep track of temperatures, with methods to heat and cool.
+ * @invar hotness and coldness can't both differ from 0 at the same time
+ * totally programmed
  *
  * @author MiroVanHoef
  * @author BenDeMets
  * @author SimonVandeputte
  * @version 1.0
- */
+**********************************************************/
 public class Temperature {
     /**********************************************************
      * Variables
      **********************************************************/
+    /**
+     * Variable referencing the hotness of the temperature
+     */
     private Long hotness;
+    /**
+     * Variable referencing the coldness of the temperature
+     */
     private Long coldness;
+    /**
+     * Variable referencing the limit of the hotness and coldness
+     */
     static Long temperatureLimit = 10000L;
     /**********************************************************
      * Constructors
@@ -54,13 +66,15 @@ public class Temperature {
     /**********************************************************
      * Getters and Setters
      **********************************************************/
-
+    @Basic
     public Long getHotness(){
         return hotness;
     }
+    @Basic
     public Long getColdness(){
         return coldness;
     }
+    @Basic
     public ArrayList<Long> getTemperature(){
     ArrayList<Long> list = new ArrayList<>();
     list.add(coldness);
@@ -142,6 +156,10 @@ public class Temperature {
      * @return true if this temperature is colder than otherTemp
      */
     public Boolean isColderThan(Temperature otherTemp){return(coldness<otherTemp.getColdness()|hotness<otherTemp.getColdness());}
-
+    /**
+     * Method that calculates the difference in temperature from another temperature
+     * @param otherTemp the temperature that this temperature gets compared to
+     * @return the value of the difference in temperature
+     */
     public Long differenceFrom(Temperature otherTemp){return(Math.abs(coldness-otherTemp.getColdness())+Math.abs(hotness-otherTemp.getHotness()));}
 }

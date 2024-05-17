@@ -7,24 +7,29 @@ import com.alchemy.quantity.Unit;
 
 import java.util.ArrayList;
 
-/**
- * A class representing an Oven, used to heat up an ingredient
+/**********************************************************
+ * A class representing a kettle, used to mix multiple ingredients
+ * defensively programmed
  *
  * @author MiroVanHoef
  * @author BenDeMets
  * @author SimonVandeputte
  * @version 1.0
- */
+**********************************************************/
 public class Kettle extends Device {
     /**********************************************************
      * Variables
      **********************************************************/
     private ArrayList<AlchemicIngredient> ingredients;
 
-    static int pinchInSpoon = 6; //TODO: possibility to make this a static somewhere in UNIT?
-    static int dropInSpoon = 8;
-
     static Temperature targetTemp = new Temperature(0,20);
+
+    /**********************************************************
+     * Constants
+     **********************************************************/
+
+    static final int pinchInSpoon = Math.round(new Quantity(1, PowderUnit.PINCH).convertToPowderUnit(PowderUnit.SPOON));
+    static final int dropInSpoon = Math.round(new Quantity(1, FluidUnit.DROP).convertToFluidUnit(FluidUnit.SPOON));
 
     /**********************************************************
      * Constructors
@@ -235,7 +240,7 @@ public class Kettle extends Device {
 
     /**
      * function used to get the new standard Temperature of the mixture, which is the standardtemperature of the ingredient closest to [0,20], in case of equal closeness the hottest temperature wins
-     * @return
+     * @return the new standard temperature of the mixture
      */
     private Temperature newStandardTemp(){
         Temperature newTemperature = ingredients.getFirst().getStandardType().getStandardTemperature();

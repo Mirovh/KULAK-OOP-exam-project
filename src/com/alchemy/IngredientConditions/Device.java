@@ -8,20 +8,27 @@ import com.alchemy.quantity.PowderUnit;
 import com.alchemy.quantity.Quantity;
 import com.alchemy.quantity.Unit;
 
-/**
+/**********************************************************
  * An abstract class used to define the standard methods of a device
+ * @invar the Device has to be in a laboratory to be able to react
+ * Defensively programmed
  *
  * @author MiroVanHoef
  * @author BenDeMets
  * @author SimonVandeputte
  * @version 1.0
- */
+**********************************************************/
 public abstract class Device {
     /**********************************************************
      * Variables
      **********************************************************/
+    /**
+     * Variable referencing the ingredient inside the device
+     */
     protected AlchemicIngredient ingredient;
-
+    /**
+     * Variable referencing the laboratory the device is in
+     */
     private Laboratory laboratory;
 
     /**********************************************************
@@ -81,6 +88,7 @@ public abstract class Device {
     /**
      * Check if device is in a Laboratory
      * @return true if laboratory exists
+     *  |laboratory != null
      */
     public boolean isInLaboratory(){return laboratory!=null;}
     /**********************************************************
@@ -95,6 +103,9 @@ public abstract class Device {
         }
     }
 
+    /**
+     * Exception for when the device isn't in a laboratory while trying to be used
+     */
     public static class NotInLaboratoryException extends Exception {
         public NotInLaboratoryException(String e){super(e);}
     }

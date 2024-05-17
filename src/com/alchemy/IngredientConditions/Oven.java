@@ -3,26 +3,39 @@ import com.alchemy.IngredientContainer;
 
 import java.util.Random;
 
-/**
+/**********************************************************
  * A class representing an Oven, used to heat up an ingredient
+ * defensively programmed
  *
  * @author MiroVanHoef
  * @author BenDeMets
  * @author SimonVandeputte
  * @version 1.0
- */
+**********************************************************/
 public class Oven extends Device {
     /**********************************************************
      * Variables
      **********************************************************/
+    /**
+     * Variable referencing the Temperature of the oven
+     */
     private Temperature temperature;
 
     /**********************************************************
      * Constructors
      **********************************************************/
+    /**
+     * Creates a new oven with a temperature with coldness and hotness as given
+     * @param coldness the coldness of the temperature of the oven
+     * @param hotness the hotness of the temperature of the oven
+     */
     public Oven(Long coldness, Long hotness){
         this.temperature = new Temperature(0L,0L);setTemperature(coldness,hotness);
     }
+
+    /**
+     * creates an oven with temperature [0,20]
+     */
     public Oven(){
         this.temperature = new Temperature(0L,20L);
     }

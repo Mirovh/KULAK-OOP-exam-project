@@ -168,31 +168,23 @@ public class Laboratory {
      * @param ingredient The AlchemicIngredient to be removed from the laboratory.
      * @param containerUnit The unit of the new IngredientContainer.
      * @param amount The amount of the ingredient to be removed.
-     * @return A new IngredientContainer containing the removed ingredient.
      * @throws IngredientName.IllegalNameException If the name of the ingredient is illegal.
      * @throws IllegalArgumentException If there is not enough of the ingredient to remove or if the ingredient is not found in the laboratory.
      */
-    public IngredientContainer removeIngredient(AlchemicIngredient ingredient, Unit containerUnit, Long amount) throws IngredientName.IllegalNameException {
-        AlchemicIngredient labIngredient = null;
-        for (IngredientContainer container : containers) {
-            if (container.getContent().equals(ingredient)) {
-                if (container.getContent().getQuantity().isSmallerThan(DROP, amount) && amount >= 0) {
-                    throw new IllegalArgumentException("Not enough ingredient to remove");
-                }
-                if (container.getContent().getQuantity().isEqualTo(new Quantity(0, DROP))){
-                    ingredient = new AlchemicIngredient(ingredient.getFullName(), ingredient.getTemperature(), ingredient.getState(), container.getContent().getQuantity().getUnit().convertTo(DROP,50400L) - amount );
+    public void removeIngredient(AlchemicIngredient ingredient, Unit containerUnit, Long amount) throws IngredientName.IllegalNameException {
+        for (int i = 0; i < amount; i++) {
+            boolean found = false;
+            for (IngredientContainer container : containers) {
+                if (container.getContent().equals(ingredient) && container.getContainerUnit().equals(containerUnit)) {
                     containers.remove(container);
+                    found = true;
+                    break;
                 }
-                labIngredient = new AlchemicIngredient(ingredient.getFullName(), ingredient.getTemperature(), ingredient.getState(), amount);
-                IngredientContainer labContainer = new IngredientContainer(ingredient, ingredient.getQuantity().getSmallestFluidContainer());
-                containers.add(labContainer);
-                break;
+            }
+            if (!found) {
+                throw new IllegalArgumentException("Ingredient not found in laboratory");
             }
         }
-        if (labIngredient == null) {
-            throw new IllegalArgumentException("Ingredient not found");
-        }
-        return new IngredientContainer(labIngredient, containerUnit);
     }
 
     /**

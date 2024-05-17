@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 /**
  * A class representing a certain amount of a substance used to create potions and such.
+ * @invar the name, temperature, type, state and quantity aren't null
  *
  * @author MiroVanHoef
  * @author BenDeMets
@@ -20,20 +21,35 @@ public class AlchemicIngredient {
      * Variables
      **********************************************************/
 
+    /**
+     * Variable referencing the name of the ingredient
+     */
     private final IngredientName ingredientName;
 
+    /**
+     * Variable referencing the Temperature of the ingredient
+     */
     private Temperature temperature;
 
+    /**
+     * Variable referencing the State of the ingredient
+     */
     private IngredientState state;
 
+    /**
+     * Variable referencing the IngredientType of the ingredient
+     */
     private final IngredientType standardType;
 
+    /**
+     * Variable referencing the Quantity of the ingredient
+     */
     private final Quantity quantity;
 
 
 
     /**********************************************************
-     * Constructors TODO: Implement quantity to constructor of ALchemicIngredient
+     * Constructors
      **********************************************************/
 
     /**
@@ -103,6 +119,7 @@ public class AlchemicIngredient {
     public AlchemicIngredient(String name, Temperature temperature, IngredientState state, long quantity) throws IngredientName.IllegalNameException {
         this(new IngredientType(name,temperature,state), quantity);
     }
+
     /**
      * Initialize a new ingredient of an ingredientType with given variables
      *
@@ -125,6 +142,7 @@ public class AlchemicIngredient {
      * @param standardType the type of the ingredient
      * @param quantity The quantity of the ingredient
      */
+    @Raw
     public AlchemicIngredient(IngredientType standardType, Quantity quantity) {
         this.standardType = standardType;
         this.ingredientName = standardType.getName();
@@ -132,11 +150,13 @@ public class AlchemicIngredient {
         this.state = standardType.getStandardState();
         this.quantity = quantity;
     }
+
     /**
      * Create a given amount of given type ingredient
      * @param standardType the type of the ingredient
      * @param quantity The amount of the ingredient in the smallest unit of the state it is in.
      */
+    @Raw
     public AlchemicIngredient(IngredientType standardType, long quantity) {
         this.standardType = standardType;
         this.ingredientName = standardType.getName();
@@ -154,86 +174,178 @@ public class AlchemicIngredient {
      * Create a given amount of standardType ingredient
      * @param quantity the amount of ingredient made
      */
+    @Raw
     public AlchemicIngredient(Quantity quantity) {
         this(new IngredientType(), quantity);
     }
+
     /**
      * Create a given amount of standardType ingredient
      * @param quantity the amount of ingredient made in the smallest unit of the state it is in
      */
+    @Raw
     public AlchemicIngredient(Long quantity) {
         this(new IngredientType(), quantity);
     }
+
+
 
     /**********************************************************
      * Getters and Setters
      **********************************************************/
 
-    public void setName(String name) throws IngredientName.IllegalNameException {
-        this.ingredientName.setName(name);
-    }
-
+    /**
+     * Set the special name of the ingredient
+     *
+     * @param specialName the special name of the ingredient
+     * @throws IngredientName.IllegalSpecialNameException if the special name is not a valid special name
+     */
     public void setSpecialName(String specialName) throws IngredientName.IllegalSpecialNameException {
         this.ingredientName.setSpecialName(specialName);
     }
 
+    /**
+     * Get the basic name of the ingredient
+     *
+     * @return the basic name of the ingredient
+     */
+    @Basic
     public String getBasicName() {
         return ingredientName.getBasicName();
     }
 
+    /**
+     * Get the special name of the ingredient
+     *
+     * @return the special name of the ingredient
+     */
+    @Basic
     public String getSpecialName() {
         return ingredientName.getSpecialName();
     }
 
+    /**
+     * Get the full name of the ingredient
+     *
+     * @return the full name of the ingredient
+     */
+    @Basic
     public String getFullName() {
         updateFullName();
         return ingredientName.getFullName();
     }
 
-    public Quantity getQuantity(){return quantity;}//TODO: Change
-
-    public Temperature getTemperature(){return temperature;}
+    /**
+     * Get the quantity of the ingredient
+     *
+     * @return the quantity of the ingredient
+     */
     @Basic
-    public IngredientState getState(){return state;}
+    public Quantity getQuantity() {
+        return quantity;
+    }
 
+    /**
+     * Get the temperature of the ingredient
+     *
+     * @return the temperature of the ingredient
+     */
+    @Basic
+    public Temperature getTemperature() {
+        return temperature;
+    }
+
+    /**
+     * Get the state of the ingredient
+     *
+     * @return the state of the ingredient
+     */
+    @Basic
+    public IngredientState getState() {
+        return state;
+    }
+
+    /**
+     * Get the standard type of the ingredient
+     *
+     * @return the standard type of the ingredient
+     */
+    @Basic
     public IngredientType getStandardType(){
         return standardType;
     }
+
+    /**
+     * Get the prefixes of the ingredient name
+     *
+     * @return the prefixes of the ingredient name
+     */
+    @Basic
+    private List<String> getPrefixes() {
+        return ingredientName.getPrefixes();
+    }
+
+    /**
+     * Get the suffixes of the ingredient name
+     *
+     * @return the suffixes of the ingredient name
+     */
+    @Basic
+    private List<String> getSuffixes() {
+        return ingredientName.getSuffixes();
+    }
+
+    /**
+     * Get the part names of the ingredient name
+     *
+     * @return the part names of the ingredient name
+     */
+    @Basic
+    public ArrayList<String> getParts() {
+        return ingredientName.getPartNames();
+    }
+
 
 
     /**********************************************************
      * Methods
      **********************************************************/
 
+    /**
+     * Add a prefix to the name of the ingredient
+     *
+     * @param prefix the prefix to be added
+     */
     private void addPrefix(String prefix) {
         ingredientName.addPrefix(prefix);
     }
 
+    /**
+     * Add a suffix to the name of the ingredient
+     *
+     * @param suffix the suffix to be added
+     */
     private void addSuffix(String suffix) {
         ingredientName.addSuffix(suffix);
     }
 
-    private void clearPreAndSuffixes(){
-        ingredientName.clearPreAndSuffixes();}
-
-    private List<String> getPrefixes() {
-        return ingredientName.getPrefixes();
+    /**
+     * Clear the prefixes and suffixes of the ingredient name
+     */
+    private void clearPreAndSuffixes() {
+        ingredientName.clearPreAndSuffixes();
     }
 
-    private List<String> getSuffixes() {
-        return ingredientName.getSuffixes();
-    }
-
-    public ArrayList<String> getParts(){return ingredientName.getPartNames();}
-
+    /**
+     * Update the prefixes and suffixes of the ingredient name based on the temperature
+     */
+    @Raw
     private void updateFullName(){
         clearPreAndSuffixes();
-            if(temperature.isColderThan(standardType.getStandardTemperature())){addPrefix("Cooled ");}
-            else if(temperature.isHotterThan(standardType.getStandardTemperature())){addPrefix("Heated ");
-            }
+        if (temperature.isColderThan(standardType.getStandardTemperature())) {
+            addPrefix("Cooled ");
+        } else if (temperature.isHotterThan(standardType.getStandardTemperature())) {
+            addPrefix("Heated ");
+        }
     }
-
-    /**********************************************************
-     * IngredientType - total programming
-     **********************************************************/
 }

@@ -1,11 +1,18 @@
 package com.alchemy.quantity;
 
+import be.kuleuven.cs.som.annotate.*;
+
 /**
  * Represents the units for powder measurements.
  *
  * @note Always initialize the base unit first.
  * @note DO NOT initialize a unit with a comparison to itself or a unit that has not been initialized yet.
  * @note The smallest unit should be the first and the largest unit should be the last in the enum.
+ *
+ * @author MiroVanHoef
+ * @author BenDeMets
+ * @author SimonVandeputte
+ * @version 1.0
  */
 public enum PowderUnit implements Unit {
     /**
@@ -19,15 +26,31 @@ public enum PowderUnit implements Unit {
     CHEST("chest", 10L, SACK),
     STOREROOM("storeroom", 5L, CHEST);
 
+    /**
+     * The name of the unit in human-readable format.
+     */
     private final String name;
 
 
-
+    /**
+     * Initializes a new PowderUnit with the specified name.
+     *
+     * @param name The name of the unit
+     */
+    @Raw
     PowderUnit(String name) {
         this.name = name;
         this.conversionMap.put(this, 1L);
     }
 
+    /**
+     * Initializes a new PowderUnit with the specified name, and a conversion rate to another unit. (SPOON("spoon", 6L, PINCH) means that 6 PINCH is equal to 1 SPOON)
+     *
+     * @param name The name of the unit
+     * @param amount The conversion rate to the other unit
+     * @param unit The other unit to convert to
+     */
+    @Raw
     PowderUnit(String name, Long amount, PowderUnit unit) {
         this(name);
         this.conversionMap.put(unit, amount);
@@ -37,12 +60,22 @@ public enum PowderUnit implements Unit {
         Unit.calculateConversionMaps(values());
     }
 
-    @Override
+    /**
+     * Returns the base unit of PowderUnit.
+     *
+     * @return The base unit
+     */
+    @Override @Basic
     public PowderUnit getBaseUnit() {
         return values()[0];
     }
 
-    @Override
+    /**
+     * Returns the name of the unit.
+     *
+     * @return The name of the unit
+     */
+    @Override @Basic
     public String getName() {
         return name;
     }
