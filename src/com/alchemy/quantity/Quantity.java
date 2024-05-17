@@ -25,6 +25,7 @@ public class Quantity {
      * @param unit the unit of the quantity
      *             | unit != null
      * @post The amount and unit of the quantity are set to the specified values.
+     * | this.amount = amount
      */
     public Quantity(int amount, Unit unit) {
         this((long) amount, unit);
@@ -56,11 +57,14 @@ public class Quantity {
      *      | this.amount = this.unit.convertTo(unit, this.amount)
      * @post The unit of the quantity is set to the specified unit.
      *     | this.unit = unit
+     * @effect The amount of the quantity is converted to the specified fluid unit and the unit is set to the specified fluid unit.
+     * @return the amount of the quantity in the new Unit
      */
     @Raw
-    public void convertTo(Unit unit) {
+    public Long convertTo(Unit unit) {
         this.amount = this.unit.convertTo(unit, this.amount);
         this.unit = unit;
+        return amount;
     }
 
     /**
@@ -72,6 +76,7 @@ public class Quantity {
      *      | this.amount = this.unit.convertTo(unit, this.amount)
      * @post The unit of the quantity is set to the specified fluid unit.
      *     | this.unit = unit
+     * @effect The amount of the quantity is converted to the specified fluid unit and the unit is set to the specified fluid unit.
      * @return the amount of the quantity in the new Unit
      */
     @Raw
@@ -92,6 +97,7 @@ public class Quantity {
      *      | this.amount = this.unit.convertTo(unit, this.amount)
      * @post The unit of the quantity is set to the specified powder unit.
      *    | this.unit = unit
+     * @effect The amount of the quantity is converted to the specified powder unit and the unit is set to the specified powder unit.
      * @return the amount of the quantity in the new Unit
      */
     @Raw

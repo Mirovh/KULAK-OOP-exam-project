@@ -8,10 +8,19 @@ import com.alchemy.AlchemicIngredient;
  * @invar Every element of the ingredients array is non-null.
  */
 public class Recipe {
+    /**
+     * Represents the type of action that can be performed on an ingredient.
+     */
     public enum ActionType {
         ADD, HEAT, COOL, MIX
     }
+    /**
+     * The actions to be performed in the recipe.
+     */
     private final ActionType[] actions;
+    /**
+     * The ingredients to be used in the recipe.
+     */
     private final AlchemicIngredient[] ingredients;
 
     /**

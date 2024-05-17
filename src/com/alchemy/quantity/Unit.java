@@ -42,6 +42,7 @@ public interface Unit {
      * Calculates the conversion maps for the specified units.
      *
      * @param units The units to calculate the conversion maps for
+     * @effect The conversion maps for the specified units are calculated
      */
     @Raw
     static void calculateConversionMaps(Unit... units) {
