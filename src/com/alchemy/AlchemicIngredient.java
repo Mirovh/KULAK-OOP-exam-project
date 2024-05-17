@@ -103,6 +103,22 @@ public class AlchemicIngredient {
     public AlchemicIngredient(String name, Temperature temperature, IngredientState state, long quantity) throws IngredientName.IllegalNameException {
         this(new IngredientType(name,temperature,state), quantity);
     }
+    /**
+     * Initialize a new ingredient of an ingredientType with given variables
+     *
+     * @param name   The name of the ingredient.
+     * @param temperature The standard temperature of the ingredient
+     * @param state the standard state of the Ingredient
+     * @param quantity The quantity of the ingredient
+     * @throws IngredientName.IllegalNameException If the given name is not a valid mixture name.
+     * @effect The name of the ingredient is set to the given name.
+     * @effect The amount is set to the given amount (must be valid).
+     * | setSize(size)
+     */
+    @Raw
+    public AlchemicIngredient(String name, Temperature temperature, IngredientState state, Quantity quantity) throws IngredientName.IllegalNameException {
+        this(new IngredientType(name,temperature,state), quantity);
+    }
 
     /**
      * Create a given amount of given type ingredient
