@@ -32,6 +32,15 @@ public class IngredientName {
      * Constructors
      **********************************************************/
 
+    /**
+     * Create a new ingredient name with the given name and special name.
+     *
+     * @param name The name of the ingredient.
+     * @param specialName The special name of the ingredient.
+     * @param blacklistedWords The words that are not allowed in the name. (eg pre- and suffixes)
+     * @throws IllegalNameException If the given name is not a valid name.
+     * @throws IllegalSpecialNameException If the given special name is not a valid special name.
+     */
     public IngredientName(String name, String specialName, String[] blacklistedWords) throws IllegalNameException, IllegalSpecialNameException {
         this.blacklistedWords = blacklistedWords;
         if (isValidIngredientPartName(name)) {
@@ -42,6 +51,12 @@ public class IngredientName {
         }
     }
 
+    /**
+     * Create a new ingredient name with the given name.
+     *
+     * @param name The name of the ingredient.
+     * @throws IllegalNameException If the given name is not a valid name.
+     */
     public IngredientName(String name, String[] blacklistedWords) throws IllegalNameException {
         this.blacklistedWords = blacklistedWords;
         if (isValidIngredientPartName(name)) {
@@ -49,10 +64,24 @@ public class IngredientName {
         }
     }
 
+    /**
+     * Create a new ingredient name with the given name and special name.
+     *
+     * @param name The name of the ingredient.
+     * @param specialName The special name of the ingredient.
+     * @throws IllegalNameException If the given name is not a valid name.
+     * @throws IllegalSpecialNameException If the given special name is not a valid special name.
+     */
     public IngredientName(String name, String specialName) throws IllegalNameException, IllegalSpecialNameException {
         this(name, specialName, new String[0]);
     }
 
+    /**
+     * Create a new ingredient name with the given name.
+     *
+     * @param name The name of the ingredient.
+     * @throws IllegalNameException If the given name is not a valid name.
+     */
     public IngredientName(String name) throws IllegalNameException {
         this(name, new String[0]);
     }

@@ -8,6 +8,17 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents a unit for measurements.
+ * Nominally programmed.
+ *
+ * @invar The conversion map always contains the unit itself.
+ *
+ * @author MiroVanHoef
+ * @author BenDeMets
+ * @author SimonVandeputte
+ * @version 1.0
+ */
 public interface Unit {
     /**
      * The conversion map for this unit.
