@@ -1,7 +1,5 @@
 package com.alchemy.quantity;
 
-import be.kuleuven.cs.som.annotate.*;
-
 /**
  * Represents a quantity with a specific amount and unit.
  * @invar The amount of the quantity is always non-negative.
@@ -209,12 +207,13 @@ public class Quantity {
     /**
      * Checks if this quantity is smaller than (one of) the specified unit.
      *
-     * @param unit the unit to compare with
-     *             | unit != null
+     * @param unit   the unit to compare with
+     *               | unit != null
+     * @param amount
      * @return true if this quantity is smaller, false otherwise
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
-    public boolean isSmallerThan(Unit unit) {
+    public boolean isSmallerThan(Unit unit, Long amount) {
         return this.isSmallerThan(new Quantity(1L, unit));
     }
 
@@ -281,12 +280,13 @@ public class Quantity {
     /**
      * Checks if this quantity is smaller than or equal to (one of) the specified unit.
      *
-     * @param unit the unit to compare with
-     *             | unit != null
+     * @param unit   the unit to compare with
+     *               | unit != null
+     * @param amount
      * @return true if this quantity is smaller than or equal, false otherwise
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
-    public boolean isSmallerThanOrEqualTo(Unit unit) {
+    public boolean isSmallerThanOrEqualTo(Unit unit, Long amount) {
         return this.isSmallerThanOrEqualTo(new Quantity(1L, unit));
     }
 
