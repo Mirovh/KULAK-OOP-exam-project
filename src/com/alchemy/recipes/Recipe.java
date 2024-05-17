@@ -1,5 +1,6 @@
 package com.alchemy.recipes;
 
+import be.kuleuven.cs.som.annotate.*;
 import com.alchemy.AlchemicIngredient;
 
 /**
@@ -35,6 +36,7 @@ public class Recipe {
      *    | this.actions = actions
      *    | this.ingredients = ingredients
      */
+    @Raw
     public Recipe(ActionType[] actions, AlchemicIngredient[] ingredients) {
         if (actions[actions.length - 1] != ActionType.MIX) {
             this.actions = new ActionType[actions.length + 1];
@@ -56,6 +58,7 @@ public class Recipe {
      *
      * @return the actions of this Recipe
      */
+    @Basic
     public ActionType[] getActions() {
         return actions;
     }
@@ -65,6 +68,7 @@ public class Recipe {
      *
      * @return the ingredients of this Recipe
      */
+    @Basic
     public AlchemicIngredient[] getIngredients() {
         return ingredients;
     }

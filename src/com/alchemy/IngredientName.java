@@ -34,7 +34,9 @@ public class IngredientName {
 
     public IngredientName(String name, String specialName, String[] blacklistedWords) throws IllegalNameException, IllegalSpecialNameException {
         this.blacklistedWords = blacklistedWords;
-        setName(name);
+        if (isValidIngredientPartName(name)) {
+            setName(name);
+        }
         if (specialName != null) {
             setSpecialName(specialName);
         }
@@ -42,7 +44,9 @@ public class IngredientName {
 
     public IngredientName(String name, String[] blacklistedWords) throws IllegalNameException {
         this.blacklistedWords = blacklistedWords;
-        setName(name);
+        if (isValidIngredientPartName(name)) {
+            setName(name);
+        }
     }
 
     public IngredientName(String name, String specialName) throws IllegalNameException, IllegalSpecialNameException {

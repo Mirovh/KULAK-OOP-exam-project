@@ -23,11 +23,25 @@ public enum FluidUnit implements Unit {
 
     private final String name;
 
+    /**
+     * Initializes a new FluidUnit with the specified name.
+     *
+     * @param name The name of the unit
+     */
+    @Raw
     FluidUnit(String name) {
         this.name = name;
         this.conversionMap.put(this, 1L);
     }
 
+    /**
+     * Initializes a new FluidUnit with the specified name, and a conversion rate to another unit. (SPOON("spoon", 8L, DROP) means that 8 DROP is equal to 1 SPOON)
+     *
+     * @param name The name of the unit
+     * @param amount The conversion rate to the other unit
+     * @param unit The other unit to convert to
+     */
+    @Raw
     FluidUnit(String name, Long amount, FluidUnit unit) {
         this(name);
         this.conversionMap.put(unit, amount);
