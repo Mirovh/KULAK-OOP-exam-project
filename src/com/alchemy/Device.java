@@ -30,29 +30,8 @@ public abstract class Device {
      * container is returned and rest of contents are destroyed.
      */
     public IngredientContainer getContents() {
-        Unit size = PowderUnit.PINCH;//is changed later on, but has to be declared because otherwise IntelliJ is angry
-        Quantity quantity = ingredient.getQuantity();
-        if(ingredient.getState().getState().isSolid()){
-            for (PowderUnit unit:PowderUnit.values()){
-                if(quantity.isSmallerThan(unit)){
-                    size = unit;
-                    break;
-                }
-                size = PowderUnit.STOREROOM;
-            }
-        }
-        else{
-            for(FluidUnit unit:FluidUnit.values()){
-                if(quantity.isSmallerThan(unit)){
-                    size = unit;
-                    break;
-                }
-                size = PowderUnit.STOREROOM;
-            }
-
-        }
-
-        IngredientContainer container = new IngredientContainer(ingredient, size);
+        Unit containerUnit = ingredient.getQuantity().getSmallestContainer();
+        IngredientContainer container = new IngredientContainer(ingredient, containerUnit);
         ingredient = null;
         return container;
     }
@@ -65,6 +44,7 @@ public abstract class Device {
      * Mutators
      **********************************************************/
     /**
+     * method used to add an ingredient to the device
      * @param container the container containing the ingredient that has to be added to the device
      * @throws DeviceFullException if the device is full, deviceFullException is thrown.
      */

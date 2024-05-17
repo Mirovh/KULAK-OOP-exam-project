@@ -20,9 +20,9 @@ public class Kettle extends Device {
     /**********************************************************
      * Variables
      **********************************************************/
-    private ArrayList<AlchemicIngredient> ingredient;
+    private ArrayList<AlchemicIngredient> ingredients;
 
-    static int pinchInSpoon = 6; //TODO: possibility to make this somewhere in UNIT?
+    static int pinchInSpoon = 6; //TODO: possibility to make this a static somewhere in UNIT?
     static int dropInSpoon = 8;
 
     static Temperature targetTemp = new Temperature(0,20);
@@ -34,12 +34,29 @@ public class Kettle extends Device {
     /**********************************************************
      * Getters and Setters
      **********************************************************/
+    /**
+     * method used to add an ingredient to the device
+     * @param container the container containing the ingredient that has to be added to the device
+     */
     @Override
     public void addIngredient(IngredientContainer container){
-        ingredient.add(container.getContent());
+        ingredients.add(container.getContent());
         container.destroy();
     }
-    //TODO: GetContent
+
+    /**
+     * remove the contents of the device and return the smallest possible containers each containing a different ingredient
+     * @return arraylist of containers with an element for each ingredient with the smallest possible container containing the contents of the device. If quantity is too large, biggest possible
+     * container is returned and rest of contents are destroyed.
+     */
+    public ArrayList<IngredientContainer> getContent(){
+        ArrayList<IngredientContainer> containers = new ArrayList<>();
+        for(AlchemicIngredient ingredient: ingredients){
+            containers.add(new IngredientContainer(ingredient, ingredient.getQuantity().getSmallestContainer()));
+        }
+        ingredients.clear();
+        return containers;
+    }
 
 
     /**********************************************************
@@ -57,7 +74,7 @@ public class Kettle extends Device {
             throw new NotInLaboratoryException("Kettle not in Laboratory");
         }
         else{
-            if(ingredient.size() <2){
+            if(ingredients.size() <2){
                 return; //no ingredients to mix
             }
             IngredientName newName = newName();
@@ -77,8 +94,8 @@ public class Kettle extends Device {
             else{
                 newIngredient.getTemperature().cool(standardTemp.differenceFrom(newTemp));
             }
-            ingredient.clear();
-            ingredient.add(newIngredient);
+            ingredients.clear();
+            ingredients.add(newIngredient);
         }
 
     }
@@ -89,8 +106,8 @@ public class Kettle extends Device {
      */
     private IngredientName newName(){
         ArrayList<String> strippedNames = new ArrayList<>();
-        for(AlchemicIngredient ingredient1: ingredient){
-            for(String part:ingredient1.getParts()){
+        for(AlchemicIngredient ingredient: ingredients){
+            for(String part:ingredient.getParts()){
                 if(!strippedNames.contains(part)){
                     strippedNames.add(part);
                 }
@@ -125,14 +142,14 @@ public class Kettle extends Device {
      * @return the new state
      */
     private IngredientState newState(){
-        Long smallestDiff = ingredient.getFirst().getTemperature().differenceFrom(targetTemp);
+        Long smallestDiff = ingredients.getFirst().getTemperature().differenceFrom(targetTemp);
         IngredientState newState = new IngredientState(true); //powder is overwritten by fluid
-        for(AlchemicIngredient ingredient1: ingredient){
-            Long diff = ingredient1.getTemperature().differenceFrom(targetTemp);
+        for(AlchemicIngredient ingredient: ingredients){
+            Long diff = ingredient.getTemperature().differenceFrom(targetTemp);
             if(diff<smallestDiff){
                 smallestDiff = diff;
-                newState = ingredient1.getState();
-            } else if (diff.equals(smallestDiff) && !ingredient1.getState().getState().isSolid()) {
+                newState = ingredient.getState();
+            } else if (diff.equals(smallestDiff) && !ingredient.getState().getState().isSolid()) {
                 newState = new IngredientState(false);
             }
         }
@@ -151,12 +168,12 @@ public class Kettle extends Device {
         if(state.getState().isSolid()){
             Long pinches = 0L;
             int liquidFractions = 0;
-            for(AlchemicIngredient ingredient1: ingredient){
-                if(ingredient1.getQuantity().isGreaterThanOrEqualTo(PowderUnit.SPOON)|ingredient1.getState().getState().isSolid()){
-                    pinches += ingredient1.getQuantity().convertToPowderUnit(PowderUnit.PINCH);
+            for(AlchemicIngredient ingredient: ingredients){
+                if(ingredient.getQuantity().isGreaterThanOrEqualTo(PowderUnit.SPOON)|ingredient.getState().getState().isSolid()){
+                    pinches += ingredient.getQuantity().convertToPowderUnit(PowderUnit.PINCH);
                 }
                 else{
-                    liquidFractions += ingredient1.getQuantity().convertToFluidUnit(FluidUnit.DROP);
+                    liquidFractions += ingredient.getQuantity().convertToFluidUnit(FluidUnit.DROP);
                 }
             }
             pinches += (long) ((liquidFractions -(liquidFractions%dropInSpoon))/dropInSpoon)*pinchInSpoon;
@@ -165,12 +182,12 @@ public class Kettle extends Device {
         else{
             Long drops = 0L;
             int solidFractions = 0;
-            for(AlchemicIngredient ingredient1: ingredient){
-                if(ingredient1.getQuantity().isGreaterThanOrEqualTo(PowderUnit.SPOON)|!ingredient1.getState().getState().isSolid()){
-                    drops += ingredient1.getQuantity().convertToFluidUnit(FluidUnit.DROP);
+            for(AlchemicIngredient ingredient: ingredients){
+                if(ingredient.getQuantity().isGreaterThanOrEqualTo(PowderUnit.SPOON)|!ingredient.getState().getState().isSolid()){
+                    drops += ingredient.getQuantity().convertToFluidUnit(FluidUnit.DROP);
                 }
                 else{
-                    solidFractions += ingredient1.getQuantity().convertToPowderUnit(PowderUnit.PINCH);
+                    solidFractions += ingredient.getQuantity().convertToPowderUnit(PowderUnit.PINCH);
                 }
             }
             drops += (long) ((solidFractions - (solidFractions % pinchInSpoon)) / pinchInSpoon) *dropInSpoon;
@@ -188,13 +205,13 @@ public class Kettle extends Device {
         Long spoons = newQuantity.convertToFluidUnit(FluidUnit.SPOON);
         long temperature = 0L;
         Temperature newTemperature;
-        for(AlchemicIngredient ingredient1: ingredient){
-            Temperature ingredientTemp = ingredient1.getTemperature();
-            Quantity ingredientQuantity = ingredient1.getQuantity();
+        for(AlchemicIngredient ingredient: ingredients){
+            Temperature ingredientTemp = ingredient.getTemperature();
+            Quantity ingredientQuantity = ingredient.getQuantity();
             if(ingredientQuantity.isGreaterThanOrEqualTo(FluidUnit.SPOON)){
                 temperature += (ingredientTemp.getHotness() -ingredientTemp.getColdness())*(ingredientQuantity.convertToFluidUnit(FluidUnit.SPOON)/spoons);
             }
-            else if(ingredient1.getState().getState().isSolid()){
+            else if(ingredient.getState().getState().isSolid()){
                 temperature += (ingredientTemp.getHotness() -ingredientTemp.getColdness())*(ingredientQuantity.convertToPowderUnit(PowderUnit.PINCH)/(spoons*pinchInSpoon));
             }
             else{
@@ -215,10 +232,10 @@ public class Kettle extends Device {
      * @return
      */
     private Temperature newStandardTemp(){
-        Temperature newTemperature = ingredient.getFirst().getStandardType().getStandardTemperature();
-        Long smallestDiff = ingredient.getFirst().getStandardType().getStandardTemperature().differenceFrom(targetTemp);
-        for(AlchemicIngredient ingredient1: ingredient){
-            Temperature temp = ingredient1.getStandardType().getStandardTemperature();
+        Temperature newTemperature = ingredients.getFirst().getStandardType().getStandardTemperature();
+        Long smallestDiff = ingredients.getFirst().getStandardType().getStandardTemperature().differenceFrom(targetTemp);
+        for(AlchemicIngredient ingredient: ingredients){
+            Temperature temp = ingredient.getStandardType().getStandardTemperature();
             Long diff = temp.differenceFrom(targetTemp);
             if(diff<smallestDiff){
                 smallestDiff = diff;
