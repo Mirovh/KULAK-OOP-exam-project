@@ -1,5 +1,7 @@
 package com.alchemy;
 import com.alchemy.IngredientConditions.*;
+import com.alchemy.quantity.FluidUnit;
+import com.alchemy.quantity.PowderUnit;
 import com.alchemy.quantity.Quantity;
 import com.alchemy.recipes.Recipe;
 import com.alchemy.recipes.Recipe.*;
@@ -13,18 +15,18 @@ import static com.alchemy.quantity.PowderUnit.*;
 public class Laboratory {
     private ArrayList<Device> devices;
     private ArrayList<IngredientContainer> containers;
-    private int Storeroom;
+    private int storeroom;
 
     /**
      * Constructs a new Laboratory with the specified number of storerooms.
      * Initializes the lists of devices and alchemic containers.
      *
-     * @param Storeroom the number of storerooms in the laboratory
+     * @param amount the number of storerooms in the laboratory
      * @throws IllegalArgumentException if the number of storerooms is less than 1
      */
-    public Laboratory(int Storeroom){
-        if(Storeroom >= 1) {
-            this.Storeroom = Storeroom;
+    public Laboratory(int amount){
+        if(amount >= 1) {
+            this.storeroom = amount;
             devices = new ArrayList<>();
             containers = new ArrayList<IngredientContainer>();
         } else{
@@ -32,17 +34,21 @@ public class Laboratory {
         }
     }
 
-    public double getFilledSpace() {
-        double FilledSpace = 0;
+    /**
+     * Calculates and returns the filled space in the storeroom.
+     *
+     * @return the filled space in the storeroom, expressed in storerooms.
+     */
+    public long getFilledSpace() {
+        long FilledSpace = 0L;
 
         for (IngredientContainer container : containers) {
             if (container.getContent().getQuantity().isFluidUnit()){
-                double amountOfFluid = container.getContainerUnit().convertTo(DROP, 50400L);
+                long amountOfFluid = container.getContainerUnit().convertTo(PowderUnit.STOREROOM, 1L); // converting to powder unit is allowed in this case since 1 storeroom powder == 1 storeroom fluid
                 FilledSpace += amountOfFluid;
             } else if (container.getContent().getQuantity().isPowderUnit()) {
-                double amountOfPowder = container.getContainerUnit().convertTo(PINCH, 37800L);
-                double powderInFluidUnit = amountOfPowder * 1.33;                           //hardcoded
-                FilledSpace += powderInFluidUnit;
+                long amountOfPowder = container.getContainerUnit().convertTo(PowderUnit.STOREROOM, 1L);
+                FilledSpace += amountOfPowder;
             }
         }
         return FilledSpace;
@@ -53,15 +59,14 @@ public class Laboratory {
      *
      * @return the free space in the storeroom
      */
-    public Double getFreeSpace() {
-        Double FilledSpace = this.getFilledSpace();
-        Double Space = this.getSpace();
+    public long getFreeSpace() {
+        long FilledSpace = this.getFilledSpace();
+        long Space = this.getSpace();
         return Space - FilledSpace;
     }
 
-    public Double getSpace(){
-        int AmountOfStoreroom = this.getStoreroom();
-        return (Double) (double) (AmountOfStoreroom * 50400);                                //hardcoded
+    public long getSpace(){
+        return this.getStoreroom();
     }
 
     /**
@@ -74,23 +79,16 @@ public class Laboratory {
     public String getContents() {
         StringBuilder contents = new StringBuilder("The lab contains: ");
         for (IngredientContainer container : containers) {
-            if (container.getContent().getQuantity().isFluidUnit()) {
-                contents.append(container.getContainerUnit().convertTo(DROP, 50400L));
-                        contents.append(" drops of ");
-                        contents.append(container.getContent().getBasicName());
-                        contents.append(", ");
-            }else{
-                contents.append(container.getContainerUnit().convertTo(PINCH, 50400L));
-                        contents.append(" pinches of ");
-                        contents.append(container.getContent().getBasicName());
-                        contents.append(", ");
-            }
+            Quantity quantity = container.getContent().getQuantity();
+            quantity.convertToBase();
+            contents.append(quantity.toString()).append(" of ").append(container.getContent().getBasicName()).append(", ");
         }
         if (!contents.isEmpty()) {
             contents.setLength(contents.length() - 2);
         }
         return contents.toString();
     }
+
     /**
      * Constructs a string representation of a specific ingredient in the laboratory.
      *
@@ -103,16 +101,10 @@ public class Laboratory {
         String ingredientString = "";
         for (IngredientContainer container : containers) {
             if (container.getContent().equals(ingredient)) {
-                if (container.getContent().getQuantity().isFluidUnit()) {
-                    ingredientString = container.getContent().getQuantity().getUnit().convertTo(DROP, 50400L) + " drops of " + container.getContent().getBasicName();
-                    break;
-                }else {
-                    ingredientString = container.getContent().getQuantity().getUnit().convertTo(PINCH, 50400L) + " drops of " + container.getContent().getBasicName();
-                    break;
-                }
+                return container.toString();
             }
         }
-        return ingredientString;
+        return "";
     }
 
     /**
@@ -123,7 +115,8 @@ public class Laboratory {
      *         false otherwise.
      */
     public boolean canAddContainer(IngredientContainer container){
-         return container.getContent().getQuantity().isSmallerThanOrEqualTo(new Quantity(Laboratory.getFreeSpace(), DROP));
+        Quantity comparisonContainer = new Quantity(this.getFreeSpace(), DROP);
+        return container.getContent().getQuantity().isSmallerThanOrEqualTo(comparisonContainer);
     }
 
     /**
@@ -146,38 +139,18 @@ public class Laboratory {
      * @param container The IngredientContainer to be added to the laboratory.
      * @param amount The amount of the ingredient to be added from the container.
      * @throws IllegalArgumentException if the laboratory does not have enough free space to accommodate the specified amount of the ingredient in the container,
-     *                                  or if the container does not have enough of the ingredient.
+     *                                  or if the container does not have enough of the ingredient. (Watch out, still adds tha max amount it can fit)
+     * @effect The specified amount of the ingredient is added to the laboratory.
      */
-    public void addContainer(IngredientContainer container, Long amount) throws IngredientName.IllegalNameException {
-        if (container.getContent().getQuantity().isFluidUnit()) {
-            if (container.getContent() != null && container.getContent().getQuantity().isSmallerThanOrEqualTo(DROP, amount)) {
-                try {
-                    bringBackToStandardTemperature(container.getContent());
-                } catch (Device.DeviceFullException e) {
-                    throw new RuntimeException(e);
-                } catch (LaboratoryMissingDeviceException e) {
-                    throw new RuntimeException(e);
-                }
-                AlchemicIngredient PartialIngredient = new AlchemicIngredient(container.getContent().getFullName(),container.getContent().getTemperature(), container.getContent().getState() , (container.getContent().getQuantity().convertToFluidUnit(DROP) - amount));
-                AlchemicIngredient labIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), amount);
-                IngredientContainer partialContainer = new IngredientContainer(PartialIngredient, container.getContainerUnit());
-                IngredientContainer labContainer = new IngredientContainer(labIngredient, container.getContainerUnit());
-                if (canAddContainer(labContainer)) {
-                    containers.add(labContainer);
-                } else {
-                    throw new IllegalArgumentException("Not enough space to add container");
-                }
-            }
-        }else {
-            if (container.getContent() != null && container.getContent().getQuantity().isSmallerThanOrEqualTo(PINCH, amount)) {
+    public void addContainer(IngredientContainer container, int amount) throws IngredientName.IllegalNameException {
+        for (int i = 0; i < amount; i++) {
+            if (container.getContent() != null) {
                 try {
                     bringBackToStandardTemperature(container.getContent());
                 } catch (Device.DeviceFullException | LaboratoryMissingDeviceException e) {
                     throw new RuntimeException(e);
                 }
-                AlchemicIngredient PartialIngredient = new AlchemicIngredient(container.getContent().getFullName(),container.getContent().getTemperature(), container.getContent().getState() , (container.getContent().getQuantity().convertToFluidUnit(DROP) - amount));
                 AlchemicIngredient labIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), amount);
-                IngredientContainer partialContainer = new IngredientContainer(PartialIngredient, container.getContainerUnit());
                 IngredientContainer labContainer = new IngredientContainer(labIngredient, container.getContainerUnit());
                 if (canAddContainer(labContainer)) {
                     containers.add(labContainer);
@@ -186,6 +159,7 @@ public class Laboratory {
                 }
             }
         }
+
     }
 
     /**
@@ -202,7 +176,6 @@ public class Laboratory {
         AlchemicIngredient labIngredient = null;
         for (IngredientContainer container : containers) {
             if (container.getContent().equals(ingredient)) {
-                if (container.getContent().getQuantity().isFluidUnit()) {
                 if (container.getContent().getQuantity().isSmallerThan(DROP, amount) && amount >= 0) {
                     throw new IllegalArgumentException("Not enough ingredient to remove");
                 }
@@ -215,8 +188,6 @@ public class Laboratory {
                 containers.add(labContainer);
                 break;
             }
-                //TODO: else for Powder
-            }
         }
         if (labIngredient == null) {
             throw new IllegalArgumentException("Ingredient not found");
@@ -227,12 +198,12 @@ public class Laboratory {
     /**
      * Increases the number of storerooms in the laboratory by a specified amount.
      *
-     * @param storeroom The number of storerooms to be added to the laboratory.
+     * @param amount The number of storerooms to be added to the laboratory.
      * @throws IllegalArgumentException if the specified number of storerooms is negative.
      */
-    public void addStoreroom(int storeroom){
-        if (storeroom >= 0) {
-            Storeroom += storeroom;
+    public void addStorerooms(int amount){
+        if (amount >= 0) {
+            this.storeroom += amount;
         } else{
             throw new IllegalArgumentException("Cannot add negative Storerooms");
         }
@@ -244,12 +215,12 @@ public class Laboratory {
      * (i.e., the number of storerooms after the removal would not be negative and the laboratory would still have enough space),
      * it decreases the current number of storerooms. Otherwise, it throws an IllegalArgumentException.
      *
-     * @param storeroom the number of storerooms to be removed
+     * @param amount the number of storerooms to be removed
      * @throws IllegalArgumentException if the specified number of storerooms cannot be removed
      */
-    public void removeStoreroom(int storeroom){
-        if (canRemoveStoreRoom(storeroom)){
-            Storeroom -= storeroom;
+    public void removeStorerooms(int amount){
+        if (canRemoveStoreRoom(amount)){
+            this.storeroom -= amount;
         }else{
             throw new IllegalArgumentException("Cannot remove storeroom");
         }
@@ -263,7 +234,7 @@ public class Laboratory {
      * @return true if the specified number of storerooms can be removed, false otherwise
      */
     public Boolean canRemoveStoreRoom(int storeroom){
-        return storeroom > Storeroom && storeroom > 0 && (Storeroom - storeroom)* 50400 >= Laboratory.getFilledSpace();
+        return storeroom <= this.storeroom && storeroom > 0 && this.getFreeSpace() >= storeroom;
     }
 
     /**
@@ -283,7 +254,7 @@ public class Laboratory {
      * @return the current number of storerooms
      */
     public int getStoreroom(){
-        return Storeroom;
+        return storeroom;
     }
 
     /**

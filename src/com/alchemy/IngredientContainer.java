@@ -2,6 +2,7 @@ package com.alchemy;
 
 import com.alchemy.quantity.FluidUnit;
 import com.alchemy.quantity.PowderUnit;
+import com.alchemy.quantity.Quantity;
 import com.alchemy.quantity.Unit;
 
 /**
@@ -94,6 +95,15 @@ public class IngredientContainer {
             throw new IllegalArgumentException("The ingredient does not fit in the container.");
         }
         this.content = content;
+    }
+
+    /**
+     * Returns a string representation of this IngredientContainer.
+     *
+     * @return a string representation of this IngredientContainer
+     */
+    public String toString() {
+        return content.getQuantity().toString() + " of " + content.getBasicName();
     }
 
     /**

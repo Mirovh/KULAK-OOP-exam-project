@@ -55,6 +55,19 @@ public class Quantity {
     }
 
     /**
+     * Converts this quantity to the base unit.
+     *
+     * @post The amount of the quantity is converted to the base unit.
+     *      | this.amount = this.unit.convertToBase(this.amount)
+     * @post The unit of the quantity is set to the base unit.
+     *     | this.unit = this.unit.getBaseUnit()
+     */
+    public void convertToBase() {
+        this.amount = this.unit.convertToBase(this.amount);
+        this.unit = this.unit.getBaseUnit();
+    }
+
+    /**
      * Converts this quantity to the specified fluid unit.
      *
      * @param unit the fluid unit to convert to
@@ -288,6 +301,15 @@ public class Quantity {
      */
     public boolean isSmallerThanOrEqualTo(Unit unit, Long amount) {
         return this.isSmallerThanOrEqualTo(new Quantity(1L, unit));
+    }
+
+    /**
+     * Returns a string representation of this quantity.
+     *
+     * @return a string representation of this quantity
+     */
+    public String toString() {
+        return amount + " " + unit.getName();
     }
 
 }
