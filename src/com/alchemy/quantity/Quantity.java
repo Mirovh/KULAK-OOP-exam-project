@@ -51,6 +51,7 @@ public class Quantity {
      * @post The unit of the quantity is set to the specified unit.
      *     | this.unit = unit
      */
+    @Raw
     public void convertTo(Unit unit) {
         this.amount = this.unit.convertTo(unit, this.amount);
         this.unit = unit;
@@ -67,6 +68,7 @@ public class Quantity {
      *     | this.unit = unit
      * @return the amount of the quantity in the new Unit
      */
+    @Raw
     public Long convertToFluidUnit(FluidUnit unit) {
         // storerooms and spoons are the same for both fluid and powder units
         this.convertTo(PowderUnit.SPOON);
@@ -86,6 +88,7 @@ public class Quantity {
      *    | this.unit = unit
      * @return the amount of the quantity in the new Unit
      */
+    @Raw
     public Long convertToPowderUnit(PowderUnit unit) {
         // storerooms and spoons are the same for both fluid and powder units
         this.convertTo(FluidUnit.SPOON);
@@ -99,6 +102,7 @@ public class Quantity {
      *
      * @return true if the unit is a fluid unit, false otherwise
      */
+    @Basic
     public boolean isFluidUnit() {
         return unit instanceof FluidUnit;
     }
@@ -108,6 +112,7 @@ public class Quantity {
      *
      * @return true if the unit is a powder unit, false otherwise
      */
+    @Basic
     public boolean isPowderUnit() {
         return unit instanceof PowderUnit;
     }
@@ -118,6 +123,7 @@ public class Quantity {
      * @return the smallest container unit for this quantity
      * @pre The unit of this quantity is a fluid unit.
      */
+    @Basic
     public Unit getSmallestFluidContainer() {
         Unit smallestContainerUnit = null;
         Long smallestContainerAmount = Long.MAX_VALUE;
@@ -143,6 +149,7 @@ public class Quantity {
      * @return the smallest container unit for this quantity
      * @pre The unit of this quantity is a powder unit.
      */
+    @Basic
     public Unit getSmallestPowderContainer() {
         Unit smallestContainerUnit = null;
         Long smallestContainerAmount = Long.MAX_VALUE;
@@ -166,6 +173,7 @@ public class Quantity {
      *
      * @return the unit of this quantity
      */
+    @Basic
     public Unit getUnit(){
         return this.unit;
     }
@@ -178,6 +186,7 @@ public class Quantity {
      * @return true if this quantity is greater, false otherwise
      * @pre The unit of this quantity is of the same type as the unit of the specified quantity.
      */
+    @Basic
     public boolean isGreaterThan(Quantity quantity) {
         return this.unit.convertToBase(this.amount) > quantity.unit.convertToBase(quantity.amount);
     }
@@ -190,6 +199,7 @@ public class Quantity {
      * @return true if this quantity is greater, false otherwise
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
+    @Basic
     public boolean isGreaterThan(Unit unit) {
         return this.isGreaterThan(new Quantity(1L, unit));
     }
@@ -202,6 +212,7 @@ public class Quantity {
      * @return true if this quantity is smaller, false otherwise
      * @pre The unit of this quantity is of the same type as the unit of the specified quantity.
      */
+    @Basic
     public boolean isSmallerThan(Quantity quantity) {
         return this.unit.convertToBase(this.amount) < quantity.unit.convertToBase(quantity.amount);
     }
@@ -214,6 +225,7 @@ public class Quantity {
      * @return true if this quantity is smaller, false otherwise
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
+    @Basic
     public boolean isSmallerThan(Unit unit) {
         return this.isSmallerThan(new Quantity(1L, unit));
     }
@@ -226,6 +238,7 @@ public class Quantity {
      * @return true if this quantity is equal, false otherwise
      * @pre The unit of this quantity is of the same type as the unit of the specified quantity.
      */
+    @Basic
     public boolean isEqualTo(Quantity quantity) {
         return this.unit.convertToBase(this.amount) == quantity.unit.convertToBase(quantity.amount);
     }
@@ -238,6 +251,7 @@ public class Quantity {
      * @return true if this quantity is equal, false otherwise
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
+    @Basic
     public boolean isEqualTo(Unit unit) {
         return this.isEqualTo(new Quantity(1L, unit));
     }
@@ -250,6 +264,7 @@ public class Quantity {
      * @return true if this quantity is greater than or equal, false otherwise
      * @pre The unit of this quantity is of the same type as the unit of the specified quantity.
      */
+    @Basic
     public boolean isGreaterThanOrEqualTo(Quantity quantity) {
         return this.unit.convertToBase(this.amount) >= quantity.unit.convertToBase(quantity.amount);
     }
@@ -262,6 +277,7 @@ public class Quantity {
      * @return true if this quantity is greater than or equal, false otherwise
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
+    @Basic
     public boolean isGreaterThanOrEqualTo(Unit unit) {
         return this.isGreaterThanOrEqualTo(new Quantity(1L, unit));
     }
@@ -274,6 +290,7 @@ public class Quantity {
      * @return true if this quantity is smaller than or equal, false otherwise
      * @pre The unit of this quantity is of the same type as the unit of the specified quantity.
      */
+    @Basic
     public boolean isSmallerThanOrEqualTo(Quantity quantity) {
         return this.unit.convertToBase(this.amount) <= quantity.unit.convertToBase(quantity.amount);
     }
@@ -286,6 +303,7 @@ public class Quantity {
      * @return true if this quantity is smaller than or equal, false otherwise
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
+    @Basic
     public boolean isSmallerThanOrEqualTo(Unit unit) {
         return this.isSmallerThanOrEqualTo(new Quantity(1L, unit));
     }

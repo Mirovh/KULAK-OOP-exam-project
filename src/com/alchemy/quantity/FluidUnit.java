@@ -1,5 +1,7 @@
 package com.alchemy.quantity;
 
+import be.kuleuven.cs.som.annotate.*;
+
 /**
  * Represents the units for fluid measurements.
  *
@@ -35,12 +37,12 @@ public enum FluidUnit implements Unit {
         Unit.calculateConversionMaps(values());
     }
 
-    @Override
+    @Override @Basic
     public FluidUnit getBaseUnit() {
         return values()[0];
     }
 
-    @Override
+    @Override @Basic
     public String getName() {
         return name;
     }

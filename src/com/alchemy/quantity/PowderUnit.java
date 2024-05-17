@@ -1,5 +1,7 @@
 package com.alchemy.quantity;
 
+import be.kuleuven.cs.som.annotate.Basic;
+
 /**
  * Represents the units for powder measurements.
  *
@@ -37,12 +39,12 @@ public enum PowderUnit implements Unit {
         Unit.calculateConversionMaps(values());
     }
 
-    @Override
+    @Override @Basic
     public PowderUnit getBaseUnit() {
         return values()[0];
     }
 
-    @Override
+    @Override @Basic
     public String getName() {
         return name;
     }

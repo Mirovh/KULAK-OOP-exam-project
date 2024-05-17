@@ -1,5 +1,8 @@
 package com.alchemy.quantity;
 
+import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Raw;
+
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -15,6 +18,7 @@ public interface Unit {
      * @param amount The amount to convert
      * @return The converted amount
      */
+    @Basic
     default Long convertTo(Unit unit, Long amount) {
         return amount * conversionMap.get(unit);
     }
@@ -25,6 +29,7 @@ public interface Unit {
      * @param amount The amount to convert
      * @return The converted amount
      */
+    @Basic
     default Long convertToBase(Long amount) {
         return convertTo(getBaseUnit(), amount);
     }
@@ -34,6 +39,7 @@ public interface Unit {
      *
      * @param units The units to calculate the conversion maps for
      */
+    @Raw
     static void calculateConversionMaps(Unit... units) {
         Unit baseUnit = units[0];
         units = Arrays.copyOfRange(units, 1, units.length);
@@ -67,6 +73,7 @@ public interface Unit {
      *
      * @return The base unit
      */
+    @Basic
     Unit getBaseUnit();
 
     /**
@@ -74,5 +81,6 @@ public interface Unit {
      *
      * @return The name of this unit
      */
+    @Basic
     String getName();
 }
