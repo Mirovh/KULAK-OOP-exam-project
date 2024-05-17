@@ -8,14 +8,32 @@ import java.util.Map;
 public interface Unit {
     Map<Unit, Long> conversionMap = new HashMap<>();
 
+    /**
+     * Converts the specified amount to the specified unit.
+     *
+     * @param unit The unit to convert to
+     * @param amount The amount to convert
+     * @return The converted amount
+     */
     default Long convertTo(Unit unit, Long amount) {
         return amount * conversionMap.get(unit);
     }
 
+    /**
+     * Converts the specified amount to the base unit.
+     *
+     * @param amount The amount to convert
+     * @return The converted amount
+     */
     default Long convertToBase(Long amount) {
         return convertTo(getBaseUnit(), amount);
     }
 
+    /**
+     * Calculates the conversion maps for the specified units.
+     *
+     * @param units The units to calculate the conversion maps for
+     */
     static void calculateConversionMaps(Unit... units) {
         Unit baseUnit = units[0];
         units = Arrays.copyOfRange(units, 1, units.length);
@@ -44,9 +62,17 @@ public interface Unit {
         }
     }
 
-    //Unit[] values();
-
+    /**
+     * Returns the base unit of this unit.
+     *
+     * @return The base unit
+     */
     Unit getBaseUnit();
 
+    /**
+     * Returns the name of this unit.
+     *
+     * @return The name of this unit
+     */
     String getName();
 }

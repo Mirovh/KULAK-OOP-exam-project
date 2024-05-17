@@ -1,11 +1,15 @@
 package com.alchemy.quantity;
 
+/**
+ * Represents the units for fluid measurements.
+ *
+ * @note Always initialize the base unit first.
+ * @note DO NOT initialize a unit with a comparison to itself or a unit that has not been initialized yet.
+ * @note The smallest unit should be the first and the largest unit should be the last in the enum.
+ */
 public enum FluidUnit implements Unit {
     /**
      * The base unit for powder measurements.
-     * @note Always initialize the base unit first.
-     * @note DO NOT initialize a unit with a comparison to itself or a unit that has not been initialized yet.
-     * @note The smallest unit should be the first and the largest unit should be the last in the enum.
      */
     DROP("drop"),
     SPOON("spoon", 8L, DROP),
