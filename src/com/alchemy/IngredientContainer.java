@@ -65,7 +65,7 @@ public class IngredientContainer {
         if (ingredient == null) {
             throw new IllegalArgumentException("The ingredient cannot be null.");
         }
-        return ingredient.getQuantity().isSmallerThanOrEqualTo(this.containerUnit, amount);
+        return ingredient.getQuantity().isSmallerThanOrEqualTo(this.containerUnit, 1L);
     }
 
     /**
