@@ -180,7 +180,7 @@ public class Kettle extends Device {
             Long pinches = 0L;
             int liquidFractions = 0;
             for(AlchemicIngredient ingredient: ingredients){
-                if(ingredient.getQuantity().isGreaterThanOrEqualTo(PowderUnit.SPOON)|ingredient.getState().getState().isSolid()){
+                if(ingredient.getQuantity().isGreaterThanOrEqualTo(PowderUnit.SPOON, 1L)|ingredient.getState().getState().isSolid()){
                     pinches += ingredient.getQuantity().convertToPowderUnit(PowderUnit.PINCH);
                 }
                 else{
@@ -194,7 +194,7 @@ public class Kettle extends Device {
             Long drops = 0L;
             int solidFractions = 0;
             for(AlchemicIngredient ingredient: ingredients){
-                if(ingredient.getQuantity().isGreaterThanOrEqualTo(PowderUnit.SPOON)|!ingredient.getState().getState().isSolid()){
+                if(ingredient.getQuantity().isGreaterThanOrEqualTo(PowderUnit.SPOON, 1L)|!ingredient.getState().getState().isSolid()){
                     drops += ingredient.getQuantity().convertToFluidUnit(FluidUnit.DROP);
                 }
                 else{
@@ -219,7 +219,7 @@ public class Kettle extends Device {
         for(AlchemicIngredient ingredient: ingredients){
             Temperature ingredientTemp = ingredient.getTemperature();
             Quantity ingredientQuantity = ingredient.getQuantity();
-            if(ingredientQuantity.isGreaterThanOrEqualTo(FluidUnit.SPOON)){
+            if(ingredientQuantity.isGreaterThanOrEqualTo(FluidUnit.SPOON, 1L)){
                 temperature += (ingredientTemp.getHotness() -ingredientTemp.getColdness())*(ingredientQuantity.convertToFluidUnit(FluidUnit.SPOON)/spoons);
             }
             else if(ingredient.getState().getState().isSolid()){
