@@ -1,5 +1,7 @@
 package com.alchemy.quantity;
 
+import be.kuleuven.cs.som.annotate.*;
+
 /**
  * Represents a quantity with a specific amount and unit.
  * Nominally programmed.
