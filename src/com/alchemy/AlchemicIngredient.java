@@ -233,6 +233,15 @@ public class AlchemicIngredient {
             }
     }
 
+    public void reduceAmount(Long amount) {
+        if (amount >= 0 && amount <= this.getQuantity().getAmount()) {
+            long newAmount = this.getQuantity().getAmount() - amount;
+            this.getQuantity().setAmount(newAmount);
+        } else {
+            throw new IllegalArgumentException("Cannot reduce amount of " + this.getFullName());
+        }
+    }
+
     /**********************************************************
      * IngredientType - total programming
      **********************************************************/
