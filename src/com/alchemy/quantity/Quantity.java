@@ -117,10 +117,28 @@ public class Quantity {
      *
      * @return the smallest container unit for this quantity
      */
-    public Unit getSmallestContainer() {
+    public Unit getSmallestFluidContainer() {
         Unit smallestContainerUnit = null;
         Long smallestContainerAmount = Long.MAX_VALUE;
-        if(this.isPowderUnit()) {
+
+        for (Unit other : FluidUnit.values()) {
+            Long converted = unit.convertTo(other, amount);
+            if (smallestContainerAmount > 1 && converted < smallestContainerAmount) {
+                smallestContainerAmount = converted;
+                smallestContainerUnit = other;
+            } else if (smallestContainerAmount <= 1 && converted > smallestContainerAmount && converted <= 1) {
+                smallestContainerAmount = converted;
+                smallestContainerUnit = other;
+
+            }
+        }
+
+        return smallestContainerUnit;
+    }
+    public Unit getSmallestPowderContainer() {
+        Unit smallestContainerUnit = null;
+        Long smallestContainerAmount = Long.MAX_VALUE;
+
             for (Unit other : PowderUnit.values()) {
                 Long converted = unit.convertTo(other, amount);
                 if (smallestContainerAmount > 1 && converted < smallestContainerAmount) {
@@ -132,20 +150,6 @@ public class Quantity {
 
                 }
             }
-        }
-        else{
-            for (Unit other : FluidUnit.values()) {
-                Long converted = unit.convertTo(other, amount);
-                if (smallestContainerAmount > 1 && converted < smallestContainerAmount) {
-                    smallestContainerAmount = converted;
-                    smallestContainerUnit = other;
-                } else if (smallestContainerAmount <= 1 && converted > smallestContainerAmount && converted <= 1) {
-                    smallestContainerAmount = converted;
-                    smallestContainerUnit = other;
-
-                }
-            }
-        }
         return smallestContainerUnit;
     }
 

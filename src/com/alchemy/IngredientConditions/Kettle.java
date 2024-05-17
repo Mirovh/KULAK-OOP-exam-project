@@ -4,6 +4,7 @@ import com.alchemy.IngredientConditions.Temperature;
 import com.alchemy.quantity.FluidUnit;
 import com.alchemy.quantity.PowderUnit;
 import com.alchemy.quantity.Quantity;
+import com.alchemy.quantity.Unit;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -52,7 +53,14 @@ public class Kettle extends Device {
     public ArrayList<IngredientContainer> getContent(){
         ArrayList<IngredientContainer> containers = new ArrayList<>();
         for(AlchemicIngredient ingredient: ingredients){
-            containers.add(new IngredientContainer(ingredient, ingredient.getQuantity().getSmallestContainer()));
+            Unit containerUnit;
+            if(ingredient.getState().isSolid()){
+                containerUnit = ingredient.getQuantity().getSmallestPowderContainer();
+            }
+            else{
+                containerUnit = ingredient.getQuantity().getSmallestFluidContainer();
+            }
+            containers.add(new IngredientContainer(ingredient,containerUnit));
         }
         ingredients.clear();
         return containers;

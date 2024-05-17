@@ -54,6 +54,8 @@ public class IngredientState {
      * Getters and Setters
      **********************************************************/
     public State getState(){return state;}
+
+    public boolean isSolid(){return state.isSolid();}
     /**********************************************************
      * Mutators
      **********************************************************/

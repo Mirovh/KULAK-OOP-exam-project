@@ -30,7 +30,17 @@ public abstract class Device {
      * container is returned and rest of contents are destroyed.
      */
     public IngredientContainer getContents() {
-        Unit containerUnit = ingredient.getQuantity().getSmallestContainer();
+        if(ingredient == null){
+            return null;
+        }
+        Unit containerUnit;
+        if(ingredient.getState().isSolid()){
+            containerUnit = ingredient.getQuantity().getSmallestPowderContainer();
+        }
+        else{
+            containerUnit = ingredient.getQuantity().getSmallestFluidContainer();
+        }
+
         IngredientContainer container = new IngredientContainer(ingredient, containerUnit);
         ingredient = null;
         return container;
