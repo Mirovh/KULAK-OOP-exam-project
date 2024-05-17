@@ -21,6 +21,9 @@ public enum PowderUnit implements Unit {
     CHEST("chest", 10L, SACK),
     STOREROOM("storeroom", 5L, CHEST);
 
+    /**
+     * The name of the unit in human-readable format.
+     */
     private final String name;
 
 
@@ -39,11 +42,21 @@ public enum PowderUnit implements Unit {
         Unit.calculateConversionMaps(values());
     }
 
+    /**
+     * Returns the base unit of PowderUnit.
+     *
+     * @return The base unit
+     */
     @Override @Basic
     public PowderUnit getBaseUnit() {
         return values()[0];
     }
 
+    /**
+     * Returns the name of the unit.
+     *
+     * @return The name of the unit
+     */
     @Override @Basic
     public String getName() {
         return name;

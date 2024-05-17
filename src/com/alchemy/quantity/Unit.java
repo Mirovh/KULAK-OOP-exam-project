@@ -9,6 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public interface Unit {
+    /**
+     * The conversion map for this unit.
+     * This map contains the conversion rates to all other units.
+     */
     Map<Unit, Long> conversionMap = new HashMap<>();
 
     /**

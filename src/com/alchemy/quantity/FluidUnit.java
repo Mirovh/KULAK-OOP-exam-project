@@ -37,11 +37,21 @@ public enum FluidUnit implements Unit {
         Unit.calculateConversionMaps(values());
     }
 
+    /**
+     * Returns the base unit of FluidUnit.
+     *
+     * @return The base unit
+     */
     @Override @Basic
     public FluidUnit getBaseUnit() {
         return values()[0];
     }
 
+    /**
+     * Returns the name of the unit.
+     *
+     * @return The name of the unit
+     */
     @Override @Basic
     public String getName() {
         return name;

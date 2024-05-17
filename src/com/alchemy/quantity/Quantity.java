@@ -8,7 +8,13 @@ import be.kuleuven.cs.som.annotate.*;
  * @invar The unit of the quantity is always non-null.
  */
 public class Quantity {
+    /**
+     * The amount of the quantity. (in the unit specified by the unit variable)
+     */
     private Long amount;
+    /**
+     * The unit of the quantity.
+     */
     private Unit unit;
 
     /**
