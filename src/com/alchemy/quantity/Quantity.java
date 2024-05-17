@@ -1,10 +1,6 @@
 package com.alchemy.quantity;
 
-<<<<<<< Updated upstream
 import be.kuleuven.cs.som.annotate.*;
-=======
-import be.kuleuven.cs.som.annotate.Basic;
->>>>>>> Stashed changes
 
 /**
  * Represents a quantity with a specific amount and unit.
@@ -78,6 +74,19 @@ public class Quantity {
         this.amount = this.unit.convertTo(unit, this.amount);
         this.unit = unit;
         return amount;
+    }
+
+    /**
+     * Converts this quantity to the base unit.
+     *
+     * @post The amount of the quantity is converted to the base unit.
+     *      | this.amount = this.unit.convertToBase(this.amount)
+     * @post The unit of the quantity is set to the base unit.
+     *     | this.unit = this.unit.getBaseUnit()
+     */
+    public void convertToBase() {
+        this.amount = this.unit.convertToBase(this.amount);
+        this.unit = this.unit.getBaseUnit();
     }
 
     /**
@@ -246,14 +255,8 @@ public class Quantity {
     /**
      * Checks if this quantity is smaller than (one of) the specified unit.
      *
-<<<<<<< Updated upstream
      * @param unit the unit to compare with
      *             | unit != null
-=======
-     * @param unit   the unit to compare with
-     *               | unit != null
-     * @param amount the amount of the unit to compare with
->>>>>>> Stashed changes
      * @return true if this quantity is smaller, false otherwise
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
@@ -332,20 +335,23 @@ public class Quantity {
     /**
      * Checks if this quantity is smaller than or equal to (one of) the specified unit.
      *
-<<<<<<< Updated upstream
      * @param unit the unit to compare with
      *             | unit != null
-=======
-     * @param unit   the unit to compare with
-     *               | unit != null
-     * @param amount the amount of the unit to compare with
->>>>>>> Stashed changes
      * @return true if this quantity is smaller than or equal, false otherwise
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
     @Basic
     public boolean isSmallerThanOrEqualTo(Unit unit, long amount) {
         return this.isSmallerThanOrEqualTo(new Quantity(amount, unit));
+    }
+
+    /**
+     * Returns a string representation of this quantity.
+     *
+     * @return a string representation of this quantity
+     */
+    public String toString() {
+        return amount + " " + unit.getName();
     }
 
 }
