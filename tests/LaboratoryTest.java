@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 import static com.alchemy.quantity.FluidUnit.*;
 import static com.alchemy.quantity.PowderUnit.*;
 
-public class LaboratoryTest {/**
+public class LaboratoryTest {
     AlchemicIngredient ingredientSolid;
     AlchemicIngredient ingredientLiquid;
     AlchemicIngredient exceedingIngredient;
@@ -23,7 +23,7 @@ public class LaboratoryTest {/**
 
     @Before
     public void setUpFixture(){
-        Laboratory testLab = new Laboratory(); // amount of storerooms
+        Laboratory testLab = new Laboratory(1); // amount of storerooms
         try {
             AlchemicIngredient ingredientSolid = new AlchemicIngredient("testSolid", temp, stateSolid, 50);
             AlchemicIngredient ingredientLiquid = new AlchemicIngredient("testLiquid",temp,stateLiquid, 50);
@@ -38,65 +38,64 @@ public class LaboratoryTest {/**
     }
     @Test
     public void testLaboratory(){
-        assertEquals(1, testLab.getStorerooms);
-        assertTrue(testLab.getIngredients().isEmpty());  //new lab is empty
+        assertEquals(1, testLab.getStoreroom());
+        assertTrue(testLab.isEmpty());  //new lab is empty
     }
 
     @Test
-    public void testAddContainer(){
+    public void testAddContainer() throws IngredientName.IllegalNameException {
         testLab.addContainer(emptyContainer);
-        assertEquals(0, testLab.getContentsAmount);
+        assertEquals(0, testLab.getFilledSpace());
         assertThrows(IllegalArgumentException.class, () -> testLab.addContainer(exceedingAmount));
         testLab.addContainer(containerLiquid, 40);
-        assertEquals(40, testLab.getContentsAmount);    //klopt nog niet hangt af van implementatie
-        assertEquals(10, containerLiquid.getContents());
+        assertEquals(40, testLab.getFilledSpace());    //klopt nog niet hangt af van implementatie
+        assertTrue(containerLiquid.getContent().getQuantity().isEqualTo(DROP, 10));
         testLab.addContainer(containerLiquid, 10);
         testLab.addContainer(containerSolid);       // no second argument adds all contents of container
-        assertEquals(50 + 50, testLab.getContentsAmount);       //same as before, 46
-        assertNull(containerLiquid);    //container should be destroyed //TODO: destructor for container
+        assertEquals(50 + 50, testLab.getFilledSpace());       //same as before, 46
+        assertNull(containerLiquid);    //container should be destroyed
         assertNull(containerSolid);    //container should be destroyed
     }
 
     @Test
-    public void testRemoveContainer(){
-        IngredientContainer containerLabLiquid;
-        IngredientContainer containerLabSolid;
+    public void testRemoveContainer() throws IngredientName.IllegalNameException {
+        IngredientContainer containerLabLiquid = null;
         testLab.addContainer(containerLiquid);
         testLab.addContainer(containerSolid);
-        testLab.removeIngredient(ingredientLiquid, BOTTLE, 0);
-        assertNull(containerLabLiquid);     //no new container when nothing gets removed
-        testLab.removeIngredient(ingredientLiquid, BOTTLE, 20);   //remove creates a new container
-        assertEquals(80, testLab.getContentsAmount);    //TODO: op 80 moet een conversie gebeuren om assertie te doen kloppen
-        assertEquals(20, containerLabLiquid.getContent());
-        testLab.removeIngredient(ingredientLiquid, BOTTLE, 30);
-        testLab.removeIngredient(ingredientLiquid, BOTTLE, 50);   //remove creates a new container
+        testLab.removeIngredient(ingredientLiquid, BOTTLE, 0L);
+        assertNull(labContainers);     //no new container when nothing gets removed
+        testLab.removeIngredient(ingredientLiquid, BOTTLE, 20L);   //remove creates a new container
+        assertEquals(80, testLab.getFilledSpace());    //TODO: op 80 moet een conversie gebeuren om assertie te doen kloppen
+        assertTrue(containerLabLiquid.getContent().getQuantity().isEqualTo(DROP, 20));
+        testLab.removeIngredient(ingredientLiquid, BOTTLE, 30L);
+        testLab.removeIngredient(ingredientLiquid, BOTTLE, 50L);   //remove creates a new container
         assertTrue(testLab.isEmpty());
-        assertThrows(IllegalArgumentException.class, () -> testLab.removeIngredient(ingredientLiquid, 50));      //exceeds amount of ingredient
-        assertThrows(IllegalArgumentException.class, () -> testLab.removeIngredient(ingredientLiquid, -50));
+        assertThrows(IllegalArgumentException.class, () -> testLab.removeIngredient(ingredientLiquid, BOTTLE, 50L));      //exceeds amount of ingredient
+        assertThrows(IllegalArgumentException.class, () -> testLab.removeIngredient(ingredientLiquid, BOTTLE, -50L));
     }
 
     @Test
     public void testAddStoreroom() {
-        testLab.addStoreroom(0);
-        assertEquals(1, testLab.getStoreroom);
-        testLab.addStoreroom(2);
-        assertEquals(3, testLab.getStoreroom);
-        assertThrows(IllegalArgumentException.class, () -> testLab.addStoreroom(-5));
+        testLab.addStorerooms(0);
+        assertEquals(1, testLab.getStoreroom());
+        testLab.addStorerooms(2);
+        assertEquals(3, testLab.getStoreroom());
+        assertThrows(IllegalArgumentException.class, () -> testLab.addStorerooms(-5));
     }
 
     @Test
     public void testRemoveStoreroom() {
-        assertThrows(IllegalArgumentException.class, () -> testLab.removeStoreroom(-5));
-        testLab.addStoreroom(3);
-        testLab.removeStoreroom(0);
+        assertThrows(IllegalArgumentException.class, () -> testLab.removeStorerooms(-5));
+        testLab.addStorerooms(3);
+        testLab.removeStorerooms(0);
         assertEquals(4, testLab.getStoreroom());
-        testLab.removeStoreroom(1);
+        testLab.removeStorerooms(1);
         assertEquals(3, testLab.getStoreroom());
         testLab.addContainer(exceedingAmount);
         testLab.addContainer(containerLiquid);
-        assertThrows(IllegalArgumentException.class, () -> testLab.removeStoreroom(2));
-        testLab.removeStoreroom(1);
-        assertEquals(2, testLab.getStoreroom);
+        assertThrows(IllegalArgumentException.class, () -> testLab.removeStorerooms(2));
+        testLab.removeStorerooms(1);
+        assertEquals(2, testLab.getStoreroom());
     }
 
     @Test
@@ -114,9 +113,9 @@ public class LaboratoryTest {/**
         CoolingBox fridge2 = new CoolingBox();
         //test that only one device of each type can be added to the Laboratory
         testLab.addDevice(fridge);
-        Assert.assertThrows(Laboratory.LaboratoryFullException.class,()->{testLab.addDevice(fridge2);});
-        Assert.assertThrows(Device.NotInLaboratoryException.class, fridge2::react);
+        assertThrows(Laboratory.LaboratoryFullException.class,()->{testLab.addDevice(fridge2);});
+        assertThrows(Device.NotInLaboratoryException.class, fridge2::react);
 
-    }**/
+    }
 }
 
