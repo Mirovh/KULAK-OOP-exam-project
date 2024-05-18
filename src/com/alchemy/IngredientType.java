@@ -77,14 +77,30 @@ public class IngredientType {
     /**********************************************************
      * Getters and Setters
      **********************************************************/
+
+    /**
+     * Retrieves the standard temperature.
+     *
+     * @return The standard temperature.
+     */
     public Temperature getStandardTemperature() {
         return standardTemperature;
     }
 
+    /**
+     * Retrieves the name of the ingredient.
+     *
+     * @return The name of the ingredient.
+     */
     public IngredientName getName() {
         return ingredientName;
     }
 
+    /**
+     * Retrieves the standard state of the ingredient.
+     *
+     * @return The standard state of the ingredient.
+     */
     public IngredientState getStandardState() {
         return standardState;
     }

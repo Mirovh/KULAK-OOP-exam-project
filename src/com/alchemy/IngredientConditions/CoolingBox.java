@@ -104,7 +104,6 @@ public class CoolingBox extends Device {
      *  |ingredientTemperature = temperature
      *  |}
      */
-
     @Override
     public void react() throws NotInLaboratoryException {
         if(!isInLaboratory()){
@@ -124,6 +123,7 @@ public class CoolingBox extends Device {
             }
         }
     }
+
     /**
      * method to cool coolingboxes own temperature by 10 degrees
      * @effect the temperature of coolinbox will be lowered by 10 degrees

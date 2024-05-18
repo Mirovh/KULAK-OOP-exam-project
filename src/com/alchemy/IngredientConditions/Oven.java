@@ -122,7 +122,6 @@ public class Oven extends Device {
      * method to higher ovens own temperature by 10 degrees
      * @effect the temperature of oven will be heated by 10 degrees
      */
-
     public void heatOwnTemperature(){
         temperature.heat(10F);
     }

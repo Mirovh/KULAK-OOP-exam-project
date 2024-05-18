@@ -65,6 +65,11 @@ public class Laboratory {
         return Space - FilledSpace;
     }
 
+    /**
+     * Retrieves the space available Laboratory.
+     *
+     * @return the amount of storerooms.
+     */
     public float getSpace(){
         return this.getStoreroom();
     }
@@ -175,8 +180,7 @@ public class Laboratory {
      */
     private ArrayList<IngredientContainer> labContainers;
     public void removeIngredient(AlchemicIngredient ingredient, Unit containerUnit, Long amount) throws IngredientName.IllegalNameException {
-        //ArrayList<IngredientContainer> labContainers = new ArrayList<IngredientContainer>();                      //TODO:
-        labContainers = new ArrayList<IngredientContainer>();
+        labContainers = new ArrayList<IngredientContainer>();                                                           //TODO: nakijken
         for (int i = 0; i < amount; i++) {
             boolean found = false;
             for (IngredientContainer container : containers) {
@@ -194,6 +198,12 @@ public class Laboratory {
             }
         }
     }
+
+    /**
+     * Retrieves the list of laboratory-made containers.
+     *
+     * @return The list of laboratory-made containers.
+     */
     public ArrayList<IngredientContainer> getLabContainers() {
         return labContainers;
     }
@@ -283,7 +293,7 @@ public class Laboratory {
         if(canAddDevice(device)) {
             devices.add(device);
             device.setLaboratory(this);
-            //TODO: empty device and add contents to the inventory of the laboratory   //might be fixed in next 2 lines
+            //TODO: empty device and add contents to the inventory of the laboratory   //might be fixed in next 2 lines  //makijken
             this.addContainer(device.getContents());
             device.getContents().destroy();
             device.getContents().setContent(null);
@@ -311,15 +321,31 @@ public class Laboratory {
         }
         return valid;
     }
+
     /**
      * Exception thrown when the laboratory is full.
      */
     public static class LaboratoryFullException extends Exception {
         public LaboratoryFullException(String e){super(e);}
     }
+
+    /**
+     * exception when a device is missing in the laboratory.
+     */
     public static class LaboratoryMissingDeviceException extends Exception {
         public LaboratoryMissingDeviceException(String e){super(e);}
     }
+
+    /**
+     * Adjusts the temperature of the given ingredient to its standard temperature.
+     * If the ingredient's temperature is colder than its standard temperature, it is heated in an oven.
+     * If the ingredient's temperature is hotter than its standard temperature, it is cooled in a cooling box.
+     *
+     * @param ingredient The ingredient whose temperature is to be adjusted.
+     * @return The ingredient after its temperature has been adjusted.
+     * @throws Device.DeviceFullException If the device (oven or cooling box) is full and cannot accommodate the ingredient.
+     * @throws LaboratoryMissingDeviceException If the required device (oven or cooling box) is missing in the laboratory.
+     */
     private AlchemicIngredient bringBackToStandardTemperature(AlchemicIngredient ingredient) throws Device.DeviceFullException, LaboratoryMissingDeviceException {
         boolean changed = false;
         Temperature targetTemp = ingredient.getStandardType().getStandardTemperature();
@@ -406,7 +432,7 @@ public class Laboratory {
                 usedIngredients.add(kettle.getContent().getFirst().getContent());
                 break;
                 case ADD:
-                    //TODO: Remove certain quantity ingredient from lab and add to usedIngredients
+                    //TODO: Remove certain quantity ingredient from lab and add to usedIngredients //nakijken
                     currentIngredient = ingredients[ingredientIndex];
                     for (IngredientContainer container : containers){
                         if (container.getContent() == currentIngredient){

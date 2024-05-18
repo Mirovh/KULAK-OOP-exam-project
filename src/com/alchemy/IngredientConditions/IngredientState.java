@@ -33,6 +33,7 @@ public class IngredientState {
             state = State.Liquid;
         }
     }
+
     /**
      * constructor to make a state
      * @param state whether the state is solid
@@ -40,6 +41,7 @@ public class IngredientState {
     public IngredientState(State state){
         this.state = state;
     }
+
     /**
      * enum to keep track of the state of the ingredient
      */
@@ -51,6 +53,7 @@ public class IngredientState {
         }
         public boolean isSolid(){return solid;}
     }
+
     /**********************************************************
      * Getters and Setters
      **********************************************************/

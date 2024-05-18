@@ -55,7 +55,11 @@ public abstract class Device {
         ingredient = null;
         return container;
     }
-
+    /**
+     * Sets the laboratory. which the device is in.
+     *
+     * @param laboratory The Laboratory object to be set.
+     */
     public void setLaboratory(Laboratory laboratory) {
         this.laboratory = laboratory;
     }
