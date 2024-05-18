@@ -1,8 +1,12 @@
 import com.alchemy.AlchemicIngredient;
+import com.alchemy.IngredientConditions.Device;
+import com.alchemy.IngredientConditions.Kettle;
+import com.alchemy.IngredientContainer;
 import com.alchemy.IngredientName;
 
 import com.alchemy.IngredientConditions.Temperature;
 import com.alchemy.IngredientConditions.IngredientState;
+import com.alchemy.Laboratory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,9 +26,24 @@ public class AlchemicIngredientTest {
     public void setUpFixture() {
         try {
             ingredient = new AlchemicIngredient("Test Ingredient",temp,state,10);
-            ingredient2 = new AlchemicIngredient("Test Ingredient mixed with Another Ingredient",temp,state, 10);
+            ingredient2 = new AlchemicIngredient("Test Ingredient",temp,state, 10);
+            AlchemicIngredient ingredient3 = new AlchemicIngredient("Another Ingredient",temp,state, 10);
+            // mix 2 and 3
+            Laboratory lab = new Laboratory(1);
+            IngredientContainer container1 = new IngredientContainer(ingredient2.getQuantity().getSmallestPowderContainer());
+            container1.setContent(ingredient2);
+            IngredientContainer container2 = new IngredientContainer(ingredient3.getQuantity().getSmallestPowderContainer());
+            container2.setContent(ingredient3);
+            Kettle kettle = new Kettle();
+            kettle.addIngredient(container1);
+            kettle.addIngredient(container2);
+            lab.addDevice(kettle);
+            kettle.react();
+            ingredient2 = kettle.getContent().getFirst().getContent();
         } catch (IngredientName.IllegalNameException e) {
             fail("Valid name should not throw an exception: " + e.getMessage());
+        } catch (Device.NotInLaboratoryException | Laboratory.LaboratoryFullException e) {
+            throw new RuntimeException(e);
         }
     }
 

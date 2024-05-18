@@ -294,6 +294,7 @@ public class Laboratory {
             devices.add(device);
             device.setLaboratory(this);
             //TODO: empty device and add contents to the inventory of the laboratory   //might be fixed in next 2 lines  //makijken
+            System.out.println(device.getContents());
             this.addContainer(device.getContents());
             device.getContents().destroy();
             device.getContents().setContent(null);

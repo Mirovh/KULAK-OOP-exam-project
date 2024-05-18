@@ -20,7 +20,7 @@ public class Kettle extends Device {
     /**********************************************************
      * Variables
      **********************************************************/
-    private ArrayList<AlchemicIngredient> ingredients;
+    private ArrayList<AlchemicIngredient> ingredients = new ArrayList<>();
 
     static Temperature targetTemp = new Temperature(0,20);
 
@@ -28,8 +28,8 @@ public class Kettle extends Device {
      * Constants
      **********************************************************/
 
-    static final int pinchInSpoon = Math.round(new Quantity(1, PowderUnit.PINCH).convertToPowderUnit(PowderUnit.SPOON));
-    static final int dropInSpoon = Math.round(new Quantity(1, FluidUnit.DROP).convertToFluidUnit(FluidUnit.SPOON));
+    static final int pinchInSpoon = Math.round(new Quantity(1, PowderUnit.PINCH).convertTo(PowderUnit.SPOON));
+    static final int dropInSpoon = Math.round(new Quantity(1, FluidUnit.DROP).convertTo(FluidUnit.SPOON));
 
     /**********************************************************
      * Constructors

@@ -96,7 +96,7 @@ public class IngredientContainer {
      *   | this.content = content
      */
     public void setContent(AlchemicIngredient content){
-        if (!this.fits(content)) {
+        if (content != null && !this.fits(content)) {
             throw new IllegalArgumentException("The ingredient does not fit in the container.");
         }
         this.content = content;

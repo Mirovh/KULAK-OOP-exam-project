@@ -81,6 +81,9 @@ public class IngredientName {
         this.blacklistedWords = blacklistedWords;
         if (isValidIngredientPartName(name)) {
             setName(name);
+        } else {
+            // this can happen when you try to initialise an ingredient as a mixture
+            throw new IllegalNameException(name);
         }
         if (specialName != null) {
             setSpecialName(specialName);
@@ -97,6 +100,9 @@ public class IngredientName {
         this.blacklistedWords = blacklistedWords;
         if (isValidIngredientPartName(name)) {
             setName(name);
+        } else {
+            // this can happen when you try to initialise an ingredient as a mixture
+            throw new IllegalNameException(name);
         }
     }
 
@@ -159,7 +165,7 @@ public class IngredientName {
         if (isValidIngredientPartName(name) && this.nameParts.length > 1) {
             this.specialName = name;
         } else {
-            throw new IllegalSpecialNameException(name);
+            throw new IllegalSpecialNameException(name + " injected info for debug: " + this.nameParts.length + " " + Arrays.toString(this.nameParts)+ " " + isValidIngredientPartName(name));
         }
     }
 
@@ -384,7 +390,7 @@ public class IngredientName {
         * @param name The invalid mixture name.
         */
         IllegalNameException(String name) {
-            super("The name '" + name + "' is not a valid mixture name.");
+            super("The name '" + name + "' is not a valid name.");
         }
     }
 
