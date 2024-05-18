@@ -283,8 +283,11 @@ public class Laboratory {
         if(canAddDevice(device)) {
             devices.add(device);
             device.setLaboratory(this);
-            //TODO: empty device and add contents to the inventory of the laboratory
-        }
+            //TODO: empty device and add contents to the inventory of the laboratory   //might be fixed in next 2 lines
+            this.addContainer(device.getContents());
+            device.getContents().destroy();
+            device.getContents().setContent(null);
+            }
         else{
             throw new LaboratoryFullException("Laboratory already has " + device.getClass().getSimpleName());
         }
@@ -372,6 +375,7 @@ public class Laboratory {
         ActionType[] actions = recipe.getActions();
         AlchemicIngredient[] ingredients = recipe.getIngredients();
         AlchemicIngredient currentIngredient;
+        int ingredientIndex = 0;
         for(ActionType action: actions){
             switch (action){
                 case MIX:
@@ -403,6 +407,28 @@ public class Laboratory {
                 break;
                 case ADD:
                     //TODO: Remove certain quantity ingredient from lab and add to usedIngredients
+                    currentIngredient = ingredients[ingredientIndex];
+                    for (IngredientContainer container : containers){
+                        if (container.getContent() == currentIngredient){
+                            if (container.getContent().getQuantity().isPowderUnit()) {
+                                containers.add(new IngredientContainer(new AlchemicIngredient(currentIngredient.getFullName(), currentIngredient.getTemperature(), currentIngredient.getState(), currentIngredient.getQuantity().convertToPowderUnit(container.getContent().getQuantity().getUnit())),container.getContainerUnit()));
+                                try {
+                                    usedIngredients.add(new AlchemicIngredient(currentIngredient.getFullName(), currentIngredient.getTemperature(), currentIngredient.getState(), currentIngredient.getQuantity().convertToPowderUnit(PowderUnit.SPOON)));
+                                } catch (IngredientName.IllegalNameException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            } else if (container.getContent().getQuantity().isFluidUnit()) {
+                                containers.add(new IngredientContainer(new AlchemicIngredient(currentIngredient.getFullName(), currentIngredient.getTemperature(), currentIngredient.getState(), currentIngredient.getQuantity().convertToFluidUnit(container.getContent().getQuantity().getUnit())),container.getContainerUnit()));
+                                try {
+                                    usedIngredients.add(new AlchemicIngredient(currentIngredient.getFullName(), currentIngredient.getTemperature(), currentIngredient.getState(), currentIngredient.getQuantity().convertToFluidUnit(FluidUnit.SPOON)));
+                                } catch (IngredientName.IllegalNameException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+
+                        }
+                    }
+                    ingredientIndex++;
                     break;
                 case COOL:
                     currentIngredient = usedIngredients.getLast();
