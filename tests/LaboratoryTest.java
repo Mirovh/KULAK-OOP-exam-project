@@ -61,9 +61,9 @@ public class LaboratoryTest {
         testLab.addContainer(containerLiquid);
         testLab.addContainer(containerSolid);
         testLab.removeIngredient(ingredientLiquid, BOTTLE, 0L);
-        assertNull(labContainers);     //no new container when nothing gets removed
+        assertNull(testLab.getLabContainers());     //no new container when nothing gets removed
         testLab.removeIngredient(ingredientLiquid, BOTTLE, 20L);   //remove creates a new container
-        assertNotNull(labContainers);
+        assertNotNull(testLab.getLabContainers());
         testLab.removeIngredient(ingredientLiquid, BOTTLE, 30L);
         testLab.removeIngredient(ingredientLiquid, BOTTLE, 50L);   //remove creates a new container
         assertTrue(testLab.isEmpty());

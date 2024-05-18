@@ -173,9 +173,10 @@ public class Laboratory {
      * @throws IngredientName.IllegalNameException If the name of the ingredient is illegal.
      * @throws IllegalArgumentException If there is not enough of the ingredient to remove or if the ingredient is not found in the laboratory.
      */
-
+    private ArrayList<IngredientContainer> labContainers;
     public void removeIngredient(AlchemicIngredient ingredient, Unit containerUnit, Long amount) throws IngredientName.IllegalNameException {
-        ArrayList<IngredientContainer> labContainers = new ArrayList<IngredientContainer>();
+        //ArrayList<IngredientContainer> labContainers = new ArrayList<IngredientContainer>();                      //TODO:
+        labContainers = new ArrayList<IngredientContainer>();
         for (int i = 0; i < amount; i++) {
             boolean found = false;
             for (IngredientContainer container : containers) {
@@ -192,6 +193,9 @@ public class Laboratory {
                 throw new IllegalArgumentException("Ingredient not found in laboratory");
             }
         }
+    }
+    public ArrayList<IngredientContainer> getLabContainers() {
+        return labContainers;
     }
 
     /**
