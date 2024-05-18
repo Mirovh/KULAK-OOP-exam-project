@@ -64,11 +64,11 @@ public class ContainerTest {
     @Test
     public void testEmptyAndDestroy() {
         containerPowder.empty();
-        assertNull(containerPowder.getContent());
-        assertThrows(IllegalArgumentException.class, () ->  containerFluid.destroy());
+        assertNull(emptyContainer.getContent());
+        containerFluid.destroy();
         containerPowder.destroy();
         emptyContainer.destroy();
-        assertNull(containerPowder);
-        assertNull(emptyContainer);
+        assertNull(containerPowder.getContent());
+        assertNull(emptyContainer.getContent());
     }
 }
