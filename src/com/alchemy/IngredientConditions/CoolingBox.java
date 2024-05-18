@@ -29,15 +29,15 @@ public class CoolingBox extends Device {
      * @param coldness the coldness of the temperature of the CoolingBox
      * @param hotness the hotness of the temperature of the CoolingBox
      */
-    public CoolingBox(Long coldness, Long hotness){
-        this.temperature = new Temperature(0L,0L);setTemperature(coldness,hotness);
+    public CoolingBox(Float coldness, Float hotness){
+        this.temperature = new Temperature(0F,0F);setTemperature(coldness,hotness);
     }
 
     /**
      * creates a coolingbox with temperature 0,20
      */
     public CoolingBox(){
-        this.temperature = new Temperature(0L,20L);
+        this.temperature = new Temperature(0F,20F);
     }
     /**
      * method for adding an ingredient to the coolingbox
@@ -56,7 +56,7 @@ public class CoolingBox extends Device {
      * @param hotness the hotness the coolingBox will be set to
      */
     @Basic
-    public void setTemperature(Long coldness,Long hotness){
+    public void setTemperature(Float coldness,Float hotness){
         temperature.heat(temperature.getColdness());
         temperature.cool(temperature.getHotness());
         temperature.cool(coldness);
@@ -69,8 +69,8 @@ public class CoolingBox extends Device {
      */
     @Basic
     public void setTemperature(Temperature temperature){
-        Long coldness = temperature.getColdness();
-        Long hotness = temperature.getHotness();
+        Float coldness = temperature.getColdness();
+        Float hotness = temperature.getHotness();
         this.temperature.heat(temperature.getColdness());
         this.temperature.cool(temperature.getHotness());
         this.temperature.cool(coldness);
@@ -115,10 +115,10 @@ public class CoolingBox extends Device {
         }
         else{
             Temperature ingredientTemperature = ingredient.getTemperature();
-            Long ingredientHotness = ingredientTemperature.getHotness();
-            Long ingredientColdness = ingredientTemperature.getColdness();
-            Long hotness = temperature.getHotness();
-            Long coldness = temperature.getColdness();
+            Float ingredientHotness = ingredientTemperature.getHotness();
+            Float ingredientColdness = ingredientTemperature.getColdness();
+            Float hotness = temperature.getHotness();
+            Float coldness = temperature.getColdness();
             if(!ingredientTemperature.isColderThan(temperature)){
                 ingredientTemperature.cool(ingredientHotness-hotness+coldness-ingredientColdness);
             }
@@ -129,6 +129,6 @@ public class CoolingBox extends Device {
      * @effect the temperature of coolinbox will be lowered by 10 degrees
      */
     public void lowerOwnTemp(){
-        temperature.cool(10L);
+        temperature.cool(10F);
     }
 }

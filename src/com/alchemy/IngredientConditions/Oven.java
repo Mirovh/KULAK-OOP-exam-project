@@ -29,15 +29,15 @@ public class Oven extends Device {
      * @param coldness the coldness of the temperature of the oven
      * @param hotness the hotness of the temperature of the oven
      */
-    public Oven(Long coldness, Long hotness){
-        this.temperature = new Temperature(0L,0L);setTemperature(coldness,hotness);
+    public Oven(Float coldness, Float hotness){
+        this.temperature = new Temperature(0F,0F);setTemperature(coldness,hotness);
     }
 
     /**
      * creates an oven with temperature [0,20]
      */
     public Oven(){
-        this.temperature = new Temperature(0L,20L);
+        this.temperature = new Temperature(0F,20F);
     }
 
     /**********************************************************
@@ -50,7 +50,7 @@ public class Oven extends Device {
      * @param coldness the coldness the oven will be set to
      * @param hotness the hotness the oven will be set to
      */
-    public void setTemperature(Long coldness,Long hotness){
+    public void setTemperature(Float coldness,Float hotness){
         temperature.heat(temperature.getColdness());
         temperature.cool(temperature.getHotness());//temperature is set to 0,0
         temperature.cool(coldness);
@@ -61,8 +61,8 @@ public class Oven extends Device {
      * @param temperature the temperature the oven will be set to
      */
     public void setTemperature(Temperature temperature){
-        Long coldness = temperature.getColdness();
-        Long hotness = temperature.getHotness();
+        Float coldness = temperature.getColdness();
+        Float hotness = temperature.getHotness();
         this.temperature.heat(temperature.getColdness());
         this.temperature.cool(temperature.getHotness());
         temperature.cool(coldness);
@@ -104,10 +104,10 @@ public class Oven extends Device {
         }
         else{
             Temperature ingredientTemperature= ingredient.getTemperature();
-            Long ingredientHotness = ingredientTemperature.getHotness();
-            Long ingredientColdness = ingredientTemperature.getColdness();
-            Long hotness = temperature.getHotness();
-            Long coldness = temperature.getColdness();
+            Float ingredientHotness = ingredientTemperature.getHotness();
+            Float ingredientColdness = ingredientTemperature.getColdness();
+            Float hotness = temperature.getHotness();
+            Float coldness = temperature.getColdness();
             if(ingredientHotness > hotness | ingredientColdness< coldness |(ingredientHotness.equals(hotness) && ingredientColdness.equals(coldness))){
                 return;
             }
@@ -124,6 +124,6 @@ public class Oven extends Device {
      */
 
     public void heatOwnTemperature(){
-        temperature.heat(10L);
+        temperature.heat(10F);
     }
 }

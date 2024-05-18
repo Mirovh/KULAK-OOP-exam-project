@@ -21,15 +21,15 @@ public class Temperature {
     /**
      * Variable referencing the hotness of the temperature
      */
-    private Long hotness;
+    private Float hotness;
     /**
      * Variable referencing the coldness of the temperature
      */
-    private Long coldness;
+    private Float coldness;
     /**
      * Variable referencing the limit of the hotness and coldness
      */
-    static Long temperatureLimit = 10000L;
+    static Float temperatureLimit = 10000F;
     /**********************************************************
      * Constructors
      **********************************************************/
@@ -39,10 +39,10 @@ public class Temperature {
      * @param coldness the coldness of the temperature
      * @param hotness the hotness of the temperature
      */
-    public Temperature(Long coldness, Long hotness){
+    public Temperature(Float coldness, Float hotness){
         if(coldness != 0 && hotness != 0){
             this.hotness = hotness;
-            this.coldness = 0L;
+            this.coldness = 0F;
         }
         else {
             this.hotness = hotness;
@@ -62,21 +62,21 @@ public class Temperature {
      * @param coldness the coldness of the temperature
      * @param hotness the hotness of the temperature
      */
-    public Temperature(int coldness, int hotness){this((long)coldness,(long)hotness);}
+    public Temperature(int coldness, int hotness){this((float)coldness,(float)hotness);}
     /**********************************************************
      * Getters and Setters
      **********************************************************/
     @Basic
-    public Long getHotness(){
+    public Float getHotness(){
         return hotness;
     }
     @Basic
-    public Long getColdness(){
+    public Float getColdness(){
         return coldness;
     }
     @Basic
-    public ArrayList<Long> getTemperature(){
-    ArrayList<Long> list = new ArrayList<>();
+    public ArrayList<Float> getTemperature(){
+    ArrayList<Float> list = new ArrayList<>();
     list.add(coldness);
     list.add(hotness);
     return list;
@@ -89,13 +89,13 @@ public class Temperature {
      * if the change is less than 0, temperature will be cooled instead
      * @param change the change in temperature
      */
-    void heat(Long change){
+    void heat(Float change){
         if(change <0){
             cool(change);
             return;
         }
         else{
-            ArrayList<Long> newTemps = changeTemp(change,hotness,coldness);
+            ArrayList<Float> newTemps = changeTemp(change,hotness,coldness);
             hotness = newTemps.getFirst();
             coldness = newTemps.getLast();
         }
@@ -105,13 +105,13 @@ public class Temperature {
      * if the change is less than 0, temperature will be heated instead
      * @param change the change in temperature
      */
-    void cool(Long change){
+    void cool(Float change){
         if(change<0){
             heat(change);
 
         }
         else{
-            ArrayList<Long> newTemps = changeTemp(change,coldness,hotness);
+            ArrayList<Float> newTemps = changeTemp(change,coldness,hotness);
             coldness = newTemps.getFirst();
             hotness = newTemps.getLast();
         }
@@ -128,16 +128,16 @@ public class Temperature {
      * if higher ends up higher than the temperatureLimit, it will be set to the limit itself
      * @return an arraylist of the two variables that have been changed.
      */
-    private ArrayList<Long> changeTemp(Long change, Long higher,Long lower){
+    private ArrayList<Float> changeTemp(Float change, Float higher,Float lower){
         lower -= change;
         if(lower <0){
             higher += lower*-1;
-            lower = 0L;
+            lower = 0F;
         }
         if(higher>temperatureLimit){
             higher = temperatureLimit;
         }
-        ArrayList<Long> list = new ArrayList<>();
+        ArrayList<Float> list = new ArrayList<>();
         list.add(higher);
         list.add(lower);
         return list;
@@ -161,5 +161,5 @@ public class Temperature {
      * @param otherTemp the temperature that this temperature gets compared to
      * @return the value of the difference in temperature
      */
-    public Long differenceFrom(Temperature otherTemp){return(Math.abs(coldness-otherTemp.getColdness())+Math.abs(hotness-otherTemp.getHotness()));}
+    public Float differenceFrom(Temperature otherTemp){return(Math.abs(coldness-otherTemp.getColdness())+Math.abs(hotness-otherTemp.getHotness()));}
 }

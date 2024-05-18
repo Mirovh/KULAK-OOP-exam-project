@@ -39,15 +39,15 @@ public class Laboratory {
      *
      * @return the filled space in the storeroom, expressed in storerooms.
      */
-    public long getFilledSpace() {
-        long FilledSpace = 0L;
+    public float getFilledSpace() {
+        float FilledSpace = 0L;
 
         for (IngredientContainer container : containers) {
             if (container.getContent().getQuantity().isFluidUnit()){
-                long amountOfFluid = container.getContainerUnit().convertTo(PowderUnit.STOREROOM, 1L); // converting to powder unit is allowed in this case since 1 storeroom powder == 1 storeroom fluid
+                float amountOfFluid = container.getContainerUnit().convertTo(PowderUnit.STOREROOM, 1F); // converting to powder unit is allowed in this case since 1 storeroom powder == 1 storeroom fluid
                 FilledSpace += amountOfFluid;
             } else if (container.getContent().getQuantity().isPowderUnit()) {
-                long amountOfPowder = container.getContainerUnit().convertTo(PowderUnit.STOREROOM, 1L);
+                float amountOfPowder = container.getContainerUnit().convertTo(PowderUnit.STOREROOM, 1F);
                 FilledSpace += amountOfPowder;
             }
         }
@@ -59,13 +59,13 @@ public class Laboratory {
      *
      * @return the free space in the storeroom
      */
-    public long getFreeSpace() {
-        long FilledSpace = this.getFilledSpace();
-        long Space = this.getSpace();
+    public float getFreeSpace() {
+        float FilledSpace = this.getFilledSpace();
+        float Space = this.getSpace();
         return Space - FilledSpace;
     }
 
-    public long getSpace(){
+    public float getSpace(){
         return this.getStoreroom();
     }
 
@@ -171,7 +171,7 @@ public class Laboratory {
      * @throws IngredientName.IllegalNameException If the name of the ingredient is illegal.
      * @throws IllegalArgumentException If there is not enough of the ingredient to remove or if the ingredient is not found in the laboratory.
      */
-    public void removeIngredient(AlchemicIngredient ingredient, Unit containerUnit, Long amount) throws IngredientName.IllegalNameException {
+    public void removeIngredient(AlchemicIngredient ingredient, Unit containerUnit, Float amount) throws IngredientName.IllegalNameException {
         for (int i = 0; i < amount; i++) {
             boolean found = false;
             for (IngredientContainer container : containers) {

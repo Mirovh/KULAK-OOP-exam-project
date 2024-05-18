@@ -66,7 +66,7 @@ public class AlchemicIngredient {
      */
     @Raw
     public AlchemicIngredient(String name, Temperature temperature, IngredientState.State state, int quantity) throws IngredientName.IllegalNameException {
-        this(new IngredientType(name,temperature,new IngredientState(state)),(long) quantity);
+        this(new IngredientType(name,temperature,new IngredientState(state)),(float) quantity);
     }
 
     /**
@@ -82,7 +82,7 @@ public class AlchemicIngredient {
      * | setSize(size)
      */
     @Raw
-    public AlchemicIngredient(String name, Temperature temperature, IngredientState.State state, long quantity) throws IngredientName.IllegalNameException {
+    public AlchemicIngredient(String name, Temperature temperature, IngredientState.State state, float quantity) throws IngredientName.IllegalNameException {
         this(new IngredientType(name,temperature,new IngredientState(state)), quantity);
     }
 
@@ -100,7 +100,7 @@ public class AlchemicIngredient {
      */
     @Raw
     public AlchemicIngredient(String name, Temperature temperature, IngredientState state, int quantity) throws IngredientName.IllegalNameException {
-        this(new IngredientType(name,temperature,state),(long) quantity);
+        this(new IngredientType(name,temperature,state),(float) quantity);
     }
 
     /**
@@ -116,7 +116,7 @@ public class AlchemicIngredient {
      * | setSize(size)
      */
     @Raw
-    public AlchemicIngredient(String name, Temperature temperature, IngredientState state, long quantity) throws IngredientName.IllegalNameException {
+    public AlchemicIngredient(String name, Temperature temperature, IngredientState state, float quantity) throws IngredientName.IllegalNameException {
         this(new IngredientType(name,temperature,state), quantity);
     }
 
@@ -157,7 +157,7 @@ public class AlchemicIngredient {
      * @param quantity The amount of the ingredient in the smallest unit of the state it is in.
      */
     @Raw
-    public AlchemicIngredient(IngredientType standardType, long quantity) {
+    public AlchemicIngredient(IngredientType standardType, float quantity) {
         this.standardType = standardType;
         this.ingredientName = standardType.getName();
         this.temperature = standardType.getStandardTemperature();
@@ -184,7 +184,7 @@ public class AlchemicIngredient {
      * @param quantity the amount of ingredient made in the smallest unit of the state it is in
      */
     @Raw
-    public AlchemicIngredient(Long quantity) {
+    public AlchemicIngredient(Float quantity) {
         this(new IngredientType(), quantity);
     }
 

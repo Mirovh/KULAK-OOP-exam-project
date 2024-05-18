@@ -70,7 +70,7 @@ public class IngredientType {
         } catch (IngredientName.IllegalNameException e) {
             throw new RuntimeException(e);
         }
-        standardTemperature = new Temperature(0L,20L);
+        standardTemperature = new Temperature(0F,20F);
         standardState = new IngredientState(IngredientState.State.Liquid);
     }
 

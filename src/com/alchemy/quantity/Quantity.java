@@ -18,7 +18,7 @@ public class Quantity {
     /**
      * The amount of the quantity. (in the unit specified by the unit variable)
      */
-    private Long amount;
+    private Float amount;
     /**
      * The unit of the quantity.
      */
@@ -36,7 +36,7 @@ public class Quantity {
      */
     @Raw
     public Quantity(int amount, Unit unit) {
-        this((long) amount, unit);
+        this((float) amount, unit);
     }
 
     /**
@@ -51,7 +51,7 @@ public class Quantity {
      *          | this.unit = unit
      */
     @Raw
-    public Quantity(Long amount, Unit unit) {
+    public Quantity(Float amount, Unit unit) {
         this.amount = amount;
         this.unit = unit;
     }
@@ -70,7 +70,7 @@ public class Quantity {
      * @return the amount of the quantity in the new Unit
      */
     @Raw
-    public Long convertTo(Unit unit) {
+    public Float convertTo(Unit unit) {
         this.amount = this.unit.convertTo(unit, this.amount);
         this.unit = unit;
         return amount;
@@ -102,7 +102,7 @@ public class Quantity {
      * @return the amount of the quantity in the new Unit
      */
     @Raw
-    public Long convertToFluidUnit(FluidUnit unit) {
+    public Float convertToFluidUnit(FluidUnit unit) {
         // storerooms and spoons are the same for both fluid and powder units
         this.convertTo(PowderUnit.SPOON);
         this.unit = FluidUnit.SPOON;
@@ -123,7 +123,7 @@ public class Quantity {
      * @return the amount of the quantity in the new Unit
      */
     @Raw
-    public Long convertToPowderUnit(PowderUnit unit) {
+    public Float convertToPowderUnit(PowderUnit unit) {
         // storerooms and spoons are the same for both fluid and powder units
         this.convertTo(FluidUnit.SPOON);
         this.unit = PowderUnit.SPOON;
@@ -160,10 +160,10 @@ public class Quantity {
     @Basic
     public Unit getSmallestFluidContainer() {
         Unit smallestContainerUnit = null;
-        Long smallestContainerAmount = Long.MAX_VALUE;
+        Float smallestContainerAmount = Float.MAX_VALUE;
 
         for (Unit other : FluidUnit.values()) {
-            Long converted = unit.convertTo(other, amount);
+            Float converted = unit.convertTo(other, amount);
             if (smallestContainerAmount > 1 && converted < smallestContainerAmount) {
                 smallestContainerAmount = converted;
                 smallestContainerUnit = other;
@@ -186,10 +186,10 @@ public class Quantity {
     @Basic
     public Unit getSmallestPowderContainer() {
         Unit smallestContainerUnit = null;
-        Long smallestContainerAmount = Long.MAX_VALUE;
+        Float smallestContainerAmount = Float.MAX_VALUE;
 
             for (Unit other : PowderUnit.values()) {
-                Long converted = unit.convertTo(other, amount);
+                Float converted = unit.convertTo(other, amount);
                 if (smallestContainerAmount > 1 && converted < smallestContainerAmount) {
                     smallestContainerAmount = converted;
                     smallestContainerUnit = other;
@@ -235,7 +235,7 @@ public class Quantity {
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
     @Basic
-    public boolean isGreaterThan(Unit unit, long amount) {
+    public boolean isGreaterThan(Unit unit, float amount) {
         return this.isGreaterThan(new Quantity(amount, unit));
     }
 
@@ -261,7 +261,7 @@ public class Quantity {
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
     @Basic
-    public boolean isSmallerThan(Unit unit, long amount) {
+    public boolean isSmallerThan(Unit unit, float amount) {
         return this.isSmallerThan(new Quantity(amount, unit));
     }
 
@@ -288,7 +288,7 @@ public class Quantity {
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
     @Basic
-    public boolean isEqualTo(Unit unit, long amount) {
+    public boolean isEqualTo(Unit unit, float amount) {
         return this.isEqualTo(new Quantity(amount, unit));
     }
 
@@ -315,7 +315,7 @@ public class Quantity {
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
     @Basic
-    public boolean isGreaterThanOrEqualTo(Unit unit, long amount) {
+    public boolean isGreaterThanOrEqualTo(Unit unit, float amount) {
         return this.isGreaterThanOrEqualTo(new Quantity(amount, unit));
     }
 
@@ -341,7 +341,7 @@ public class Quantity {
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
     @Basic
-    public boolean isSmallerThanOrEqualTo(Unit unit, long amount) {
+    public boolean isSmallerThanOrEqualTo(Unit unit, float amount) {
         return this.isSmallerThanOrEqualTo(new Quantity(amount, unit));
     }
 

@@ -2,6 +2,9 @@ package com.alchemy.quantity;
 
 import be.kuleuven.cs.som.annotate.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Represents the units for powder measurements.
  *
@@ -19,17 +22,18 @@ public enum PowderUnit implements Unit {
      * The base unit for powder measurements.
      */
     PINCH("pinch"),
-    SPOON("spoon", 6L, PINCH),
-    SACHET("sachet", 7L, SPOON),
-    BOX("box", 6L, SACHET),
-    SACK("sack", 3L, BOX),
-    CHEST("chest", 10L, SACK),
-    STOREROOM("storeroom", 5L, CHEST);
+    SPOON("spoon", 6F, PINCH),
+    SACHET("sachet", 7F, SPOON),
+    BOX("box", 6F, SACHET),
+    SACK("sack", 3F, BOX),
+    CHEST("chest", 10F, SACK),
+    STOREROOM("storeroom", 5F, CHEST);
 
     /**
      * The name of the unit in human-readable format.
      */
     private final String name;
+    final Map<Unit, Float> conversionMap = new HashMap<>();
 
 
     /**
@@ -40,7 +44,7 @@ public enum PowderUnit implements Unit {
     @Raw
     PowderUnit(String name) {
         this.name = name;
-        this.conversionMap.put(this, 1L);
+        this.conversionMap.put(this, 1F);
     }
 
     /**
@@ -51,7 +55,7 @@ public enum PowderUnit implements Unit {
      * @param unit The other unit to convert to
      */
     @Raw
-    PowderUnit(String name, Long amount, PowderUnit unit) {
+    PowderUnit(String name, Float amount, PowderUnit unit) {
         this(name);
         this.conversionMap.put(unit, amount);
     }
@@ -78,5 +82,26 @@ public enum PowderUnit implements Unit {
     @Override @Basic
     public String getName() {
         return name;
+    }
+
+    /**
+     * Returns the conversion map of the unit.
+     *
+     * @return The conversion map of the unit
+     */
+    @Override @Basic
+    public Map<Unit, Float> getConversionMap() {
+        return conversionMap;
+    }
+
+    /**
+     * Adds a conversion rate to the conversion map.
+     *
+     * @param unit The unit to convert to
+     * @param amount The conversion rate
+     */
+    @Override @Raw
+    public void addConversionRate(Unit unit, Float amount) {
+        conversionMap.put(unit, amount);
     }
 }

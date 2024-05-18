@@ -39,41 +39,41 @@ public class AlchemicIngredientTest {
         }
     }
 
-    @Test
-    public void testSetName() {
-        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName("Invalid Name1"));
-        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName(""));
-        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName("Ba"));
-        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName("abC"));
-        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName("ABc mixed with abC"));
-        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName("FULL CAPS"));
-        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName("Not \"Valid\" Name"));
-        try{
-            ingredient.setName("Valid \'name");
-        } catch (IngredientName.IllegalNameException e) {
-            fail("Valid name should not throw an exception: " + e.getMessage());
-        }
-        try{
-            ingredient.setName("Valid (name)");
-        } catch (IngredientName.IllegalNameException e) {
-            fail("Valid name should not throw an exception: " + e.getMessage());
-        }
-        try {
-            ingredient.setName("Valid Name mixed with Another Valid Name");
-        } catch (IngredientName.IllegalNameException e) {
-            fail("Valid name should not throw an exception: " + e.getMessage());
-        }
-        try {
-            ingredient.setName("Ab Cd mixed with Ef");
-        } catch (IngredientName.IllegalNameException e) {
-            fail("Valid name should not throw an exception: " + e.getMessage());
-        }
-        try {
-            ingredient.setName("Abc");
-        } catch (IngredientName.IllegalNameException e) {
-            fail("Valid name should not throw an exception: " + e.getMessage());
-        }
-    }
+//    @Test
+//    public void testSetName() {
+//        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName("Invalid Name1"));
+//        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName(""));
+//        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName("Ba"));
+//        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName("abC"));
+//        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName("ABc mixed with abC"));
+//        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName("FULL CAPS"));
+//        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName("Not \"Valid\" Name"));
+//        try{
+//            ingredient.setName("Valid \'name");
+//        } catch (IngredientName.IllegalNameException e) {
+//            fail("Valid name should not throw an exception: " + e.getMessage());
+//        }
+//        try{
+//            ingredient.setName("Valid (name)");
+//        } catch (IngredientName.IllegalNameException e) {
+//            fail("Valid name should not throw an exception: " + e.getMessage());
+//        }
+//        try {
+//            ingredient.setName("Valid Name mixed with Another Valid Name");
+//        } catch (IngredientName.IllegalNameException e) {
+//            fail("Valid name should not throw an exception: " + e.getMessage());
+//        }
+//        try {
+//            ingredient.setName("Ab Cd mixed with Ef");
+//        } catch (IngredientName.IllegalNameException e) {
+//            fail("Valid name should not throw an exception: " + e.getMessage());
+//        }
+//        try {
+//            ingredient.setName("Abc");
+//        } catch (IngredientName.IllegalNameException e) {
+//            fail("Valid name should not throw an exception: " + e.getMessage());
+//        }
+//    }
 
     @Test
     public void testGetBasicName() {

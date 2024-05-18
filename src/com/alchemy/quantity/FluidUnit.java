@@ -2,6 +2,9 @@ package com.alchemy.quantity;
 
 import be.kuleuven.cs.som.annotate.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Represents the units for fluid measurements.
  *
@@ -19,14 +22,15 @@ public enum FluidUnit implements Unit {
      * The base unit for powder measurements.
      */
     DROP("drop"),
-    SPOON("spoon", 8L, DROP),
-    VIAL("sachet", 5L, SPOON),
-    BOTTLE("box", 3L, VIAL),
-    JUG("sack", 7L, BOTTLE),
-    BARREL("chest", 12L, JUG),
-    STOREROOM("storeroom", 5L, BARREL);
+    SPOON("spoon", 8F, DROP),
+    VIAL("sachet", 5F, SPOON),
+    BOTTLE("box", 3F, VIAL),
+    JUG("sack", 7F, BOTTLE),
+    BARREL("chest", 12F, JUG),
+    STOREROOM("storeroom", 5F, BARREL);
 
     private final String name;
+    final Map<Unit, Float> conversionMap = new HashMap<>();
 
     /**
      * Initializes a new FluidUnit with the specified name.
@@ -36,7 +40,7 @@ public enum FluidUnit implements Unit {
     @Raw
     FluidUnit(String name) {
         this.name = name;
-        this.conversionMap.put(this, 1L);
+        this.conversionMap.put(this, 1F);
     }
 
     /**
@@ -47,7 +51,7 @@ public enum FluidUnit implements Unit {
      * @param unit The other unit to convert to
      */
     @Raw
-    FluidUnit(String name, Long amount, FluidUnit unit) {
+    FluidUnit(String name, Float amount, FluidUnit unit) {
         this(name);
         this.conversionMap.put(unit, amount);
     }
@@ -74,5 +78,26 @@ public enum FluidUnit implements Unit {
     @Override @Basic
     public String getName() {
         return name;
+    }
+
+    /**
+     * Returns the conversion map of the unit.
+     *
+     * @return The conversion map of the unit
+     */
+    @Override @Basic
+    public Map<Unit, Float> getConversionMap() {
+        return conversionMap;
+    }
+
+    /**
+     * Adds a conversion rate to the conversion map.
+     *
+     * @param unit The unit to convert to
+     * @param amount The conversion rate
+     */
+    @Override @Raw
+    public void addConversionRate(Unit unit, Float amount) {
+        conversionMap.put(unit, amount);
     }
 }

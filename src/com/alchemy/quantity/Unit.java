@@ -24,7 +24,7 @@ public interface Unit {
      * The conversion map for this unit.
      * This map contains the conversion rates to all other units.
      */
-    Map<Unit, Long> conversionMap = new HashMap<>();
+
 
     /**
      * Converts the specified amount to the specified unit.
@@ -34,8 +34,8 @@ public interface Unit {
      * @return The converted amount
      */
     @Basic
-    default Long convertTo(Unit unit, Long amount) {
-        return amount * conversionMap.get(unit);
+    default Float convertTo(Unit unit, Float amount) {
+        return amount * getConversionMap().get(unit);
     }
 
     /**
@@ -45,7 +45,7 @@ public interface Unit {
      * @return The converted amount
      */
     @Basic
-    default Long convertToBase(Long amount) {
+    default Float convertToBase(Float amount) {
         return convertTo(getBaseUnit(), amount);
     }
 
@@ -59,26 +59,37 @@ public interface Unit {
     static void calculateConversionMaps(Unit... units) {
         Unit baseUnit = units[0];
         units = Arrays.copyOfRange(units, 1, units.length);
+
+        //first for debug purposes, print every units conversion map
+        for (Unit unit : units) {
+            System.out.println("Conversion map for " + unit + ": " + unit.getConversionMap());
+        }
+
         boolean finished = false;
         // Keep looping until we have converted all units
         while (!finished) {
             finished = true;
             // for every element in our conversion map, search all other elements which contain this element in their conversion map
-            for (Map.Entry<Unit, Long> entry : baseUnit.conversionMap.entrySet()) {
+            for (Map.Entry<Unit, Float> entry : baseUnit.getConversionMap().entrySet()) {
                 for (Unit otherUnit : units) {
-                    if ((!baseUnit.conversionMap.containsKey(otherUnit)) && otherUnit.conversionMap.containsKey(entry.getKey())) {
+                    if ((!baseUnit.getConversionMap().containsKey(otherUnit)) && otherUnit.getConversionMap().containsKey(entry.getKey())) {
+                        //console log for debug
+                        System.out.println("Adding to " + baseUnit + " conversion map: " + entry.getValue() + " / " + otherUnit.getConversionMap().get(entry.getKey()) + " = " + entry.getValue() / otherUnit.getConversionMap().get(entry.getKey()) + " " + otherUnit);
                         finished = false;
                         // Add the conversion to PINCH's map
-                        baseUnit.conversionMap.put(otherUnit, entry.getValue() / otherUnit.conversionMap.get(entry.getKey()));
+                        baseUnit.addConversionRate(otherUnit, entry.getValue() / otherUnit.getConversionMap().get(entry.getKey()));
                     }
                 }
             }
         }
+        System.out.println("Finished conversion map for " + baseUnit);
         // Update the conversion map for all other units
         for (Unit unit : units) {
             if (unit != baseUnit) {
-                for (Map.Entry<Unit, Long> entry : baseUnit.conversionMap.entrySet()) {
-                    unit.conversionMap.put(entry.getKey(), entry.getValue() / baseUnit.conversionMap.get(unit));
+                for (Map.Entry<Unit, Float> entry : baseUnit.getConversionMap().entrySet()) {
+                    // console log for debug
+                    System.out.println("Added " + entry.getValue() + " " + entry.getKey() + " to " + unit + " conversion map");
+                    unit.addConversionRate(entry.getKey(), entry.getValue() / baseUnit.getConversionMap().get(unit));
                 }
             }
         }
@@ -99,4 +110,18 @@ public interface Unit {
      */
     @Basic
     String getName();
+
+    /**
+     * Returns the conversion map of this unit.
+     *
+     * @return The conversion map of this unit
+     */
+    @Basic
+    Map<Unit, Float> getConversionMap();
+
+    /**
+     * Adds a conversion rate to the conversion map.
+     */
+    @Raw
+    void addConversionRate(Unit unit, Float amount);
 }
