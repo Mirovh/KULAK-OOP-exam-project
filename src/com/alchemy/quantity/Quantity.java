@@ -2,6 +2,8 @@ package com.alchemy.quantity;
 
 import be.kuleuven.cs.som.annotate.*;
 
+import java.util.Objects;
+
 /**
  * Represents a quantity with a specific amount and unit.
  * Nominally programmed.
@@ -275,7 +277,8 @@ public class Quantity {
      */
     @Basic
     public boolean isEqualTo(Quantity quantity) {
-        return this.unit.convertToBase(this.amount) == quantity.unit.convertToBase(quantity.amount);
+        float EPSILON = 0.001f;
+        return Math.abs(this.unit.convertToBase(this.amount) - quantity.unit.convertToBase(quantity.amount)) < EPSILON;
     }
 
     /**
