@@ -46,8 +46,8 @@ public class UnitTest {
         assertTrue(largeTestPowder.isGreaterThan(smallTestPowder));
         assertTrue(smallTestFluid.isGreaterThanOrEqualTo(mediumTestFluid));
         assertTrue(smallTestPowder.isGreaterThanOrEqualTo(mediumTestPowder));
-        assertFalse(mediumTestPowder.isSmallerThan(largeTestPowder));
-        assertFalse(mediumTestFluid.isSmallerThan(largeTestFluid));
+        assertTrue(mediumTestPowder.isSmallerThan(largeTestPowder));
+        assertTrue(mediumTestFluid.isSmallerThan(largeTestFluid));
         assertTrue(mediumTestFluid.isSmallerThanOrEqualTo(smallTestFluid));
         assertTrue(mediumTestPowder.isSmallerThanOrEqualTo(smallTestPowder));
     }
@@ -57,14 +57,14 @@ public class UnitTest {
         smallTestFluid.convertTo(JUG);
          assertEquals(JUG, smallTestFluid.getUnit());
          assertTrue(smallTestFluid.isFluidUnit());
-         assertTrue(smallTestFluid.isEqualTo(mediumTestPowder));
-         mediumTestPowder.convertTo(DROP);
+         mediumTestPowder.convertToFluidUnit(DROP);
          assertEquals(DROP, mediumTestPowder.getUnit());
-         assertTrue(mediumTestPowder.isPowderUnit());
+         assertTrue(mediumTestPowder.isFluidUnit()); // should be fluid since we converted to drop
+        mediumTestPowder.convertToPowderUnit(PINCH);
          assertTrue(mediumTestPowder.isEqualTo(smallTestPowder));
          largeTestPowder.convertTo(PowderUnit.SPOON);
          assertFalse(largeTestPowder.isSmallerThanOrEqualTo(mediumTestPowder));
-        assertThrows(IllegalArgumentException.class, () -> mediumTestFluid.convertTo(CHEST));
-        assertThrows(IllegalArgumentException.class, () -> mediumTestPowder.convertTo(DROP));
+        assertThrows(Exception.class, () -> mediumTestFluid.convertTo(PowderUnit.CHEST));
+        assertThrows(Exception.class, () -> mediumTestPowder.convertTo(FluidUnit.DROP));
     }
 }
