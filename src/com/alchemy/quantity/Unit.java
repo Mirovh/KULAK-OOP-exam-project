@@ -60,11 +60,6 @@ public interface Unit {
         Unit baseUnit = units[0];
         units = Arrays.copyOfRange(units, 1, units.length);
 
-        //first for debug purposes, print every units conversion map
-        for (Unit unit : units) {
-            System.out.println("Conversion map for " + unit + ": " + unit.getConversionMap());
-        }
-
         // use a separate map to fix issues with concurrent access during building of the conversion map
         Map<Unit, Float> baseConversionMap = new HashMap<>(baseUnit.getConversionMap());
 
@@ -77,8 +72,6 @@ public interface Unit {
             for (Map.Entry<Unit, Float> entry : baseConversionMap.entrySet()) {
                 for (Unit otherUnit : units) {
                     if ((!baseConversionMap.containsKey(otherUnit)) && otherUnit.getConversionMap().containsKey(entry.getKey())) {
-                        //console log for debug
-                        System.out.println("Adding to " + baseUnit + " conversion map: " + entry.getValue() + " / " + otherUnit.getConversionMap().get(entry.getKey()) + " = " + entry.getValue() / otherUnit.getConversionMap().get(entry.getKey()) + " " + otherUnit);
                         finished = false;
                         // Add the conversion to the temporary map
                         tempMap.put(otherUnit, entry.getValue() / otherUnit.getConversionMap().get(entry.getKey()));
@@ -90,7 +83,6 @@ public interface Unit {
             // Clear the temporary map for the next iteration
             tempMap.clear();
         }
-        System.out.println("Finished conversion map for " + baseUnit);
 
         // Update the conversion map for the base unit
         for (Map.Entry<Unit, Float> entry : baseConversionMap.entrySet()) {
@@ -101,8 +93,6 @@ public interface Unit {
         for (Unit unit : units) {
             if (unit != baseUnit) {
                 for (Map.Entry<Unit, Float> entry : baseUnit.getConversionMap().entrySet()) {
-                    // console log for debug
-                    System.out.println("Added " + entry.getValue() + " " + entry.getKey() + " to " + unit + " conversion map");
                     unit.addConversionRate(entry.getKey(), entry.getValue() / baseUnit.getConversionMap().get(unit));
                 }
             }
