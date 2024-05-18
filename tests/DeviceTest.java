@@ -26,8 +26,8 @@ public class DeviceTest {
         ingredient2 = new AlchemicIngredient(10L);
         container1 = new IngredientContainer(ingredient,basicQuantity.getUnit());
         container2 = new IngredientContainer(ingredient2,basicQuantity.getUnit());
-        lab = new Laboratory();
-        lab2 = new Laboratory();
+        lab = new Laboratory(5);
+        lab2 = new Laboratory(5);
     }
 
     @Test

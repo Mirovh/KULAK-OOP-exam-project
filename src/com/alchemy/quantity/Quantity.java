@@ -1,5 +1,7 @@
 package com.alchemy.quantity;
 
+import be.kuleuven.cs.som.annotate.*;
+
 /**
  * Represents a quantity with a specific amount and unit.
  * Nominally programmed.
@@ -254,7 +256,6 @@ public class Quantity {
      *
      * @param unit   the unit to compare with
      *               | unit != null
-     * @param amount
      * @return true if this quantity is smaller, false otherwise
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
@@ -333,7 +334,6 @@ public class Quantity {
      *
      * @param unit   the unit to compare with
      *               | unit != null
-     * @param amount
      * @return true if this quantity is smaller than or equal, false otherwise
      * @pre The unit of this quantity is of the same type as the specified unit.
      */
