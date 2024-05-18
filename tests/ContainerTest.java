@@ -25,10 +25,10 @@ public class ContainerTest {
     @Before
     public void setUpFixture(){
         try {
-            ingredientFluid = new AlchemicIngredient("testFluid", temp, stateFluid, 100);
-            ingredientPowder = new AlchemicIngredient("testPowder", temp, statePowder, 100);
-            exceedingIngredient = new AlchemicIngredient("testExceeding", temp, stateFluid, 10000);
-            wrongState = new AlchemicIngredient("fakePowder", temp, stateFluid, 50);
+            ingredientFluid = new AlchemicIngredient("Test Fluid", temp, stateFluid, 100);
+            ingredientPowder = new AlchemicIngredient("Test Powder", temp, statePowder, 100);
+            exceedingIngredient = new AlchemicIngredient("Test Exceeding", temp, stateFluid, 10000);
+            wrongState = new AlchemicIngredient("Fake Powder", temp, stateFluid, 50);
         } catch (IngredientName.IllegalNameException e) {
             throw new RuntimeException(e);
         }
