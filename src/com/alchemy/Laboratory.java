@@ -102,9 +102,11 @@ public class Laboratory {
         for (IngredientContainer container : containers) {
             if (container.getContent().equals(ingredient)) {
                 return container.toString();
+            } else{
+                throw new IllegalArgumentException("Ingredient " + ingredient + "not found in lab");
             }
         }
-        return "";
+        return ingredientString;
     }
 
     /**
