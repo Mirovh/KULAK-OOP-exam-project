@@ -395,7 +395,7 @@ public class Laboratory {
      * @param recipe the recipe that will be followed
      * @throws LaboratoryMissingDeviceException
      */
-    public void executeRecipe(Recipe recipe) throws LaboratoryMissingDeviceException {
+    public void executeRecipe(Recipe recipe) throws LaboratoryMissingDeviceException, IngredientName.IllegalNameException {
         boolean stopRecipe = false;
         ArrayList<AlchemicIngredient> usedIngredients = new ArrayList<>();
         ActionType[] actions = recipe.getActions();
@@ -437,21 +437,20 @@ public class Laboratory {
                     for (IngredientContainer container : containers){
                         if (container.getContent() == currentIngredient){
                             if (container.getContent().getQuantity().isPowderUnit()) {
-                                containers.add(new IngredientContainer(new AlchemicIngredient(currentIngredient.getFullName(), currentIngredient.getTemperature(), currentIngredient.getState(), currentIngredient.getQuantity().convertToPowderUnit(container.getContent().getQuantity().getUnit())),container.getContainerUnit()));
+                                containers.add(new IngredientContainer(new AlchemicIngredient(currentIngredient.getFullName(), currentIngredient.getTemperature(), currentIngredient.getState(), currentIngredient.getQuantity().convertToPowderUnit((PowderUnit) container.getContent().getQuantity().getUnit())),container.getContainerUnit()));
                                 try {
                                     usedIngredients.add(new AlchemicIngredient(currentIngredient.getFullName(), currentIngredient.getTemperature(), currentIngredient.getState(), currentIngredient.getQuantity().convertToPowderUnit(PowderUnit.SPOON)));
                                 } catch (IngredientName.IllegalNameException e) {
                                     throw new RuntimeException(e);
                                 }
                             } else if (container.getContent().getQuantity().isFluidUnit()) {
-                                containers.add(new IngredientContainer(new AlchemicIngredient(currentIngredient.getFullName(), currentIngredient.getTemperature(), currentIngredient.getState(), currentIngredient.getQuantity().convertToFluidUnit(container.getContent().getQuantity().getUnit())),container.getContainerUnit()));
+                                containers.add(new IngredientContainer(new AlchemicIngredient(currentIngredient.getFullName(), currentIngredient.getTemperature(), currentIngredient.getState(), currentIngredient.getQuantity().convertToFluidUnit((FluidUnit) container.getContent().getQuantity().getUnit())),container.getContainerUnit()));
                                 try {
                                     usedIngredients.add(new AlchemicIngredient(currentIngredient.getFullName(), currentIngredient.getTemperature(), currentIngredient.getState(), currentIngredient.getQuantity().convertToFluidUnit(FluidUnit.SPOON)));
                                 } catch (IngredientName.IllegalNameException e) {
                                     throw new RuntimeException(e);
                                 }
                             }
-
                         }
                     }
                     ingredientIndex++;
