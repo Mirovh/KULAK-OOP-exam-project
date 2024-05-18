@@ -27,7 +27,7 @@ public class UnitTest {
     @Test
     public void testFluidCreation(){
         assertTrue(smallTestFluid.isEqualTo(mediumTestFluid));
-        assertEquals(DROP, smallTestFluid.getUnit());               //TODO: niet zeker hoe ik deze test moet implementeren
+        assertTrue(smallTestFluid.isEqualTo(DROP, 840L));
         assertTrue(smallTestFluid.isFluidUnit());
         assertFalse(mediumTestFluid.isPowderUnit());
     }
@@ -35,7 +35,7 @@ public class UnitTest {
     @Test
     public void testPowderCreation(){
         assertTrue(smallTestPowder.isEqualTo(mediumTestPowder));
-        assertEquals(DROP, smallTestPowder.getUnit());          //TODO: boven
+        assertTrue(smallTestPowder.isEqualTo(PINCH, 756L));
         assertTrue(smallTestPowder.isPowderUnit());
         assertFalse(mediumTestPowder.isFluidUnit());
     }

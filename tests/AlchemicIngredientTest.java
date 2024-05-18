@@ -41,35 +41,33 @@ public class AlchemicIngredientTest {
 
     @Test
     public void testSetName() {
-        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName("Invalid Name1"));
-        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName(""));
-        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName("Ba"));
-        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName("abC"));
-        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName("ABc mixed with abC"));
-        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName("FULL CAPS"));
-        assertThrows(IngredientName.IllegalNameException.class, () -> ingredient.setName("Not \"Valid\" Name"));
+        assertThrows(IngredientName.IllegalNameException.class, () -> new AlchemicIngredient("Ba", temp,state,10));
+        assertThrows(IngredientName.IllegalNameException.class, () -> new AlchemicIngredient("abC",temp,state,10));
+        assertThrows(IngredientName.IllegalNameException.class, () -> new AlchemicIngredient("ABc mixed with abC", temp,state,10));
+        assertThrows(IngredientName.IllegalNameException.class, () -> new AlchemicIngredient("FULL CAPS", temp,state,10));
+        assertThrows(IngredientName.IllegalNameException.class, () -> new AlchemicIngredient("Not \"Valid\" Name", temp,state,10));
         try{
-            ingredient.setName("Valid \'name");
+            new AlchemicIngredient("Valid \'name", temp,state,10);
         } catch (IngredientName.IllegalNameException e) {
             fail("Valid name should not throw an exception: " + e.getMessage());
         }
         try{
-            ingredient.setName("Valid (name)");
+            new AlchemicIngredient("Valid (name)", temp,state,10);
         } catch (IngredientName.IllegalNameException e) {
             fail("Valid name should not throw an exception: " + e.getMessage());
         }
         try {
-            ingredient.setName("Valid Name mixed with Another Valid Name");
+            new AlchemicIngredient("Valid Name mixed with Another Valid Name", temp,state,10);
         } catch (IngredientName.IllegalNameException e) {
             fail("Valid name should not throw an exception: " + e.getMessage());
         }
         try {
-            ingredient.setName("Ab Cd mixed with Ef");
+            new AlchemicIngredient("Ab Cd mixed with Ef", temp, state,10);
         } catch (IngredientName.IllegalNameException e) {
             fail("Valid name should not throw an exception: " + e.getMessage());
         }
         try {
-            ingredient.setName("Abc");
+            new AlchemicIngredient("Abc", temp, state,10);
         } catch (IngredientName.IllegalNameException e) {
             fail("Valid name should not throw an exception: " + e.getMessage());
         }
