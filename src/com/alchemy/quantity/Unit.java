@@ -65,24 +65,38 @@ public interface Unit {
             System.out.println("Conversion map for " + unit + ": " + unit.getConversionMap());
         }
 
+        // use a separate map to fix issues with concurrent access during building of the conversion map
+        Map<Unit, Float> baseConversionMap = new HashMap<>(baseUnit.getConversionMap());
+
         boolean finished = false;
         // Keep looping until we have converted all units
+        Map<Unit, Float> tempMap = new HashMap<>();
         while (!finished) {
             finished = true;
             // for every element in our conversion map, search all other elements which contain this element in their conversion map
-            for (Map.Entry<Unit, Float> entry : baseUnit.getConversionMap().entrySet()) {
+            for (Map.Entry<Unit, Float> entry : baseConversionMap.entrySet()) {
                 for (Unit otherUnit : units) {
-                    if ((!baseUnit.getConversionMap().containsKey(otherUnit)) && otherUnit.getConversionMap().containsKey(entry.getKey())) {
+                    if ((!baseConversionMap.containsKey(otherUnit)) && otherUnit.getConversionMap().containsKey(entry.getKey())) {
                         //console log for debug
                         System.out.println("Adding to " + baseUnit + " conversion map: " + entry.getValue() + " / " + otherUnit.getConversionMap().get(entry.getKey()) + " = " + entry.getValue() / otherUnit.getConversionMap().get(entry.getKey()) + " " + otherUnit);
                         finished = false;
-                        // Add the conversion to PINCH's map
-                        baseUnit.addConversionRate(otherUnit, entry.getValue() / otherUnit.getConversionMap().get(entry.getKey()));
+                        // Add the conversion to the temporary map
+                        tempMap.put(otherUnit, entry.getValue() / otherUnit.getConversionMap().get(entry.getKey()));
                     }
                 }
             }
+            // Add all entries from the temporary map to the baseConversionMap
+            baseConversionMap.putAll(tempMap);
+            // Clear the temporary map for the next iteration
+            tempMap.clear();
         }
         System.out.println("Finished conversion map for " + baseUnit);
+
+        // Update the conversion map for the base unit
+        for (Map.Entry<Unit, Float> entry : baseConversionMap.entrySet()) {
+            baseUnit.addConversionRate(entry.getKey(), entry.getValue());
+        }
+
         // Update the conversion map for all other units
         for (Unit unit : units) {
             if (unit != baseUnit) {

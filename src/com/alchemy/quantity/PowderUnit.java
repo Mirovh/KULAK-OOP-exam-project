@@ -45,6 +45,7 @@ public enum PowderUnit implements Unit {
     PowderUnit(String name) {
         this.name = name;
         this.conversionMap.put(this, 1F);
+        System.out.println("PowderUnit constructor called for " + name);
     }
 
     /**
