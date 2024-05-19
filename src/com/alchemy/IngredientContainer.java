@@ -30,32 +30,16 @@ public class IngredientContainer {
      *    | this.containerUnit = containerUnit
      */
     public IngredientContainer(AlchemicIngredient content, Unit containerUnit) {
-        this.content = content;
         for (Unit unit : blacklistedUnits) {
             if (unit.equals(containerUnit)) {
                 throw new IllegalArgumentException("The unit of the container cannot be the smallest or largest unit.");
             }
         }
-        boolean fits = false;
-        if(content.getQuantity().isFluidUnit()) {
-            for (Unit unit : FluidUnit.values()) {
-                if (unit.equals(containerUnit)) {
-                    fits = true;
-                    break;
-                }
-            }
-        } else if (content.getQuantity().isPowderUnit()) {
-            for (Unit unit : PowderUnit.values()){
-                if (unit.equals(containerUnit)) {
-                    fits = true;
-                    break;
-                }
-            }
-        }
-        if(fits){
-            this.containerUnit = containerUnit;
-        } else {
-            throw new IllegalArgumentException("The ContainerUnit cannot be a different type than the IngredientUnit");
+        this.content = content;
+        this.containerUnit = containerUnit;
+        if (!this.fits(content)) {
+            destroy();
+            throw new IllegalArgumentException("The ingredient doesnt fit");
         }
     }
 
@@ -78,12 +62,13 @@ public class IngredientContainer {
      *
      * @param ingredient the alchemic ingredient to check
      *                   | ingredient != null
+     * @pre The ingredient to check should have the same unit type as the container unit.
      * @return true if the quantity of the ingredient is smaller than or equal to the size of the container unit
      *         | result == ingredient.getQuantity().isSmallerThanOrEqualTo(this.containerUnit)
      */
     public boolean fits(AlchemicIngredient ingredient) {
         if (ingredient == null) {
-            throw new IllegalArgumentException("The ingredient cannot be null.");
+            return true;
         }
         return ingredient.getQuantity().isSmallerThanOrEqualTo(this.containerUnit, 1L);
     }

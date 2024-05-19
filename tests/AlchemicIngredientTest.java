@@ -30,10 +30,8 @@ public class AlchemicIngredientTest {
             AlchemicIngredient ingredient3 = new AlchemicIngredient("Another Ingredient",temp,state, 10);
             // mix 2 and 3
             Laboratory lab = new Laboratory(1);
-            IngredientContainer container1 = new IngredientContainer(ingredient2.getQuantity().getSmallestPowderContainer());
-            container1.setContent(ingredient2);
-            IngredientContainer container2 = new IngredientContainer(ingredient3.getQuantity().getSmallestPowderContainer());
-            container2.setContent(ingredient3);
+            IngredientContainer container1 = new IngredientContainer(ingredient2, ingredient2.getQuantity().getSmallestPowderContainer());
+            IngredientContainer container2 = new IngredientContainer(ingredient3, ingredient3.getQuantity().getSmallestPowderContainer());
             Kettle kettle = new Kettle();
             kettle.addIngredient(container1);
             kettle.addIngredient(container2);
