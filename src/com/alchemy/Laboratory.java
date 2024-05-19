@@ -134,15 +134,6 @@ public class Laboratory {
         }
     }
 
-    public boolean canAddContainer(IngredientContainer container, float amount){
-        if (container.getContent() == null) {
-            return false;
-        }else {
-            Quantity comparisonContainer = new Quantity(this.getFreeSpace() , DROP);
-            Quantity tempQuantity = new Quantity(amount, container.getContent().getQuantity().getUnit());
-            return tempQuantity.isSmallerThanOrEqualTo(comparisonContainer);
-        }
-    }
 
     /**
      * Adds a given IngredientContainer to the laboratory.
@@ -168,29 +159,32 @@ public class Laboratory {
      * @effect The specified amount of the ingredient is added to the laboratory.
      */
     public void addContainer(IngredientContainer container, int amount) throws IngredientName.IllegalNameException {
-        if (canAddContainer(container, amount)) {
-            for (int i = 0; i < amount; i++) {
-                if (container.getContent() != null) {
-                    try {
-                        this.addDevice(new CoolingBox());
-                        this.addDevice(new Oven());
-                    } catch (LaboratoryFullException e) {
-                        throw new RuntimeException(e);
-                    }
-                    try {
-                        bringBackToStandardTemperature(container.getContent());
-                    } catch (Device.DeviceFullException | LaboratoryMissingDeviceException e) {
-                        throw new RuntimeException(e);
-                    }
-                    AlchemicIngredient partialIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), container.getContent().getQuantity().convertToFluidUnit(DROP) - amount);
-                    AlchemicIngredient labIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), amount);
-                    IngredientContainer partialContainer = new IngredientContainer(partialIngredient, container.getContainerUnit());
-                    IngredientContainer labContainer = new IngredientContainer(labIngredient, container.getContainerUnit());
+        for (int i = 0; i < amount; i++) {
+            if (container.getContent() != null) {
+                try {
+                    this.addDevice(new CoolingBox());
+                    this.addDevice(new Oven());
+                } catch (LaboratoryFullException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    bringBackToStandardTemperature(container.getContent());
+                } catch (Device.DeviceFullException | LaboratoryMissingDeviceException e) {
+                    throw new RuntimeException(e);
+                }
+                AlchemicIngredient partialIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), container.getContent().getQuantity().convertToFluidUnit(DROP) - amount);
+                AlchemicIngredient labIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), amount);
+                IngredientContainer partialContainer = new IngredientContainer(partialIngredient, container.getContainerUnit());
+                IngredientContainer labContainer = new IngredientContainer(labIngredient, container.getContainerUnit());
+                if (canAddContainer(container)) {
                     containers.add(labContainer);
+                    container.destroy();
+                } else {
+                    labContainer.destroy();
+                    partialContainer.destroy();
+                    throw new IllegalArgumentException("Not enough space to add container");
                 }
             }
-        }else {
-            throw new IllegalArgumentException("Not enough space to add container");
         }
     }
 
