@@ -82,16 +82,20 @@ public class Laboratory {
      *         If the laboratory is empty, the returned string will simply be: "The lab contains: "
      */
     public String getContents() {
-        StringBuilder contents = new StringBuilder("The lab contains: ");
-        for (IngredientContainer container : containers) {
-            Quantity quantity = container.getContent().getQuantity();
-            quantity.convertToBase();
-            contents.append(quantity.toString()).append(" of ").append(container.getContent().getBasicName()).append(", ");
+        if(!this.isEmpty()) {
+            StringBuilder contents = new StringBuilder("The lab contains: ");
+            for (IngredientContainer container : containers) {
+                Quantity quantity = container.getContent().getQuantity();
+                quantity.convertToBase();
+                contents.append(quantity.toString()).append(" of ").append(container.getContent().getBasicName()).append(", ");
+            }
+            if (!contents.isEmpty()) {
+                contents.setLength(contents.length() - 2);
+            }
+            return contents.toString();
+        } else{
+            return ("The lab is empty");
         }
-        if (!contents.isEmpty()) {
-            contents.setLength(contents.length() - 2);
-        }
-        return contents.toString();
     }
 
     /**
@@ -122,8 +126,22 @@ public class Laboratory {
      *         false otherwise.
      */
     public boolean canAddContainer(IngredientContainer container){
-        Quantity comparisonContainer = new Quantity(this.getFreeSpace(), DROP);
-        return container.getContent().getQuantity().isSmallerThanOrEqualTo(comparisonContainer);
+        if (container.getContent() == null) {
+            return false;
+        }else {
+            Quantity comparisonContainer = new Quantity(this.getFreeSpace(), DROP);
+            return container.getContent().getQuantity().isSmallerThanOrEqualTo(comparisonContainer);
+        }
+    }
+
+    public boolean canAddContainer(IngredientContainer container, float amount){
+        if (container.getContent() == null) {
+            return false;
+        }else {
+            Quantity comparisonContainer = new Quantity(this.getFreeSpace() , DROP);
+            Quantity tempQuantity = new Quantity(amount, container.getContent().getQuantity().getUnit());
+            return tempQuantity.isSmallerThanOrEqualTo(comparisonContainer);
+        }
     }
 
     /**
@@ -150,23 +168,30 @@ public class Laboratory {
      * @effect The specified amount of the ingredient is added to the laboratory.
      */
     public void addContainer(IngredientContainer container, int amount) throws IngredientName.IllegalNameException {
-        for (int i = 0; i < amount; i++) {
-            if (container.getContent() != null) {
-                try {
-                    bringBackToStandardTemperature(container.getContent());
-                } catch (Device.DeviceFullException | LaboratoryMissingDeviceException e) {
-                    throw new RuntimeException(e);
-                }
-                AlchemicIngredient labIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), amount);
-                IngredientContainer labContainer = new IngredientContainer(labIngredient, container.getContainerUnit());
-                if (canAddContainer(labContainer)) {
+        if (canAddContainer(container, amount)) {
+            for (int i = 0; i < amount; i++) {
+                if (container.getContent() != null) {
+                    try {
+                        this.addDevice(new CoolingBox());
+                        this.addDevice(new Oven());
+                    } catch (LaboratoryFullException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        bringBackToStandardTemperature(container.getContent());
+                    } catch (Device.DeviceFullException | LaboratoryMissingDeviceException e) {
+                        throw new RuntimeException(e);
+                    }
+                    AlchemicIngredient partialIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), container.getContent().getQuantity().convertToFluidUnit(DROP) - amount);
+                    AlchemicIngredient labIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), amount);
+                    IngredientContainer partialContainer = new IngredientContainer(partialIngredient, container.getContainerUnit());
+                    IngredientContainer labContainer = new IngredientContainer(labIngredient, container.getContainerUnit());
                     containers.add(labContainer);
-                } else {
-                    throw new IllegalArgumentException("Not enough space to add container");
                 }
             }
+        }else {
+            throw new IllegalArgumentException("Not enough space to add container");
         }
-
     }
 
     /**
@@ -295,9 +320,11 @@ public class Laboratory {
             device.setLaboratory(this);
             //TODO: empty device and add contents to the inventory of the laboratory   //might be fixed in next 2 lines  //makijken
             System.out.println(device.getContents());
-            this.addContainer(device.getContents());
-            device.getContents().destroy();
-            device.getContents().setContent(null);
+            if (!(device.getContents() == null)) {
+                this.addContainer(device.getContents());
+                device.getContents().destroy();
+                device.getContents().setContent(null);
+            }
             }
         else{
             throw new LaboratoryFullException("Laboratory already has " + device.getClass().getSimpleName());
