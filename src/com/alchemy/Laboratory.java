@@ -143,6 +143,40 @@ public class Laboratory {
      */
     public void addContainer(IngredientContainer container){
         if (canAddContainer(container)){
+            Device tempCool = new CoolingBox();
+            Device tempHeat = new Oven();
+            if (this.canAddDevice(tempCool)) {
+                try {
+                    this.addDevice(tempCool);
+                } catch (LaboratoryFullException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (this.canAddDevice(tempHeat)) {
+                try {
+                    this.addDevice(tempHeat);
+                } catch (LaboratoryFullException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            try {
+                bringBackToStandardTemperature(container.getContent());
+                removeDevice(tempCool);
+                removeDevice(tempHeat);
+                tempCool.getContents().destroy();
+                tempHeat.getContents().destroy();
+            } catch (Device.DeviceFullException | LaboratoryMissingDeviceException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                bringBackToStandardTemperature(container.getContent());
+                removeDevice(tempCool);
+                removeDevice(tempHeat);
+                tempCool.getContents().destroy();
+                tempHeat.getContents().destroy();
+            } catch (Device.DeviceFullException | LaboratoryMissingDeviceException e) {
+                throw new RuntimeException(e);
+            }
             containers.add(container);
         } else{
             throw new IllegalArgumentException("can't add container");
@@ -161,14 +195,28 @@ public class Laboratory {
     public void addContainer(IngredientContainer container, int amount) throws IngredientName.IllegalNameException {
         for (int i = 0; i < amount; i++) {
             if (container.getContent() != null) {
-                try {
-                    this.addDevice(new CoolingBox());
-                    this.addDevice(new Oven());
-                } catch (LaboratoryFullException e) {
-                    throw new RuntimeException(e);
+                Device tempCool = new CoolingBox();
+                Device tempHeat = new Oven();
+                if (this.canAddDevice(tempCool)) {
+                    try {
+                        this.addDevice(tempCool);
+                    } catch (LaboratoryFullException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                if (this.canAddDevice(tempHeat)) {
+                    try {
+                        this.addDevice(tempHeat);
+                    } catch (LaboratoryFullException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
                 try {
                     bringBackToStandardTemperature(container.getContent());
+                    removeDevice(tempCool);
+                    removeDevice(tempHeat);
+                    tempCool.getContents().destroy();
+                    tempHeat.getContents().destroy();
                 } catch (Device.DeviceFullException | LaboratoryMissingDeviceException e) {
                     throw new RuntimeException(e);
                 }
@@ -325,6 +373,10 @@ public class Laboratory {
         }
     }
 
+    public void removeDevice(Device device){
+        devices.remove(device);
+        device.setLaboratory(null);
+    }
     /**
      * Checks if a device can be added to the laboratory.
      * This method checks if it's possible to add a specified device to the laboratory. It returns true if the laboratory does not already contain a device of the same class as the specified device, or if the laboratory's list of devices is null. Otherwise, it returns false.
