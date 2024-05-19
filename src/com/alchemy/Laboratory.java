@@ -141,7 +141,7 @@ public class Laboratory {
      * @param container The IngredientContainer to be added to the laboratory.
      * @throws IllegalArgumentException if the laboratory does not have enough free space to accommodate the ingredient in the container.
      */
-    public void addContainer(IngredientContainer container){
+    public void addContainer(IngredientContainer container){                            //TODO: check and might be easier to implement seperate function because is duplicate
         if (canAddContainer(container)){
             Device tempCool = new CoolingBox();
             Device tempHeat = new Oven();
@@ -174,6 +174,8 @@ public class Laboratory {
                 removeDevice(tempHeat);
                 tempCool.getContents().destroy();
                 tempHeat.getContents().destroy();
+                tempCool = null;
+                tempHeat = null;
             } catch (Device.DeviceFullException | LaboratoryMissingDeviceException e) {
                 throw new RuntimeException(e);
             }
@@ -217,6 +219,8 @@ public class Laboratory {
                     removeDevice(tempHeat);
                     tempCool.getContents().destroy();
                     tempHeat.getContents().destroy();
+                    tempCool = null;
+                    tempHeat = null;
                 } catch (Device.DeviceFullException | LaboratoryMissingDeviceException e) {
                     throw new RuntimeException(e);
                 }
@@ -230,6 +234,8 @@ public class Laboratory {
                 } else {
                     labContainer.destroy();
                     partialContainer.destroy();
+                    labContainer = null;
+                    partialContainer = null;
                     throw new IllegalArgumentException("Not enough space to add container");
                 }
             }
