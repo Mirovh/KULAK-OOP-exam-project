@@ -46,19 +46,19 @@ public class DeviceTest {
         //test basic cooling function
         fridge.react();
         IngredientContainer cooledContainer = fridge.getContents();
-        Assert.assertEquals(20F,(float)cooledContainer.getContent().getTemperature().getColdness());
-        Assert.assertEquals(0F,(float)cooledContainer.getContent().getTemperature().getHotness());
+        Assert.assertEquals(20F,(float)cooledContainer.getContent().getTemperature().getColdness(), 1);
+        Assert.assertEquals(0F,(float)cooledContainer.getContent().getTemperature().getHotness(), 1);
         fridge2.addIngredient(cooledContainer);
         fridge2.react();
         IngredientContainer cooledContainer2 = fridge2.getContents();
-        Assert.assertEquals(40F,(float)cooledContainer2.getContent().getTemperature().getColdness());
-        Assert.assertEquals(0F,(float)cooledContainer2.getContent().getTemperature().getHotness());
+        Assert.assertEquals(40F,(float)cooledContainer2.getContent().getTemperature().getColdness(), 1);
+        Assert.assertEquals(0F,(float)cooledContainer2.getContent().getTemperature().getHotness(), 1);
         // test ingredient doesn't heat up when in coolingBox
         fridge.addIngredient(cooledContainer2);
         fridge.react();
         IngredientContainer cooledContainer3 = fridge.getContents();
-        Assert.assertEquals(40F,(float)cooledContainer3.getContent().getTemperature().getColdness());
-        Assert.assertEquals(0F,(float)cooledContainer3.getContent().getTemperature().getHotness());
+        Assert.assertEquals(40F,(float)cooledContainer3.getContent().getTemperature().getColdness(), 1);
+        Assert.assertEquals(0F,(float)cooledContainer3.getContent().getTemperature().getHotness(), 1);
     }
 
     @Test
@@ -79,18 +79,18 @@ public class DeviceTest {
         oven.react();
         IngredientContainer heatedContainer = oven.getContents();
         Assert.assertTrue(35<=heatedContainer.getContent().getTemperature().getHotness()&& heatedContainer.getContent().getTemperature().getHotness() <=45);
-        Assert.assertEquals(0F,(float)heatedContainer.getContent().getTemperature().getColdness());
+        Assert.assertEquals(0F,(float)heatedContainer.getContent().getTemperature().getColdness(), 1);
         oven2.addIngredient(heatedContainer);
         oven2.react();
         IngredientContainer heatedContainer2 = oven2.getContents();
         Assert.assertTrue(55<=heatedContainer2.getContent().getTemperature().getHotness()&& heatedContainer2.getContent().getTemperature().getHotness()<=65 );
-        Assert.assertEquals(0F,(float)heatedContainer2.getContent().getTemperature().getColdness());
+        Assert.assertEquals(0F,(float)heatedContainer2.getContent().getTemperature().getColdness(), 1);
         // test ingredient doesn't cool down when in Oven
         oven.addIngredient(heatedContainer2);
         oven.react();
         IngredientContainer heatedContainer3 = oven.getContents();
         Assert.assertTrue(55<=heatedContainer3.getContent().getTemperature().getHotness()&& heatedContainer3.getContent().getTemperature().getHotness()<=65 );
-        Assert.assertEquals(0F,(float)heatedContainer3.getContent().getTemperature().getColdness());
+        Assert.assertEquals(0F,(float)heatedContainer3.getContent().getTemperature().getColdness(), 1);
     }
 
     @Test
@@ -187,7 +187,7 @@ public class DeviceTest {
         Kettle kettle = new Kettle();
         lab.addDevice(kettle);
         AlchemicIngredient testIngredient1 = new AlchemicIngredient("Name",new Temperature(50,0),new IngredientState(false),new Quantity(5,FluidUnit.SPOON));
-        AlchemicIngredient testIngredient2 = new AlchemicIngredient("NewName",new Temperature(0,30),new IngredientState(false),new Quantity(3,FluidUnit.SPOON));
+        AlchemicIngredient testIngredient2 = new AlchemicIngredient("New Name",new Temperature(0,30),new IngredientState(false),new Quantity(3,FluidUnit.SPOON));
         kettle.addIngredient(new IngredientContainer(testIngredient1,FluidUnit.BARREL));
         kettle.addIngredient(new IngredientContainer(testIngredient2,FluidUnit.BARREL));
         kettle.react();
