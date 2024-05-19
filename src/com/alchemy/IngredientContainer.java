@@ -36,7 +36,27 @@ public class IngredientContainer {
                 throw new IllegalArgumentException("The unit of the container cannot be the smallest or largest unit.");
             }
         }
-        this.containerUnit = containerUnit;
+        boolean fits = false;
+        if(content.getQuantity().isFluidUnit()) {
+            for (Unit unit : FluidUnit.values()) {
+                if (unit.equals(containerUnit)) {
+                    fits = true;
+                    break;
+                }
+            }
+        } else if (content.getQuantity().isPowderUnit()) {
+            for (Unit unit : PowderUnit.values()){
+                if (unit.equals(containerUnit)) {
+                    fits = true;
+                    break;
+                }
+            }
+        }
+        if(fits){
+            this.containerUnit = containerUnit;
+        } else {
+            throw new IllegalArgumentException("The ContainerUnit cannot be a different type than the IngredientUnit");
+        }
     }
 
     /**

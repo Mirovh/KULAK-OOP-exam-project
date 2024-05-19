@@ -46,7 +46,7 @@ public class DeviceTest {
         //test basic cooling function
         fridge.react();
         IngredientContainer cooledContainer = fridge.getContents();
-        Assert.assertEquals(20F,(float)cooledContainer.getContent().getTemperature().getColdness(), 1);
+        Assert.assertEquals(20F,fridge.getContents().getContent().getTemperature().getColdness(), 1);
         Assert.assertEquals(0F,(float)cooledContainer.getContent().getTemperature().getHotness(), 1);
         fridge2.addIngredient(cooledContainer);
         fridge2.react();
