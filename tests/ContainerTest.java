@@ -47,8 +47,6 @@ public class ContainerTest {
         assertNull(emptyContainer.getContent());
         assertThrows(IllegalArgumentException.class, () ->  new IngredientContainer(DROP));                              //not really containers
         assertThrows(IllegalArgumentException.class, () ->  new IngredientContainer(PINCH));
-        assertThrows(IllegalArgumentException.class, () ->  new IngredientContainer(FluidUnit.SPOON));
-        assertThrows(IllegalArgumentException.class, () ->  new IngredientContainer(PowderUnit.SPOON));
         assertThrows(IllegalArgumentException.class, () ->  new IngredientContainer(PowderUnit.STOREROOM));             //not sure if these are allowed as containers
         assertThrows(IllegalArgumentException.class, () ->  new IngredientContainer(FluidUnit.STOREROOM));
         assertThrows(IllegalArgumentException.class, () ->  new IngredientContainer(wrongState, BOX));

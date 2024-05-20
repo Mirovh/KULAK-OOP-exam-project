@@ -2,6 +2,7 @@ package com.alchemy;
 
 import be.kuleuven.cs.som.annotate.*;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -309,7 +310,7 @@ public class IngredientName {
             if (name.contains(word)) return false;
         }
         // split the name into parts
-        String[] parts = name.split("\\s*( mixed with |,| and )\\s*");
+        String[] parts = name.split(" mixed with ");
 
         // if there is only one part, it has to be at least 3 characters long
         if (name.length() < 3) return false;
@@ -318,20 +319,9 @@ public class IngredientName {
             if (!isValidIngredientPartName(part)) return false;
         }
         // all parts combined with ' mixed with ' should equal the original name
-        StringBuilder joinedString = new StringBuilder();
+        String joinedString = String.join(" mixed with ", parts);
 
-        for (int i = 0; i < parts.length; i++) {
-            joinedString.append(parts[i]);
-            if (i < parts.length - 2) {
-                joinedString.append(", ");
-            } else if (i == parts.length - 2) {
-                joinedString.append(" and ");
-            } else if (i == parts.length - 1 && parts.length > 1) {
-                joinedString.insert(0, " mixed with ");
-            }
-        }
-
-        return joinedString.toString().equals(name);
+        return joinedString.equals(name);
     }
 
     /**

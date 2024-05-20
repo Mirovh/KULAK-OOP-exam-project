@@ -96,6 +96,7 @@ public class Quantity {
      *
      * @param unit the fluid unit to convert to
      *      | unit != null
+     * @pre The unit of this quantity is a powder unit.
      * @post The amount of the quantity is converted to the specified fluid unit.
      *      | this.amount = this.unit.convertTo(unit, this.amount)
      * @post The unit of the quantity is set to the specified fluid unit.
@@ -117,6 +118,7 @@ public class Quantity {
      *
      * @param unit the powder unit to convert to
      *             | unit != null
+     * @pre The unit of this quantity is a fluid unit.
      * @post The amount of the quantity is converted to the specified powder unit.
      *      | this.amount = this.unit.convertTo(unit, this.amount)
      * @post The unit of the quantity is set to the specified powder unit.
@@ -305,7 +307,7 @@ public class Quantity {
      */
     @Basic
     public boolean isGreaterThanOrEqualTo(Quantity quantity) {
-        return this.unit.convertToBase(this.amount) >= quantity.unit.convertToBase(quantity.amount);
+        return this.unit.convertToBase(this.amount) > quantity.unit.convertToBase(quantity.amount) || this.isEqualTo(quantity);
     }
 
     /**
@@ -332,7 +334,7 @@ public class Quantity {
      */
     @Basic
     public boolean isSmallerThanOrEqualTo(Quantity quantity) {
-        return this.unit.convertToBase(this.amount) <= quantity.unit.convertToBase(quantity.amount);
+        return this.unit.convertToBase(this.amount) < quantity.unit.convertToBase(quantity.amount) || this.isEqualTo(quantity);
     }
 
     /**

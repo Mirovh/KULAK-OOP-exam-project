@@ -28,8 +28,8 @@ public class Kettle extends Device {
      * Constants
      **********************************************************/
 
-    static final int pinchInSpoon = Math.round(new Quantity(1, PowderUnit.PINCH).convertTo(PowderUnit.SPOON));
-    static final int dropInSpoon = Math.round(new Quantity(1, FluidUnit.DROP).convertTo(FluidUnit.SPOON));
+    static final int pinchInSpoon = Math.round(new Quantity(1, PowderUnit.SPOON).convertTo(PowderUnit.PINCH));
+    static final int dropInSpoon = Math.round(new Quantity(1, FluidUnit.SPOON).convertTo(FluidUnit.DROP));
 
     /**********************************************************
      * Constructors
@@ -57,7 +57,8 @@ public class Kettle extends Device {
         ArrayList<IngredientContainer> containers = new ArrayList<>();
         for(AlchemicIngredient ingredient: ingredients){
             Unit containerUnit;
-            if(ingredient.getState().isSolid()){
+            if(ingredient.getQuantity().isPowderUnit()){
+                System.out.println(ingredient.getQuantity());
                 containerUnit = ingredient.getQuantity().getSmallestPowderContainer();
             }
             else{
@@ -124,28 +125,23 @@ public class Kettle extends Device {
                 }
             }
         }
-        if(strippedNames.size()>1){
-            strippedNames.sort(String.CASE_INSENSITIVE_ORDER);
-            StringBuilder name = new StringBuilder(strippedNames.getFirst() + " mixed with ");
-            for (int i = 1; i < strippedNames.size() -1; i++) {
-                name.append(strippedNames.get(i)).append(" , ");
-            }
-            name.append(strippedNames.getLast()).append(" and ");
-            name.append(strippedNames.getLast());
-            try {
-                return new IngredientName(name.toString());
-            } catch (IngredientName.IllegalNameException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        else{
-            try {
-                return new IngredientName(strippedNames.getFirst());
-            } catch (IngredientName.IllegalNameException e) {
-                throw new RuntimeException(e);
-            }
+        strippedNames.sort(String.CASE_INSENSITIVE_ORDER);
+
+        String name;
+        if(strippedNames.size() > 1){
+            name = String.join(" mixed with ", strippedNames);
+        } else {
+            name = strippedNames.getFirst();
         }
 
+        try {
+            System.out.println(strippedNames.getFirst());
+            IngredientName newName = new IngredientName(strippedNames.getFirst());
+            newName.setName(name);
+            return newName;
+        } catch (IngredientName.IllegalNameException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -181,7 +177,7 @@ public class Kettle extends Device {
             int liquidFractions = 0;
             for(AlchemicIngredient ingredient: ingredients){
                 if(ingredient.getQuantity().isGreaterThanOrEqualTo(PowderUnit.SPOON, 1F)|ingredient.getState().getState().isSolid()){
-                    pinches += ingredient.getQuantity().convertToPowderUnit(PowderUnit.PINCH);
+                    pinches += ingredient.getQuantity().convertTo(PowderUnit.PINCH);
                 }
                 else{
                     liquidFractions += ingredient.getQuantity().convertToFluidUnit(FluidUnit.DROP);
@@ -195,7 +191,7 @@ public class Kettle extends Device {
             int solidFractions = 0;
             for(AlchemicIngredient ingredient: ingredients){
                 if(ingredient.getQuantity().isGreaterThanOrEqualTo(PowderUnit.SPOON, 1F)|!ingredient.getState().getState().isSolid()){
-                    drops += ingredient.getQuantity().convertToFluidUnit(FluidUnit.DROP);
+                    drops += ingredient.getQuantity().convertTo(FluidUnit.DROP);
                 }
                 else{
                     solidFractions += ingredient.getQuantity().convertToPowderUnit(PowderUnit.PINCH);
