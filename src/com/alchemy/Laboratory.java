@@ -131,7 +131,15 @@ public class Laboratory {
         if (container.getContent() == null) {
             return false;
         }else {
-            Quantity comparisonContainer = new Quantity(this.getFreeSpace(), DROP);
+            System.out.println(getFreeSpace());
+            Quantity comparisonContainer;
+            if(container.getContent().getState().isSolid()){
+                comparisonContainer = new Quantity(this.getFreeSpace(), PowderUnit.STOREROOM);
+            }
+            else{
+                comparisonContainer = new Quantity(this.getFreeSpace(), FluidUnit.STOREROOM);
+            }
+
             return container.getContent().getQuantity().isSmallerThanOrEqualTo(comparisonContainer);
         }
     }
