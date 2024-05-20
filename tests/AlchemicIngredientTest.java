@@ -39,7 +39,7 @@ public class AlchemicIngredientTest {
             kettle.addIngredient(container2);
             lab.addDevice(kettle);
             kettle.react();
-            ingredient2 = kettle.getContent().getFirst().getContent();
+            ingredient2 = kettle.getContents().getContent();
         } catch (IngredientName.IllegalNameException e) {
             fail("Valid name should not throw an exception: " + e.getMessage());
         } catch (Device.NotInLaboratoryException | Laboratory.LaboratoryFullException e) {

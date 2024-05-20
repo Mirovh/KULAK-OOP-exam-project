@@ -367,7 +367,6 @@ public class Laboratory {
             devices.add(device);
             device.setLaboratory(this);
             //TODO: empty device and add contents to the inventory of the laboratory   //might be fixed in next 2 lines  //makijken
-            System.out.println(device.getContents());
             if (!(device.getContents() == null)) {
                 this.addContainer(device.getContents());
                 device.getContents().destroy();
@@ -509,7 +508,7 @@ public class Laboratory {
                     throw new RuntimeException(e);
                 }
                 usedIngredients.clear();
-                usedIngredients.add(kettle.getContent().getFirst().getContent());
+                usedIngredients.add(kettle.getContents().getContent());
                 break;
                 case ADD:
                     //TODO: Remove certain quantity ingredient from lab and add to usedIngredients //nakijken

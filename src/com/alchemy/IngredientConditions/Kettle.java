@@ -49,22 +49,22 @@ public class Kettle extends Device {
     }
 
     /**
-     * remove the contents of the device and return the smallest possible containers each containing a different ingredient
+     * remove the contents of the device and return the smallest possible container of the last added ingredient
      * @return arraylist of containers with an element for each ingredient with the smallest possible container containing the contents of the device. If quantity is too large, biggest possible
      * container is returned and rest of contents are destroyed.
      */
-    public ArrayList<IngredientContainer> getContent(){
-        ArrayList<IngredientContainer> containers = new ArrayList<>();
-        for(AlchemicIngredient ingredient: ingredients){
-            Unit containerUnit;
-            if(ingredient.getQuantity().isPowderUnit()){
-                System.out.println(ingredient.getQuantity());
-                containerUnit = ingredient.getQuantity().getSmallestPowderContainer();
-            }
-            else{
-                containerUnit = ingredient.getQuantity().getSmallestFluidContainer();
-            }
-            containers.add(new IngredientContainer(ingredient,containerUnit));
+    @Override
+    public IngredientContainer getContents(){
+        if(ingredients ==null | ingredients.isEmpty()){
+            return null;
+        }
+        AlchemicIngredient toAdd = ingredients.getLast();
+        IngredientContainer containers;
+        if(ingredients.getFirst().getState().isSolid()) {
+            containers = new IngredientContainer(ingredients.getFirst(), toAdd.getQuantity().getSmallestPowderContainer());
+        }
+        else{
+            containers = new IngredientContainer(ingredients.getFirst(), toAdd.getQuantity().getSmallestFluidContainer());
         }
         ingredients.clear();
         return containers;

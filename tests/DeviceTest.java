@@ -117,7 +117,7 @@ public class DeviceTest {
         kettle.addIngredient(container1);
         kettle.addIngredient(container2);
         kettle.react();
-        assertEquals(kettle.getContent().getFirst().getContent().getFullName(), ingredient.getFullName());
+        assertEquals(kettle.getContents().getContent().getFullName(), ingredient.getFullName());
         //mixing multiple ingredients with different names
         Temperature basicTemp = new Temperature(0,20);
         IngredientState.State bassicState = IngredientState.State.Liquid;
@@ -129,13 +129,13 @@ public class DeviceTest {
         kettle.addIngredient(new IngredientContainer(testIngredient2,FluidUnit.BARREL));
         kettle.addIngredient(new IngredientContainer(testIngredient3,FluidUnit.BARREL));
         kettle.react();
-        AlchemicIngredient testIngredient4 = kettle.getContent().getFirst().getContent();
+        AlchemicIngredient testIngredient4 = kettle.getContents().getContent();
         Assert.assertEquals(testIngredient4.getFullName(),"Name One mixed with Name Two and Name Three");
         AlchemicIngredient testIngredient5 = new AlchemicIngredient("An Alphabetically First Name",basicTemp,bassicState,basicAmount);
         kettle.addIngredient(new IngredientContainer(testIngredient4,FluidUnit.BARREL));
         kettle.addIngredient(new IngredientContainer(testIngredient5,FluidUnit.BARREL));
         kettle.react();
-        AlchemicIngredient testIngredient6 = kettle.getContent().getFirst().getContent();
+        AlchemicIngredient testIngredient6 = kettle.getContents().getContent();
         Assert.assertEquals(testIngredient6.getFullName(),"An Alphabetically First Name mixed with Name One , Name Two and Name Three");
     }
     @Test
@@ -148,7 +148,7 @@ public class DeviceTest {
         kettle.addIngredient(new IngredientContainer(closeTo20,CHEST));
         kettle.addIngredient(new IngredientContainer(farFrom20, FluidUnit.BARREL));
         kettle.react();
-        AlchemicIngredient newIngredient = kettle.getContent().getFirst().getContent();
+        AlchemicIngredient newIngredient = kettle.getContents().getContent();
         Assert.assertEquals(newIngredient.getState().isSolid(),closeTo20.getState().isSolid());
         Assert.assertEquals(newIngredient.getStandardType().getStandardTemperature(),closeTo20.getStandardType().getStandardTemperature());
         //mixing two ingredients equally far from [0,20] with different states and standardTemperatures
@@ -156,7 +156,7 @@ public class DeviceTest {
         kettle.addIngredient(new IngredientContainer(closeTo20,CHEST));
         kettle.addIngredient(new IngredientContainer(equalTo20, FluidUnit.BARREL));
         kettle.react();
-        AlchemicIngredient newIngredient2 = kettle.getContent().getFirst().getContent();
+        AlchemicIngredient newIngredient2 = kettle.getContents().getContent();
         Assert.assertEquals(newIngredient2.getState().isSolid(),equalTo20.getState().isSolid());
         Assert.assertEquals(newIngredient2.getStandardType().getStandardTemperature(),equalTo20.getStandardType().getStandardTemperature());
     }
@@ -170,7 +170,7 @@ public class DeviceTest {
         kettle.addIngredient(new IngredientContainer(testIngredient1, FluidUnit.BARREL));
         kettle.addIngredient(new IngredientContainer(testIngredient2, FluidUnit.BARREL));
         kettle.react();
-        AlchemicIngredient newIngredient = kettle.getContent().getFirst().getContent();
+        AlchemicIngredient newIngredient = kettle.getContents().getContent();
         assertTrue(newIngredient.getQuantity().isEqualTo(new Quantity(110,SPOON)));
         //testing rounding down of units smaller than spoons of opposite state
         kettle.addIngredient(new IngredientContainer(newIngredient,FluidUnit.BARREL));
@@ -192,6 +192,6 @@ public class DeviceTest {
         kettle.addIngredient(new IngredientContainer(testIngredient2,FluidUnit.BARREL));
         kettle.react();
         int expectedValue = (5*(-50)/8)+((3*(30))/8);
-        assertTrue(kettle.getContent().getFirst().getContent().getTemperature().getHotness() == expectedValue | kettle.getContent().getFirst().getContent().getTemperature().getHotness() == expectedValue);
+        assertTrue(kettle.getContents().getContent().getTemperature().getHotness() == expectedValue | kettle.getContents().getContent().getTemperature().getColdness() == expectedValue);
     }
 }
