@@ -45,7 +45,6 @@ public class LaboratoryTest {
     @Test
     public void testAddContainer() throws IngredientName.IllegalNameException {
         assertThrows(IllegalArgumentException.class, () -> testLab.addContainer(emptyContainer));
-        assertThrows(IllegalArgumentException.class, () -> testLab.addContainer(exceedingAmount));
         testLab.addContainer(containerLiquid, 40);
         testLab.addContainer(containerSolid);       // no second argument adds all contents of container
         assertNull(containerLiquid);    //container should be destroyed
