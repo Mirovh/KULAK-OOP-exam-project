@@ -35,9 +35,9 @@ public class AlchemicIngredientTest {
             IngredientContainer container1 = new IngredientContainer(ingredient2, ingredient2.getQuantity().getSmallestPowderContainer());
             IngredientContainer container2 = new IngredientContainer(ingredient3, ingredient3.getQuantity().getSmallestPowderContainer());
             Kettle kettle = new Kettle();
+            lab.addDevice(kettle);
             kettle.addIngredient(container1);
             kettle.addIngredient(container2);
-            lab.addDevice(kettle);
             kettle.react();
             ingredient2 = kettle.getContents().getContent();
         } catch (IngredientName.IllegalNameException e) {

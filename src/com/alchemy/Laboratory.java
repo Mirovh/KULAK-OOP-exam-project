@@ -170,20 +170,7 @@ public class Laboratory {
                 }
             }
             try {
-                bringBackToStandardTemperature(container.getContent());
-                removeDevice(tempCool);
-                removeDevice(tempHeat);
-                tempCool.getContents().destroy();
-                tempHeat.getContents().destroy();
-            } catch (Device.DeviceFullException | LaboratoryMissingDeviceException e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                bringBackToStandardTemperature(container.getContent());
-                removeDevice(tempCool);
-                removeDevice(tempHeat);
-                tempCool.getContents().destroy();
-                tempHeat.getContents().destroy();
+                standardTempWithTempDevice(container, tempCool, tempHeat);
                 tempCool = null;
                 tempHeat = null;
             } catch (Device.DeviceFullException | LaboratoryMissingDeviceException e) {
@@ -192,6 +179,20 @@ public class Laboratory {
             containers.add(container);
         } else{
             throw new IllegalArgumentException("can't add container");
+        }
+    }
+
+    private void standardTempWithTempDevice(IngredientContainer container, Device tempCool, Device tempHeat) throws Device.DeviceFullException, LaboratoryMissingDeviceException {
+        bringBackToStandardTemperature(container.getContent());
+        removeDevice(tempCool);
+        removeDevice(tempHeat);
+        IngredientContainer container1 = tempCool.getContents();
+        IngredientContainer container2 = tempHeat.getContents();
+        if(container1!=null){
+            container1.destroy();
+        }
+        if(container2 != null){
+            tempHeat.getContents().destroy();
         }
     }
 
