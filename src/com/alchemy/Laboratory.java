@@ -6,6 +6,8 @@ import com.alchemy.quantity.Quantity;
 import com.alchemy.recipes.Recipe;
 import com.alchemy.recipes.Recipe.*;
 import com.alchemy.quantity.Unit;
+
+import java.awt.*;
 import java.util.ArrayList;
 
 import static com.alchemy.quantity.FluidUnit.*;
@@ -367,10 +369,11 @@ public class Laboratory {
             devices.add(device);
             device.setLaboratory(this);
             //TODO: empty device and add contents to the inventory of the laboratory   //might be fixed in next 2 lines  //makijken
-            if (!(device.getContents() == null)) {
-                this.addContainer(device.getContents());
-                device.getContents().destroy();
-                device.getContents().setContent(null);
+            IngredientContainer container = device.getContents();
+            if (!(container == null)) {
+                this.addContainer(container);
+                container.destroy();
+                container.setContent(null);
             }
             }
         else{
