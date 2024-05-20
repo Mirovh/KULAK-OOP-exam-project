@@ -27,7 +27,7 @@ public class LaboratoryTest {
         try {
             ingredientSolid = new AlchemicIngredient("Test Solid", temp, stateSolid, 50);
             ingredientLiquid = new AlchemicIngredient("Test Liquid",temp,stateLiquid, 50);
-            exceedingIngredient = new AlchemicIngredient("Exceeding",temp, stateSolid, 10800);
+            exceedingIngredient = new AlchemicIngredient("Exceeding",temp, stateSolid, 7560);
         } catch (IngredientName.IllegalNameException e) {
             fail("Valid name should not throw an exception: " + e.getMessage());
         }

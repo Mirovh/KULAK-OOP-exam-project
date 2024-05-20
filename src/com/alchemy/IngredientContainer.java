@@ -70,7 +70,7 @@ public class IngredientContainer {
         if (ingredient == null) {
             return true;
         }
-        return ingredient.getQuantity().isSmallerThanOrEqualTo(this.containerUnit, 1L);
+        return ingredient.getQuantity().isSmallerThanOrEqualTo(this.containerUnit, 1);
     }
 
     /**

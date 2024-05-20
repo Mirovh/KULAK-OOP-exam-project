@@ -22,8 +22,8 @@ public class DeviceTest {
 
     @Before
     public void setUpFixture() {
-        ingredient = new AlchemicIngredient(10F);
-        ingredient2 = new AlchemicIngredient(10F);
+        ingredient = new AlchemicIngredient(5F);
+        ingredient2 = new AlchemicIngredient(5F);
         container1 = new IngredientContainer(ingredient,basicQuantity.getUnit());
         container2 = new IngredientContainer(ingredient2,basicQuantity.getUnit());
         lab = new Laboratory(1);
