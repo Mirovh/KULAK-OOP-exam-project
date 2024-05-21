@@ -19,6 +19,7 @@ public class IngredientContainer {
     private final Unit containerUnit;
     private static final Unit[] blacklistedUnits = {PowderUnit.values()[0], PowderUnit.values()[PowderUnit.values().length - 1], FluidUnit.values()[0], FluidUnit.values()[FluidUnit.values().length - 1]};
 
+
     /**
      * Constructs a new IngredientContainer with the specified content and container unit.
      *
@@ -41,6 +42,7 @@ public class IngredientContainer {
             destroy();
             throw new IllegalArgumentException("The ingredient doesnt fit");
         }
+
     }
 
     /**
@@ -70,7 +72,8 @@ public class IngredientContainer {
         if (ingredient == null) {
             return true;
         }
-        return ingredient.getQuantity().isSmallerThanOrEqualTo(this.containerUnit, 1);
+        boolean test = ((containerUnit.getClass() == PowderUnit.class))==ingredient.getQuantity().isPowderUnit();
+        return(ingredient.getQuantity().isSmallerThanOrEqualTo(this.containerUnit, 1)&&((containerUnit.getClass() == PowderUnit.class))==ingredient.getQuantity().isPowderUnit());
     }
 
     /**
