@@ -6,12 +6,8 @@ import com.alchemy.quantity.Quantity;
 import com.alchemy.recipes.Recipe;
 import com.alchemy.recipes.Recipe.*;
 import com.alchemy.quantity.Unit;
-
-import java.util.List;
 import java.util.ArrayList;
 
-import static com.alchemy.quantity.FluidUnit.*;
-import static com.alchemy.quantity.PowderUnit.*;
 
 
 public class Laboratory {

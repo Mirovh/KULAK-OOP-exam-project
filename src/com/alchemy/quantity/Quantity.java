@@ -1,7 +1,5 @@
 package com.alchemy.quantity;
-
 import be.kuleuven.cs.som.annotate.*;
-
 import java.util.Objects;
 
 /**

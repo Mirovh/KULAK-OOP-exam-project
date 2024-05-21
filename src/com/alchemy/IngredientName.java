@@ -1,8 +1,6 @@
 package com.alchemy;
 
 import be.kuleuven.cs.som.annotate.*;
-
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

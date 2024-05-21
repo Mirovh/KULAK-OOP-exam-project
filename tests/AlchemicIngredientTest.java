@@ -3,12 +3,9 @@ import com.alchemy.IngredientConditions.Device;
 import com.alchemy.IngredientConditions.Kettle;
 import com.alchemy.IngredientContainer;
 import com.alchemy.IngredientName;
-
 import com.alchemy.IngredientConditions.Temperature;
 import com.alchemy.IngredientConditions.IngredientState;
 import com.alchemy.Laboratory;
-import com.alchemy.quantity.PowderUnit;
-import com.alchemy.quantity.Quantity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

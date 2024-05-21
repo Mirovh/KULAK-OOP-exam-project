@@ -2,7 +2,6 @@ package com.alchemy;
 
 import com.alchemy.quantity.FluidUnit;
 import com.alchemy.quantity.PowderUnit;
-import com.alchemy.quantity.Quantity;
 import com.alchemy.quantity.Unit;
 /**********************************************************
  * Represents a container for alchemic ingredients.

@@ -1,7 +1,6 @@
 package com.alchemy.IngredientConditions;
 
 import be.kuleuven.cs.som.annotate.Basic;
-import com.alchemy.IngredientConditions.Device;
 import com.alchemy.IngredientContainer;
 
 /**********************************************************
