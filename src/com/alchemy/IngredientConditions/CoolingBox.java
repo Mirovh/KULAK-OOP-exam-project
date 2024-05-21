@@ -108,10 +108,7 @@ public class CoolingBox extends Device {
         if(!isInLaboratory()){
             throw new NotInLaboratoryException("CoolingBox not in Laboratory");
         }
-        if(ingredient == null){
-            return;
-        }
-        else{
+        if(ingredient != null){
             Temperature ingredientTemperature = ingredient.getTemperature();
             Float ingredientHotness = ingredientTemperature.getHotness();
             Float ingredientColdness = ingredientTemperature.getColdness();

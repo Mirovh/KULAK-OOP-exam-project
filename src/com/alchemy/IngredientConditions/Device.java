@@ -70,13 +70,11 @@ public abstract class Device {
      * @throws DeviceFullException if the device is full, deviceFullException is thrown.
      */
     protected void addIngredient(IngredientContainer container) throws DeviceFullException {
-
         ingredient = container.getContent();
         container.destroy();
     }
 
-    public void react() throws NotInLaboratoryException {
-    }
+    public void react() throws NotInLaboratoryException {}
 
     /**********************************************************
      * Inspectors
