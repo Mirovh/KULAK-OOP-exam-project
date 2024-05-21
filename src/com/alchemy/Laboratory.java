@@ -36,6 +36,10 @@ public class Laboratory {
         }
     }
 
+    public ArrayList<IngredientContainer> getContainers() {
+        return containers;
+    }
+
     /**
      * Calculates and returns the filled space in the storeroom.
      *
@@ -112,7 +116,7 @@ public class Laboratory {
         String ingredientString = "";
         for (IngredientContainer container : containers) {
             if (container.getContent().equals(ingredient)) {
-                return container.toString();
+                return "The lab contains: " + container.toString();
             } else{
                 throw new IllegalArgumentException("Ingredient " + ingredient + "not found in lab");
             }
@@ -230,7 +234,7 @@ public class Laboratory {
                 } catch (Device.DeviceFullException | LaboratoryMissingDeviceException e) {
                     throw new RuntimeException(e);
                 }
-                AlchemicIngredient partialIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), container.getContent().getQuantity().convertToFluidUnit(DROP) - amount);
+                AlchemicIngredient partialIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), container.getContent().getQuantity().convertTo(container.getContent().getQuantity().getUnit()) - amount);
                 AlchemicIngredient labIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), amount);
                 IngredientContainer partialContainer = new IngredientContainer(partialIngredient, container.getContainerUnit());
                 IngredientContainer labContainer = new IngredientContainer(labIngredient, container.getContainerUnit());
@@ -259,22 +263,26 @@ public class Laboratory {
      */
     private ArrayList<IngredientContainer> labContainers;
     public void removeIngredient(AlchemicIngredient ingredient, Unit containerUnit, Long amount) throws IngredientName.IllegalNameException {
-        labContainers = new ArrayList<IngredientContainer>();                                                           //TODO: nakijken
-        for (int i = 0; i < amount; i++) {
-            boolean found = false;
-            for (IngredientContainer container : containers) {
-                if (container.getContent().equals(ingredient) && container.getContainerUnit().equals(containerUnit)) {
-                    long newAmount = amount - i;
-                    containers.add(new IngredientContainer(new AlchemicIngredient(ingredient.getFullName(), ingredient.getTemperature(), ingredient.getState(), newAmount), containerUnit));
-                    labContainers.add(new IngredientContainer(new AlchemicIngredient(ingredient.getFullName(), ingredient.getTemperature(), ingredient.getState(), 1), containerUnit));
-                    containers.remove(container);
-                    found = true;
-                    break;
+        if (amount > 0) {
+            labContainers = new ArrayList<IngredientContainer>();
+            for (int i = 0; i < amount; i++) {
+                boolean found = false;
+                for (IngredientContainer container : containers) {
+                    if (container.getContent().equals(ingredient) && container.getContainerUnit().equals(containerUnit) ) {
+                        long newAmount = amount - i;
+                        containers.add(new IngredientContainer(new AlchemicIngredient(ingredient.getFullName(), ingredient.getTemperature(), ingredient.getState(), newAmount), containerUnit));
+                        labContainers.add(new IngredientContainer(new AlchemicIngredient(ingredient.getFullName(), ingredient.getTemperature(), ingredient.getState(), 1), containerUnit));
+                        containers.remove(container);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    throw new IllegalArgumentException("Ingredient not found in laboratory");
                 }
             }
-            if (!found) {
-                throw new IllegalArgumentException("Ingredient not found in laboratory");
-            }
+        } else{
+            throw new IllegalArgumentException("amount must be greater than 0");
         }
     }
 

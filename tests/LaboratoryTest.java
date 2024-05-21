@@ -1,6 +1,7 @@
 import com.alchemy.*;
 import com.alchemy.IngredientConditions.*;
 import com.alchemy.quantity.PowderUnit;
+import com.alchemy.quantity.Quantity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,9 +47,9 @@ public class LaboratoryTest {
     public void testAddContainer() throws IngredientName.IllegalNameException {
         assertThrows(IllegalArgumentException.class, () -> testLab.addContainer(emptyContainer));
         testLab.addContainer(containerLiquid, 40);
+        assertTrue(testLab.getContainers().getFirst().getContent().getQuantity().isEqualTo(new Quantity(40, DROP)));
         testLab.addContainer(containerSolid);       // no second argument adds all contents of container
-        assertNull(containerLiquid);    //container should be destroyed
-        assertNull(containerSolid);    //container should be destroyed
+        assertEquals(testLab.getContainers().get(1), containerSolid);
     }
 
     @Test
@@ -56,11 +57,9 @@ public class LaboratoryTest {
         IngredientContainer containerLabLiquid = null;
         testLab.addContainer(containerLiquid);
         testLab.addContainer(containerSolid);
-        testLab.removeIngredient(ingredientLiquid, BOTTLE, 0L);
-        assertNull(testLab.getLabContainers());     //no new container when nothing gets removed
+        assertThrows(IllegalArgumentException.class, () -> testLab.removeIngredient(ingredientLiquid, BOTTLE, 0L));
         testLab.removeIngredient(ingredientLiquid, BOTTLE, 20L);   //remove creates a new container
         assertNotNull(testLab.getLabContainers());
-        testLab.removeIngredient(ingredientLiquid, BOTTLE, 30L);
         testLab.removeIngredient(ingredientLiquid, BOTTLE, 50L);   //remove creates a new container
         assertTrue(testLab.isEmpty());
         assertThrows(IllegalArgumentException.class, () -> testLab.removeIngredient(ingredientLiquid, BOTTLE, 50L));      //exceeds amount of ingredient
@@ -85,6 +84,28 @@ public class LaboratoryTest {
         testLab.removeStorerooms(1);
         assertEquals(3, testLab.getStoreroom());
         testLab.addContainer(containerLiquid);
+        IngredientContainer exceeding1;
+        IngredientContainer exceeding2;
+        IngredientContainer exceeding3;
+        IngredientContainer exceeding4;
+        IngredientContainer exceeding5;
+        IngredientContainer exceeding6;
+        try {
+            exceeding1 = new IngredientContainer(new AlchemicIngredient("Exceeding", temp, stateSolid, 7560), CHEST);
+            exceeding2 = new IngredientContainer(new AlchemicIngredient("Exceeding", temp, stateSolid, 7560), CHEST);
+            exceeding3 = new IngredientContainer(new AlchemicIngredient("Exceeding", temp, stateSolid, 7560), CHEST);
+            exceeding4 = new IngredientContainer(new AlchemicIngredient("Exceeding", temp, stateSolid, 7560), CHEST);
+            exceeding5 = new IngredientContainer(new AlchemicIngredient("Exceeding", temp, stateSolid, 7560), CHEST);
+            exceeding6 = new IngredientContainer(new AlchemicIngredient("Exceeding", temp, stateSolid, 7560), CHEST);
+        } catch (IngredientName.IllegalNameException e) {
+            throw new RuntimeException(e);
+        }
+        testLab.addContainer(exceeding1);
+        testLab.addContainer(exceeding2);
+        testLab.addContainer(exceeding3);
+        testLab.addContainer(exceeding4);
+        testLab.addContainer(exceeding5);
+        testLab.addContainer(exceeding6);
         assertThrows(IllegalArgumentException.class, () -> testLab.removeStorerooms(2));
         testLab.removeStorerooms(1);
         assertEquals(2, testLab.getStoreroom());
@@ -95,8 +116,8 @@ public class LaboratoryTest {
         assertEquals("The lab is empty", testLab.getContents());        //empty lab gives special string
         testLab.addContainer(containerLiquid);
         testLab.addContainer(containerSolid);
-        assertEquals("The lab contains: 50 spoons of testLiquid, 50 spoons of testSolid", testLab.getContents());    //different String might be better
-        assertEquals("The lab contains: 50 spoons of testLiquid", testLab.getContents(ingredientLiquid));
+        assertEquals("The lab contains: 50.0 drop of Test Liquid, 50.0 pinch of Test Solid", testLab.getContents());    //different String might be better
+        assertEquals("The lab contains: 50.0 drop of Test Liquid", testLab.getContents(ingredientLiquid));
     }
 
     @Test
