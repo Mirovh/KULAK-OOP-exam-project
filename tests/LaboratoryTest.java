@@ -57,13 +57,14 @@ public class LaboratoryTest {
         IngredientContainer containerLabLiquid = null;
         testLab.addContainer(containerLiquid);
         testLab.addContainer(containerSolid);
-        assertThrows(IllegalArgumentException.class, () -> testLab.removeIngredient(ingredientLiquid, BOTTLE, 0L));
-        testLab.removeIngredient(ingredientLiquid, BOTTLE, 20L);   //remove creates a new container
+        assertThrows(IllegalArgumentException.class, () -> testLab.removeIngredient("Test Liquid", BOTTLE, 0));
+        testLab.removeIngredient("Test Liquid", BOTTLE, 20);   //remove creates a new container
         assertNotNull(testLab.getLabContainers());
-        testLab.removeIngredient(ingredientLiquid, BOTTLE, 50L);   //remove creates a new container
+        testLab.removeIngredient("Test Liquid", BOTTLE, 30);   //remove creates a new container
+        testLab.removeIngredient("Test Solid", BOX, 50);
         assertTrue(testLab.isEmpty());
-        assertThrows(IllegalArgumentException.class, () -> testLab.removeIngredient(ingredientLiquid, BOTTLE, 50L));      //exceeds amount of ingredient
-        assertThrows(IllegalArgumentException.class, () -> testLab.removeIngredient(ingredientLiquid, BOTTLE, -50L));
+        assertThrows(IllegalArgumentException.class, () -> testLab.removeIngredient("Test Liquid", BOTTLE, 50));      //exceeds amount of ingredient
+        assertThrows(IllegalArgumentException.class, () -> testLab.removeIngredient("Test Liquid", BOTTLE, -50));
     }
 
     @Test

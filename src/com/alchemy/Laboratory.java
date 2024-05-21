@@ -262,16 +262,16 @@ public class Laboratory {
      * @throws IllegalArgumentException If there is not enough of the ingredient to remove or if the ingredient is not found in the laboratory.
      */
     private ArrayList<IngredientContainer> labContainers;
-    public void removeIngredient(AlchemicIngredient ingredient, Unit containerUnit, Long amount) throws IngredientName.IllegalNameException {
+    public void removeIngredient(String ingredientName, Unit containerUnit, int amount) throws IngredientName.IllegalNameException {
         if (amount > 0) {
             labContainers = new ArrayList<IngredientContainer>();
             for (int i = 0; i < amount; i++) {
                 boolean found = false;
                 for (IngredientContainer container : containers) {
-                    if (container.getContent().equals(ingredient) && container.getContainerUnit().equals(containerUnit) ) {
-                        long newAmount = amount - i;
-                        containers.add(new IngredientContainer(new AlchemicIngredient(ingredient.getFullName(), ingredient.getTemperature(), ingredient.getState(), newAmount), containerUnit));
-                        labContainers.add(new IngredientContainer(new AlchemicIngredient(ingredient.getFullName(), ingredient.getTemperature(), ingredient.getState(), 1), containerUnit));
+                    if ((container.getContent().getBasicName().equals(ingredientName) || container.getContent().getFullName().equals(ingredientName)) && container.getContainerUnit().equals(containerUnit) ) {
+                        int newAmount = amount - i;
+                        containers.add(new IngredientContainer(new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), newAmount), containerUnit));
+                        labContainers.add(new IngredientContainer(new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), 1), containerUnit));
                         containers.remove(container);
                         found = true;
                         break;
