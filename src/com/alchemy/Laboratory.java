@@ -8,8 +8,16 @@ import com.alchemy.recipes.Recipe.*;
 import com.alchemy.quantity.Unit;
 import java.util.ArrayList;
 
-
-
+/**
+ * Class representing a Laboratory.
+ * Only in a laboratory can something happen with alchemical ingredients.
+ * Devices must therefore be in the lab before they can be used.
+ *
+ * @author MiroVanHoef
+ * @author BenDeMets
+ * @author SimonVandeputte
+ * @version 1.0
+ */
 public class Laboratory {
     private ArrayList<Device> devices;
     private ArrayList<IngredientContainer> containers;
