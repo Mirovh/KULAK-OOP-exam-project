@@ -48,7 +48,7 @@ public class Laboratory {
         if(amount >= 1) {
             this.storeroom = amount;
             devices = new ArrayList<>();
-            containers = new ArrayList<IngredientContainer>();
+            containers = new ArrayList<>();
         } else{
             throw new IllegalArgumentException("amount of storerooms must be bigger than 0");
         }
@@ -299,7 +299,7 @@ public class Laboratory {
      */
     public IngredientContainer removeIngredient(String ingredientName, Unit containerUnit, int amount) throws IngredientName.IllegalNameException {
         if (amount > 0) {
-            ArrayList<IngredientContainer> labContainers = new ArrayList<IngredientContainer>();
+            ArrayList<IngredientContainer> labContainers = new ArrayList<>();
             int newAmount = amount;
             while (newAmount > 0) {
                 boolean found = false;
@@ -331,7 +331,7 @@ public class Laboratory {
                 }
             }
             // merge all labcontainers into one container
-            // all ingredients which were removed are the same alchemicingredient so we can merge their quantities (convert everything to base unit and add up the amounts)
+            // all ingredients which were removed are the same alchemicingredient, so we can merge their quantities (convert everything to base unit and add up the amounts)
             Float totalAmount = 0F;
             for (IngredientContainer container : labContainers) {
                 totalAmount += container.getContent().getQuantity().convertToBase();
@@ -505,7 +505,6 @@ public class Laboratory {
      * @throws LaboratoryMissingDeviceException If the required device (oven or cooling box) is missing in the laboratory.
      */
     private AlchemicIngredient bringBackToStandardTemperature(AlchemicIngredient ingredient) throws Device.DeviceFullException, LaboratoryMissingDeviceException {
-        boolean changed = false;
         Temperature targetTemp = ingredient.getStandardType().getStandardTemperature();
         if(ingredient.getTemperature().isColderThan(targetTemp)){
             for(Device device: devices){
@@ -518,7 +517,6 @@ public class Laboratory {
                     }
                     try {
                         device.react();
-                        changed = true;
                         return(device.getContents().getContent());
                     } catch (Device.NotInLaboratoryException e) {
                         throw new RuntimeException(e);
@@ -537,7 +535,6 @@ public class Laboratory {
                     }
                     try {
                         device.react();
-                        changed = true;
                         return(device.getContents().getContent());
                     } catch (Device.NotInLaboratoryException e) {
                         throw new RuntimeException(e);
@@ -551,7 +548,7 @@ public class Laboratory {
     /**
      * function made to execute a recipe
      * @param recipe the recipe that will be followed
-     * @throws LaboratoryMissingDeviceException
+     * @throws LaboratoryMissingDeviceException when Laboratory does not have specified Device
      */
     public void executeRecipe(Recipe recipe) throws LaboratoryMissingDeviceException, IngredientName.IllegalNameException {
         boolean stopRecipe = false;
