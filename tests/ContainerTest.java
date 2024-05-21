@@ -16,7 +16,6 @@ public class ContainerTest {
     IngredientContainer containerFluid;
     IngredientContainer containerPowder;
     IngredientContainer emptyContainer;
-    IngredientContainer exceedingAmount;
     Temperature temp = new Temperature(0,20);
     IngredientState statePowder = new IngredientState(true);
     IngredientState stateFluid = new IngredientState(false);

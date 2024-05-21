@@ -5,6 +5,8 @@ import com.alchemy.quantity.Quantity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import java.math.RoundingMode;
+
 import static com.alchemy.quantity.PowderUnit.*;
 import static org.junit.Assert.*;
 
@@ -17,7 +19,6 @@ public class DeviceTest {
     IngredientContainer container2;
     Quantity basicQuantity = new Quantity(1, FluidUnit.SPOON);
 
-    Temperature basicTemp = new Temperature(0,20);
 
     @Before
     public void setUpFixture() {
@@ -30,7 +31,7 @@ public class DeviceTest {
     }
 
     @Test
-    public void CoolingBoxTest() throws Device.DeviceFullException, Device.NotInLaboratoryException, Exception {
+    public void CoolingBoxTest() throws Exception {
         //adding Ingredients test
         CoolingBox fridge = new CoolingBox();
         CoolingBox fridge2 = new CoolingBox(40F, 0F);
@@ -39,29 +40,29 @@ public class DeviceTest {
         lab2.addDevice(fridge2);
         //test DeviceFullException
         fridge.addIngredient(container1);
-        assertThrows(Device.DeviceFullException.class,()->{fridge.addIngredient(container2);});
+        assertThrows(Device.DeviceFullException.class,()-> fridge.addIngredient(container2));
         //test if container gets destroyed
         Assert.assertNull(container1.getContent());
         //test basic cooling function
         fridge.react();
         IngredientContainer cooledContainer = fridge.getContents();
         Assert.assertEquals(20F,cooledContainer.getContent().getTemperature().getColdness(), 1);
-        Assert.assertEquals(0F,(float)cooledContainer.getContent().getTemperature().getHotness(), 1);
+        Assert.assertEquals(0F, cooledContainer.getContent().getTemperature().getHotness(), 1);
         fridge2.addIngredient(cooledContainer);
         fridge2.react();
         IngredientContainer cooledContainer2 = fridge2.getContents();
-        Assert.assertEquals(40F,(float)cooledContainer2.getContent().getTemperature().getColdness(), 1);
-        Assert.assertEquals(0F,(float)cooledContainer2.getContent().getTemperature().getHotness(), 1);
+        Assert.assertEquals(40F, cooledContainer2.getContent().getTemperature().getColdness(), 1);
+        Assert.assertEquals(0F, cooledContainer2.getContent().getTemperature().getHotness(), 1);
         // test ingredient doesn't heat up when in coolingBox
         fridge.addIngredient(cooledContainer2);
         fridge.react();
         IngredientContainer cooledContainer3 = fridge.getContents();
-        Assert.assertEquals(40F,(float)cooledContainer3.getContent().getTemperature().getColdness(), 1);
-        Assert.assertEquals(0F,(float)cooledContainer3.getContent().getTemperature().getHotness(), 1);
+        Assert.assertEquals(40F, cooledContainer3.getContent().getTemperature().getColdness(), 1);
+        Assert.assertEquals(0F, cooledContainer3.getContent().getTemperature().getHotness(), 1);
     }
 
     @Test
-    public void OvenTest() throws Device.DeviceFullException, Device.NotInLaboratoryException ,Exception{
+    public void OvenTest() throws Exception{
         //Test is run 20 times to take into account the randomness
         //adding Ingredients test
         Oven oven = new Oven();
@@ -71,25 +72,25 @@ public class DeviceTest {
         lab2.addDevice(oven2);
         //test DeviceFullException
         oven.addIngredient(container1);
-        assertThrows(Device.DeviceFullException.class,()->{oven.addIngredient(container2);});
+        assertThrows(Device.DeviceFullException.class,()-> oven.addIngredient(container2));
         //test if container gets destroyed
         Assert.assertNull(container1.getContent());
         //test basic heating function
         oven.react();
         IngredientContainer heatedContainer = oven.getContents();
         Assert.assertTrue(35<=heatedContainer.getContent().getTemperature().getHotness()&& heatedContainer.getContent().getTemperature().getHotness() <=45);
-        Assert.assertEquals(0F,(float)heatedContainer.getContent().getTemperature().getColdness(), 1);
+        Assert.assertEquals(0F, heatedContainer.getContent().getTemperature().getColdness(), 1);
         oven2.addIngredient(heatedContainer);
         oven2.react();
         IngredientContainer heatedContainer2 = oven2.getContents();
         Assert.assertTrue(55<=heatedContainer2.getContent().getTemperature().getHotness()&& heatedContainer2.getContent().getTemperature().getHotness()<=65 );
-        Assert.assertEquals(0F,(float)heatedContainer2.getContent().getTemperature().getColdness(), 1);
+        Assert.assertEquals(0F, heatedContainer2.getContent().getTemperature().getColdness(), 1);
         // test ingredient doesn't cool down when in Oven
         oven.addIngredient(heatedContainer2);
         oven.react();
         IngredientContainer heatedContainer3 = oven.getContents();
         Assert.assertTrue(55<=heatedContainer3.getContent().getTemperature().getHotness()&& heatedContainer3.getContent().getTemperature().getHotness()<=65 );
-        Assert.assertEquals(0F,(float)heatedContainer3.getContent().getTemperature().getColdness(), 1);
+        Assert.assertEquals(0F, heatedContainer3.getContent().getTemperature().getColdness(), 1);
     }
 
     @Test

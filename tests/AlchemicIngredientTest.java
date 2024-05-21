@@ -64,7 +64,7 @@ public class AlchemicIngredientTest {
         assertThrows(IngredientName.IllegalNameException.class, () -> new AlchemicIngredient("FULL CAPS", temp,state,10));
         assertThrows(IngredientName.IllegalNameException.class, () -> new AlchemicIngredient("Not \"Valid\" Name", temp,state,10));
         try{
-            new AlchemicIngredient("Valid \'name", temp,state,10);
+            new AlchemicIngredient("Valid 'name", temp,state,10);
         } catch (IngredientName.IllegalNameException e) {
             fail("Valid name should not throw an exception: " + e.getMessage());
         }
