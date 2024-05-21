@@ -260,16 +260,31 @@ public class Laboratory {
      * @throws IngredientName.IllegalNameException If the name of the ingredient is illegal.
      * @throws IllegalArgumentException If there is not enough of the ingredient to remove or if the ingredient is not found in the laboratory.
      */
-    public ArrayList<IngredientContainer> removeIngredient(String ingredientName, Unit containerUnit, int amount) throws IngredientName.IllegalNameException {
+    public IngredientContainer removeIngredient(String ingredientName, Unit containerUnit, int amount) throws IngredientName.IllegalNameException {
         if (amount > 0) {
             ArrayList<IngredientContainer> labContainers = new ArrayList<IngredientContainer>();
-            for (int i = 0; i < amount; i++) {
+            int newAmount = amount;
+            while (newAmount > 0) {
                 boolean found = false;
-                for (IngredientContainer container : containers) {
-                    if ((container.getContent().getBasicName().equals(ingredientName) || container.getContent().getFullName().equals(ingredientName)) && container.getContainerUnit().equals(containerUnit) ) {
-                        int newAmount = amount - i;
-                        labContainers.add(new IngredientContainer(new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), 1), containerUnit));
-                        containers.remove(container);
+                ArrayList<IngredientContainer> containers1 = this.containers;
+                for (IngredientContainer container : containers1) {
+                    System.out.println(container.getContent().getFullName());
+                    if ((container.getContent().getBasicName().equals(ingredientName))) {
+                        Float removedAmount = container.getContent().getQuantity().convertTo(containerUnit);
+                        if (newAmount < removedAmount) {
+                            AlchemicIngredient newIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), removedAmount - newAmount);
+                            IngredientContainer newContainer = new IngredientContainer(newIngredient, newIngredient.getQuantity().getSmallestContainer());
+                            this.addContainer(newContainer);
+                            newIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), newAmount - removedAmount);
+                            newContainer = new IngredientContainer(newIngredient, newIngredient.getQuantity().getSmallestContainer());
+                            labContainers.add(newContainer);
+                            newAmount = 0;
+                            this.containers.remove(container);
+                        } else {
+                            labContainers.add(container);
+                            this.containers.remove(container);
+                            newAmount -= removedAmount;
+                        }
                         found = true;
                         break;
                     }
@@ -278,7 +293,16 @@ public class Laboratory {
                     throw new IllegalArgumentException("Ingredient not found in laboratory");
                 }
             }
-            return labContainers;
+            // merge all labcontainers into one container
+            // all ingredients which were removed are the same alchemicingredient so we can merge their quantities (convert everything to base unit and add up the amounts)
+            Float totalAmount = 0F;
+            for (IngredientContainer container : labContainers) {
+                totalAmount += container.getContent().getQuantity().convertToBase();
+            }
+            AlchemicIngredient reference = labContainers.getFirst().getContent();
+            AlchemicIngredient newIngredient = new AlchemicIngredient(reference.getFullName(), reference.getTemperature(), reference.getState(), totalAmount);
+            IngredientContainer newContainer = new IngredientContainer(newIngredient, newIngredient.getQuantity().getSmallestContainer());
+            return newContainer;
         } else{
             throw new IllegalArgumentException("amount must be greater than 0");
         }

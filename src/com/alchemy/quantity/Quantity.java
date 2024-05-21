@@ -85,10 +85,12 @@ public class Quantity {
      *      | this.amount = this.unit.convertToBase(this.amount)
      * @post The unit of the quantity is set to the base unit.
      *     | this.unit = this.unit.getBaseUnit()
+     * @return the amount of the quantity in the base unit
      */
-    public void convertToBase() {
+    public Float convertToBase() {
         this.amount = this.unit.convertToBase(this.amount);
         this.unit = this.unit.getBaseUnit();
+        return amount;
     }
 
     /**
@@ -155,6 +157,14 @@ public class Quantity {
         return unit instanceof PowderUnit;
     }
 
+    public Unit getSmallestContainer() {
+        if (isFluidUnit()) {
+            return getSmallestFluidContainer();
+        } else {
+            return getSmallestPowderContainer();
+        }
+    }
+
     /**
      * Returns the smallest fluid unit for which a container would fit this quantity.
      *
@@ -167,6 +177,9 @@ public class Quantity {
         Float smallestContainerAmount = Float.MAX_VALUE;
 
         for (Unit other : FluidUnit.values()) {
+            if (Objects.equals(other, FluidUnit.DROP) || Objects.equals(other, FluidUnit.STOREROOM)) {
+                continue; // skip smallest and largest unit
+            }
             Float converted = unit.convertTo(other, amount);
             if (smallestContainerAmount > 1 && converted < smallestContainerAmount) {
                 smallestContainerAmount = converted;
@@ -193,6 +206,9 @@ public class Quantity {
         Float smallestContainerAmount = Float.MAX_VALUE;
 
             for (Unit other : PowderUnit.values()) {
+                if (Objects.equals(other, PowderUnit.PINCH) || Objects.equals(other, PowderUnit.STOREROOM)) {
+                    continue; // skip smallest and largest unit
+                }
                 Float converted = unit.convertTo(other, amount);
                 if (smallestContainerAmount > 1 && converted < smallestContainerAmount) {
                     smallestContainerAmount = converted;
