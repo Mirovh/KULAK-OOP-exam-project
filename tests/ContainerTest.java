@@ -54,8 +54,7 @@ public class ContainerTest {
 
     @Test
     public void testSetContent() {
-        IngredientContainer emptyContainer2 = new IngredientContainer(BOX);
-        assertThrows(IllegalArgumentException.class, () ->  emptyContainer2.setContent(wrongState));
+        assertThrows(IllegalArgumentException.class, () ->  emptyContainer.setContent(wrongState));
         emptyContainer.setContent(exceedingIngredient);
         assertEquals(exceedingIngredient, emptyContainer.getContent());
     }
