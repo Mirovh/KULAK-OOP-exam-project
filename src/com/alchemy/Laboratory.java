@@ -46,7 +46,7 @@ public class Laboratory {
 
         for (IngredientContainer container : containers) {
             if (container.getContent().getQuantity().isFluidUnit()){
-                float amountOfFluid = container.getContainerUnit().convertTo(PowderUnit.STOREROOM, 1F); // converting to powder unit is allowed in this case since 1 storeroom powder == 1 storeroom fluid
+                float amountOfFluid = container.getContainerUnit().convertTo(FluidUnit.STOREROOM, 1F); // converting to powder unit is allowed in this case since 1 storeroom powder == 1 storeroom fluid
                 FilledSpace += amountOfFluid;
             } else if (container.getContent().getQuantity().isPowderUnit()) {
                 float amountOfPowder = container.getContainerUnit().convertTo(PowderUnit.STOREROOM, 1F);
@@ -131,7 +131,6 @@ public class Laboratory {
         if (container.getContent() == null) {
             return false;
         }else {
-            System.out.println(getFreeSpace());
             Quantity comparisonContainer;
             if(container.getContent().getState().isSolid()){
                 comparisonContainer = new Quantity(this.getFreeSpace(), PowderUnit.STOREROOM);
@@ -226,10 +225,6 @@ public class Laboratory {
                 }
                 try {
                     bringBackToStandardTemperature(container.getContent());
-                    removeDevice(tempCool);
-                    removeDevice(tempHeat);
-                    tempCool.getContents().destroy();
-                    tempHeat.getContents().destroy();
                     tempCool = null;
                     tempHeat = null;
                 } catch (Device.DeviceFullException | LaboratoryMissingDeviceException e) {
@@ -462,11 +457,11 @@ public class Laboratory {
         else{
             for(Device device: devices){
                 if(device.getClass() == CoolingBox.class){
-                    if(ingredient.getState().isSolid()) {
+                    if(ingredient.getQuantity().isPowderUnit()) {
                         ((CoolingBox) device).addIngredient(new IngredientContainer(ingredient, ingredient.getQuantity().getSmallestPowderContainer()));
                     }
                     else{
-                        ((CoolingBox) device).addIngredient(new IngredientContainer(ingredient, ingredient.getQuantity().getSmallestPowderContainer()));
+                        ((CoolingBox) device).addIngredient(new IngredientContainer(ingredient, ingredient.getQuantity().getSmallestFluidContainer()));
                     }
                     try {
                         device.react();

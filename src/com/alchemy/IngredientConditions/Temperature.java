@@ -155,7 +155,7 @@ public class Temperature {
      * @param otherTemp the temperature that this temperature gets compared to
      * @return true if this temperature is colder than otherTemp
      */
-    public Boolean isColderThan(Temperature otherTemp){return(coldness<otherTemp.getColdness()|hotness<otherTemp.getColdness());}
+    public Boolean isColderThan(Temperature otherTemp){return(coldness>otherTemp.getColdness()|hotness<otherTemp.getHotness());}
     /**
      * Method that calculates the difference in temperature from another temperature
      * @param otherTemp the temperature that this temperature gets compared to

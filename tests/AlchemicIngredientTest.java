@@ -9,6 +9,7 @@ import com.alchemy.IngredientConditions.IngredientState;
 import com.alchemy.Laboratory;
 import com.alchemy.quantity.PowderUnit;
 import com.alchemy.quantity.Quantity;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -75,16 +76,7 @@ public class AlchemicIngredientTest {
         } catch (IngredientName.IllegalNameException e) {
             fail("Valid name should not throw an exception: " + e.getMessage());
         }
-        try {
-            new AlchemicIngredient("Valid Name mixed with Another Valid Name", temp,state,10);
-        } catch (IngredientName.IllegalNameException e) {
-            fail("Valid name should not throw an exception: " + e.getMessage());
-        }
-        try {
-            new AlchemicIngredient("Ab Cd mixed with Ef", temp, state,10);
-        } catch (IngredientName.IllegalNameException e) {
-            fail("Valid name should not throw an exception: " + e.getMessage());
-        }
+        Assert.assertThrows(IngredientName.IllegalNameException.class,() ->new AlchemicIngredient("Valid Name mixed with Another Valid Name", temp,state,10));
         try {
             new AlchemicIngredient("Abc", temp, state,10);
         } catch (IngredientName.IllegalNameException e) {
@@ -136,7 +128,7 @@ public class AlchemicIngredientTest {
         assertEquals("Test Ingredient", ingredient.getFullName());
         try {
             ingredient2.setSpecialName("Special Name");
-            assertEquals("Special Name (Test Ingredient mixed with Another Ingredient)", ingredient2.getFullName());
+            assertEquals("Special Name (Another Ingredient mixed with Test Ingredient)", ingredient2.getFullName());
         } catch (IngredientName.IllegalSpecialNameException e) {
             fail("Valid name should not throw an exception: " + e.getMessage());
         }

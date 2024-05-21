@@ -55,16 +55,19 @@ public class Kettle extends Device {
      */
     @Override
     public IngredientContainer getContents(){
-        if(ingredients ==null | ingredients.isEmpty()){
+        if(ingredients ==null){
+            return null;
+        }
+        else if( ingredients.isEmpty()){
             return null;
         }
         AlchemicIngredient toAdd = ingredients.getLast();
         IngredientContainer containers;
-        if(ingredients.getFirst().getState().isSolid()) {
-            containers = new IngredientContainer(ingredients.getFirst(), toAdd.getQuantity().getSmallestPowderContainer());
+        if(toAdd.getQuantity().isPowderUnit()) {
+            containers = new IngredientContainer(toAdd, toAdd.getQuantity().getSmallestPowderContainer());
         }
         else{
-            containers = new IngredientContainer(ingredients.getFirst(), toAdd.getQuantity().getSmallestFluidContainer());
+            containers = new IngredientContainer(toAdd, toAdd.getQuantity().getSmallestFluidContainer());
         }
         ingredients.clear();
         return containers;
@@ -190,7 +193,7 @@ public class Kettle extends Device {
             Float drops = 0F;
             int solidFractions = 0;
             for(AlchemicIngredient ingredient: ingredients){
-                if(ingredient.getQuantity().isGreaterThanOrEqualTo(PowderUnit.SPOON, 1F)|!ingredient.getState().getState().isSolid()){
+                if(ingredient.getQuantity().isGreaterThanOrEqualTo(PowderUnit.SPOON, 1F)|!ingredient.getState().isSolid()){
                     drops += ingredient.getQuantity().convertTo(FluidUnit.DROP);
                 }
                 else{
@@ -209,20 +212,31 @@ public class Kettle extends Device {
      * @return the new Temperature of the mixture
      */
     private Temperature newTemp(Quantity newQuantity){
-        Float spoons = newQuantity.convertToFluidUnit(FluidUnit.SPOON);
-        float temperature = 0L;
+        Float spoons;
+        if(newQuantity.isPowderUnit()) {
+             spoons = newQuantity.convertTo(PowderUnit.SPOON);
+        }
+        else{
+            spoons = newQuantity.convertTo(FluidUnit.SPOON);
+        }
+        float temperature = 0F;
         Temperature newTemperature;
         for(AlchemicIngredient ingredient: ingredients){
             Temperature ingredientTemp = ingredient.getTemperature();
             Quantity ingredientQuantity = ingredient.getQuantity();
             if(ingredientQuantity.isGreaterThanOrEqualTo(FluidUnit.SPOON, 1F)){
-                temperature += (ingredientTemp.getHotness() -ingredientTemp.getColdness())*(ingredientQuantity.convertToFluidUnit(FluidUnit.SPOON)/spoons);
+                if(ingredientQuantity.isPowderUnit()){
+                    temperature += (ingredientTemp.getHotness() -ingredientTemp.getColdness())*(ingredientQuantity.convertTo(PowderUnit.SPOON)/spoons);
+                }
+                else{
+                    temperature += (ingredientTemp.getHotness() -ingredientTemp.getColdness())*(ingredientQuantity.convertTo(FluidUnit.SPOON)/spoons);
+                }
             }
-            else if(ingredient.getState().getState().isSolid()){
-                temperature += (ingredientTemp.getHotness() -ingredientTemp.getColdness())*(ingredientQuantity.convertToPowderUnit(PowderUnit.PINCH)/(spoons*pinchInSpoon));
+            else if(ingredient.getQuantity().isPowderUnit()){
+                temperature += (ingredientTemp.getHotness() -ingredientTemp.getColdness())*(ingredientQuantity.convertTo(PowderUnit.PINCH)/(spoons*pinchInSpoon));
             }
             else{
-                temperature += (ingredientTemp.getHotness() -ingredientTemp.getColdness())*(ingredientQuantity.convertToFluidUnit(FluidUnit.DROP)/(spoons*dropInSpoon));
+                temperature += (ingredientTemp.getHotness() -ingredientTemp.getColdness())*(ingredientQuantity.convertTo(FluidUnit.DROP)/(spoons*dropInSpoon));
             }
         }
         if(temperature > 0){

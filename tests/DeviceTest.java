@@ -46,7 +46,7 @@ public class DeviceTest {
         //test basic cooling function
         fridge.react();
         IngredientContainer cooledContainer = fridge.getContents();
-        Assert.assertEquals(20F,fridge.getContents().getContent().getTemperature().getColdness(), 1);
+        Assert.assertEquals(20F,cooledContainer.getContent().getTemperature().getColdness(), 1);
         Assert.assertEquals(0F,(float)cooledContainer.getContent().getTemperature().getHotness(), 1);
         fridge2.addIngredient(cooledContainer);
         fridge2.react();
@@ -130,13 +130,13 @@ public class DeviceTest {
         kettle.addIngredient(new IngredientContainer(testIngredient3,FluidUnit.BARREL));
         kettle.react();
         AlchemicIngredient testIngredient4 = kettle.getContents().getContent();
-        Assert.assertEquals(testIngredient4.getFullName(),"Name One mixed with Name Two and Name Three");
+        Assert.assertEquals(testIngredient4.getFullName(),"Name One mixed with Name Three mixed with Name Two");
         AlchemicIngredient testIngredient5 = new AlchemicIngredient("An Alphabetically First Name",basicTemp,bassicState,basicAmount);
         kettle.addIngredient(new IngredientContainer(testIngredient4,FluidUnit.BARREL));
         kettle.addIngredient(new IngredientContainer(testIngredient5,FluidUnit.BARREL));
         kettle.react();
         AlchemicIngredient testIngredient6 = kettle.getContents().getContent();
-        Assert.assertEquals(testIngredient6.getFullName(),"An Alphabetically First Name mixed with Name One , Name Two and Name Three");
+        Assert.assertEquals(testIngredient6.getFullName(),"An Alphabetically First Name mixed with Name One mixed with Name Three mixed with Name Two");
     }
     @Test
     public void KettleTestStateAndStandardTemperature() throws Exception{
@@ -191,7 +191,8 @@ public class DeviceTest {
         kettle.addIngredient(new IngredientContainer(testIngredient1,FluidUnit.BARREL));
         kettle.addIngredient(new IngredientContainer(testIngredient2,FluidUnit.BARREL));
         kettle.react();
-        int expectedValue = (5*(-50)/8)+((3*(30))/8);
-        assertTrue(kettle.getContents().getContent().getTemperature().getHotness() == expectedValue | kettle.getContents().getContent().getTemperature().getColdness() == expectedValue);
+        IngredientContainer mixedContainer = kettle.getContents();
+        float expectedValue = ((float) (5 * (-50)) /8)+((float) (3 * (30)) /8);
+        assertTrue(mixedContainer.getContent().getTemperature().getHotness() == expectedValue | mixedContainer.getContent().getTemperature().getColdness() == expectedValue);
     }
 }

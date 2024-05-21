@@ -44,7 +44,7 @@ public abstract class Device {
             return null;
         }
         Unit containerUnit;
-        if(ingredient.getState().isSolid()){
+        if(ingredient.getQuantity().isPowderUnit()){
             containerUnit = ingredient.getQuantity().getSmallestPowderContainer();
         }
         else{
@@ -73,6 +73,7 @@ public abstract class Device {
      * @throws DeviceFullException if the device is full, deviceFullException is thrown.
      */
     protected void addIngredient(IngredientContainer container) throws DeviceFullException {
+
         ingredient = container.getContent();
         container.destroy();
     }
