@@ -28,7 +28,7 @@ public class ContainerTest {
             ingredientFluid = new AlchemicIngredient("Test Fluid", temp, stateFluid, 100);
             ingredientPowder = new AlchemicIngredient("Test Powder", temp, statePowder, 100);
             exceedingIngredient = new AlchemicIngredient("Test Exceeding", temp, stateFluid, 10000);
-            wrongState = new AlchemicIngredient("Fake Powder", temp, stateFluid, 50);
+            wrongState = new AlchemicIngredient("Fake Fluid", temp, statePowder, 50);
         } catch (IngredientName.IllegalNameException e) {
             throw new RuntimeException(e);
         }
