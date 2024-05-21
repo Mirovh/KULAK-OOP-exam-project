@@ -1,6 +1,7 @@
 import com.alchemy.*;
 import com.alchemy.IngredientConditions.*;
 import com.alchemy.quantity.FluidUnit;
+import com.alchemy.quantity.PowderUnit;
 import com.alchemy.quantity.Quantity;
 import org.junit.Assert;
 import org.junit.Before;
@@ -155,7 +156,7 @@ public class DeviceTest {
         //mixing two ingredients equally far from [0,20] with different states and standardTemperatures
         AlchemicIngredient equalTo20 = new AlchemicIngredient("Yet Another Name",new Temperature(0,21), IngredientState.State.Powder,5);
         kettle.addIngredient(new IngredientContainer(closeTo20,CHEST));
-        kettle.addIngredient(new IngredientContainer(equalTo20, FluidUnit.BARREL));
+        kettle.addIngredient(new IngredientContainer(equalTo20, CHEST));
         kettle.react();
         AlchemicIngredient newIngredient2 = kettle.getContents().getContent();
         Assert.assertEquals(newIngredient2.getState().isSolid(),equalTo20.getState().isSolid());
@@ -166,7 +167,7 @@ public class DeviceTest {
         Kettle kettle = new Kettle();
         lab.addDevice(kettle);
         //testing basic addition of ingredients of same state
-        AlchemicIngredient testIngredient1 = new AlchemicIngredient(new Quantity(5, SPOON));
+        AlchemicIngredient testIngredient1 = new AlchemicIngredient(new Quantity(5, FluidUnit.SPOON));
         AlchemicIngredient testIngredient2 = new AlchemicIngredient(new Quantity(3,FluidUnit.JUG));
         kettle.addIngredient(new IngredientContainer(testIngredient1, FluidUnit.BARREL));
         kettle.addIngredient(new IngredientContainer(testIngredient2, FluidUnit.BARREL));
