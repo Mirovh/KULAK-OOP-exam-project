@@ -2,7 +2,6 @@ import com.alchemy.*;
 import com.alchemy.IngredientConditions.*;
 import com.alchemy.quantity.FluidUnit;
 import com.alchemy.quantity.PowderUnit;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -17,7 +16,6 @@ public class ContainerTest {
     IngredientContainer containerFluid;
     IngredientContainer containerPowder;
     IngredientContainer emptyContainer;
-    IngredientContainer exceedingAmount;
     Temperature temp = new Temperature(0,20);
     IngredientState statePowder = new IngredientState(true);
     IngredientState stateFluid = new IngredientState(false);

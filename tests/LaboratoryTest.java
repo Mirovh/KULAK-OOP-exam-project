@@ -1,8 +1,6 @@
 import com.alchemy.*;
 import com.alchemy.IngredientConditions.*;
-import com.alchemy.quantity.PowderUnit;
 import com.alchemy.quantity.Quantity;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -56,7 +54,6 @@ public class LaboratoryTest {
     public void testRemoveContainer() throws IngredientName.IllegalNameException {
         testLab.addContainer(containerLiquid);
         testLab.addContainer(containerSolid);
-        System.out.println(testLab.getLabContainers());
         assertThrows(IllegalArgumentException.class, () -> testLab.removeIngredient("Test Liquid", BOTTLE, 0));
         testLab.removeIngredient("Test Liquid", DROP, 20);
         assertFalse(testLab.getLabContainers().isEmpty());
@@ -128,7 +125,7 @@ public class LaboratoryTest {
         CoolingBox fridge2 = new CoolingBox();
         //test that only one device of each type can be added to the Laboratory
         testLab.addDevice(fridge);
-        assertThrows(Laboratory.LaboratoryFullException.class,()->{testLab.addDevice(fridge2);});
+        assertThrows(Laboratory.LaboratoryFullException.class,()-> testLab.addDevice(fridge2));
         assertThrows(Device.NotInLaboratoryException.class, fridge2::react);
 
     }

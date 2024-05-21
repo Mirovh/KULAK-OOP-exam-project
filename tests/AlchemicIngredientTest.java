@@ -7,8 +7,6 @@ import com.alchemy.IngredientName;
 import com.alchemy.IngredientConditions.Temperature;
 import com.alchemy.IngredientConditions.IngredientState;
 import com.alchemy.Laboratory;
-import com.alchemy.quantity.PowderUnit;
-import com.alchemy.quantity.Quantity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,7 +65,7 @@ public class AlchemicIngredientTest {
         assertThrows(IngredientName.IllegalNameException.class, () -> new AlchemicIngredient("FULL CAPS", temp,state,10));
         assertThrows(IngredientName.IllegalNameException.class, () -> new AlchemicIngredient("Not \"Valid\" Name", temp,state,10));
         try{
-            new AlchemicIngredient("Valid \'name", temp,state,10);
+            new AlchemicIngredient("Valid 'name", temp,state,10);
         } catch (IngredientName.IllegalNameException e) {
             fail("Valid name should not throw an exception: " + e.getMessage());
         }
