@@ -19,8 +19,22 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Laboratory {
+
+    /**
+     * A list of devices.
+     * This ArrayList holds Device objects, each representing a unique device.
+     * A lab can only hold 1 of each Device
+     */
     private ArrayList<Device> devices;
+
+    /**
+     * A list that contains containers stored in the Laboratory
+     */
     private ArrayList<IngredientContainer> containers;
+
+    /**
+     * amount of storerooms the Laboratory has
+     */
     private int storeroom;
 
     /**
@@ -40,6 +54,11 @@ public class Laboratory {
         }
     }
 
+    /**
+     * Gets the list of ingredient containers currently in the Laboratory
+     *
+     * @return An ArrayList of IngredientContainer objects representing all the containers in the Laboratory.
+     */
     public ArrayList<IngredientContainer> getContainers() {
         return containers;
     }
@@ -97,7 +116,7 @@ public class Laboratory {
             for (IngredientContainer container : containers) {
                 Quantity quantity = container.getContent().getQuantity();
                 quantity.convertToBase();
-                contents.append(quantity.toString()).append(" of ").append(container.getContent().getBasicName()).append(", ");
+                contents.append(quantity).append(" of ").append(container.getContent().getBasicName()).append(", ");
             }
             if (!contents.isEmpty()) {
                 contents.setLength(contents.length() - 2);
@@ -120,7 +139,7 @@ public class Laboratory {
         String ingredientString = "";
         for (IngredientContainer container : containers) {
             if (container.getContent().equals(ingredient)) {
-                return "The lab contains: " + container.toString();
+                return "The lab contains: " + container;
             } else{
                 throw new IllegalArgumentException("Ingredient " + ingredient + "not found in lab");
             }
@@ -151,14 +170,13 @@ public class Laboratory {
         }
     }
 
-
     /**
      * Adds a given IngredientContainer to the laboratory.
      *
      * @param container The IngredientContainer to be added to the laboratory.
      * @throws IllegalArgumentException if the laboratory does not have enough free space to accommodate the ingredient in the container.
      */
-    public void addContainer(IngredientContainer container){                            //TODO: check and might be easier to implement seperate function because is duplicate
+    public void addContainer(IngredientContainer container){
         if (canAddContainer(container)){
             Device tempCool = new CoolingBox();
             Device tempHeat = new Oven();
@@ -189,6 +207,16 @@ public class Laboratory {
         }
     }
 
+    /**
+     * Adjusts the temperature of the given IngredientContainer to a standard temperature using the provided devices.
+     * After the adjustment, the devices are removed and any contents they may have are destroyed.
+     *
+     * @param container The IngredientContainer whose temperature is to be adjusted.
+     * @param tempCool The Device used to cool the container.
+     * @param tempHeat The Device used to heat the container.
+     * @throws Device.DeviceFullException If a device is full and cannot accept more contents.
+     * @throws LaboratoryMissingDeviceException If a required device is missing from the laboratory.
+     */
     private void standardTempWithTempDevice(IngredientContainer container, Device tempCool, Device tempHeat) throws Device.DeviceFullException, LaboratoryMissingDeviceException {
         bringBackToStandardTemperature(container.getContent());
         removeDevice(tempCool);
@@ -257,12 +285,17 @@ public class Laboratory {
     }
 
     /**
-     * Removes a specified amount of an AlchemicIngredient from the laboratory and returns it in a new IngredientContainer.
+     * Removes a specified amount of a specific ingredient from the laboratory.
+     * The method searches for the ingredient in the laboratory's containers and removes the specified amount.
+     * If the ingredient is not found, an exception is thrown.
+     * If the amount to be removed is less than the amount in a container, the remaining amount is added back to the laboratory.
      *
-     * @param containerUnit The unit of the new IngredientContainer.
+     * @param ingredientName The name of the ingredient to be removed.
+     * @param containerUnit The unit of the amount to be removed.
      * @param amount The amount of the ingredient to be removed.
-     * @throws IngredientName.IllegalNameException If the name of the ingredient is illegal.
-     * @throws IllegalArgumentException If there is not enough of the ingredient to remove or if the ingredient is not found in the laboratory.
+     * @return A new IngredientContainer containing the removed ingredient.
+     * @throws IngredientName.IllegalNameException If the ingredient name is illegal.
+     * @throws IllegalArgumentException If the amount to be removed is less than or equal to 0, or if the ingredient is not found in the laboratory.
      */
     public IngredientContainer removeIngredient(String ingredientName, Unit containerUnit, int amount) throws IngredientName.IllegalNameException {
         if (amount > 0) {
@@ -305,8 +338,7 @@ public class Laboratory {
             }
             AlchemicIngredient reference = labContainers.getFirst().getContent();
             AlchemicIngredient newIngredient = new AlchemicIngredient(reference.getFullName(), reference.getTemperature(), reference.getState(), totalAmount);
-            IngredientContainer newContainer = new IngredientContainer(newIngredient, newIngredient.getQuantity().getSmallestContainer());
-            return newContainer;
+            return new IngredientContainer(newIngredient, newIngredient.getQuantity().getSmallestContainer());
         } else{
             throw new IllegalArgumentException("amount must be greater than 0");
         }
@@ -406,7 +438,6 @@ public class Laboratory {
         if(canAddDevice(device)) {
             devices.add(device);
             device.setLaboratory(this);
-            //TODO: empty device and add contents to the inventory of the laboratory   //might be fixed in next 2 lines  //makijken
             IngredientContainer container = device.getContents();
             if (!(container == null)) {
                 this.addContainer(container);
@@ -419,10 +450,17 @@ public class Laboratory {
         }
     }
 
+    /**
+     * Removes the specified device from the list of devices.
+     * Also, dissociates the device from the laboratory.
+     *
+     * @param device The Device to be removed.
+     */
     public void removeDevice(Device device){
         devices.remove(device);
         device.setLaboratory(null);
     }
+
     /**
      * Checks if a device can be added to the laboratory.
      * This method checks if it's possible to add a specified device to the laboratory. It returns true if the laboratory does not already contain a device of the same class as the specified device, or if the laboratory's list of devices is null. Otherwise, it returns false.
@@ -552,7 +590,6 @@ public class Laboratory {
                 usedIngredients.add(kettle.getContents().getContent());
                 break;
                 case ADD:
-                    //TODO: Remove certain quantity ingredient from lab and add to usedIngredients //nakijken
                     currentIngredient = ingredients[ingredientIndex];
                     for (IngredientContainer container : containers){
                         if (container.getContent() == currentIngredient){
