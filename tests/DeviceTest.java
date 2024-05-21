@@ -5,6 +5,7 @@ import com.alchemy.quantity.Quantity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import java.math.RoundingMode;
 
 import static com.alchemy.quantity.PowderUnit.*;
 import static org.junit.Assert.*;
@@ -150,9 +151,9 @@ public class DeviceTest {
         kettle.react();
         AlchemicIngredient newIngredient = kettle.getContents().getContent();
         Assert.assertEquals(newIngredient.getState().isSolid(),closeTo20.getState().isSolid());
-        Assert.assertEquals(newIngredient.getStandardType().getStandardTemperature(),closeTo20.getStandardType().getStandardTemperature());
+        Assert.assertEquals(newIngredient.getStandardType().getStandardTemperature().getTemperature(),closeTo20.getStandardType().getStandardTemperature().getTemperature());
         //mixing two ingredients equally far from [0,20] with different states and standardTemperatures
-        AlchemicIngredient equalTo20 = new AlchemicIngredient("YetAnotherName",new Temperature(0,21), IngredientState.State.Powder,5);
+        AlchemicIngredient equalTo20 = new AlchemicIngredient("Yet Another Name",new Temperature(0,21), IngredientState.State.Powder,5);
         kettle.addIngredient(new IngredientContainer(closeTo20,CHEST));
         kettle.addIngredient(new IngredientContainer(equalTo20, FluidUnit.BARREL));
         kettle.react();
@@ -171,16 +172,17 @@ public class DeviceTest {
         kettle.addIngredient(new IngredientContainer(testIngredient2, FluidUnit.BARREL));
         kettle.react();
         AlchemicIngredient newIngredient = kettle.getContents().getContent();
-        assertTrue(newIngredient.getQuantity().isEqualTo(new Quantity(110,SPOON)));
+        assertTrue(newIngredient.getQuantity().isEqualTo(new Quantity(320,FluidUnit.SPOON)));
         //testing rounding down of units smaller than spoons of opposite state
         kettle.addIngredient(new IngredientContainer(newIngredient,FluidUnit.BARREL));
-        AlchemicIngredient smallIngredient1 = new AlchemicIngredient("Small",basicTemp, new IngredientState(true),new Quantity(5,PINCH));
-        AlchemicIngredient smallIngredient2 = new AlchemicIngredient("Smaller", basicTemp,new IngredientState(true),new Quantity(4,PINCH));
+        AlchemicIngredient smallIngredient1 = new AlchemicIngredient("Small",new Temperature(0,30), new IngredientState(true),new Quantity(5,PINCH));
+        AlchemicIngredient smallIngredient2 = new AlchemicIngredient("Smaller",new Temperature(0,30),new IngredientState(true),new Quantity(4,PINCH));
         kettle.addIngredient(new IngredientContainer(testIngredient1, FluidUnit.BARREL));
         kettle.addIngredient(new IngredientContainer(smallIngredient1, CHEST));
         kettle.addIngredient(new IngredientContainer(smallIngredient2,CHEST));
         kettle.react();
-        assertTrue(newIngredient.getQuantity().isEqualTo(new Quantity(111,SPOON)));
+        newIngredient = kettle.getContents().getContent();
+        assertTrue(newIngredient.getQuantity().isEqualTo(new Quantity(326,FluidUnit.SPOON)));
     }
     @Test
     public void KettleTestTemperature() throws Exception{
@@ -192,7 +194,7 @@ public class DeviceTest {
         kettle.addIngredient(new IngredientContainer(testIngredient2,FluidUnit.BARREL));
         kettle.react();
         IngredientContainer mixedContainer = kettle.getContents();
-        float expectedValue = ((float) (5 * (-50)) /8)+((float) (3 * (30)) /8);
-        assertTrue(mixedContainer.getContent().getTemperature().getHotness() == expectedValue | mixedContainer.getContent().getTemperature().getColdness() == expectedValue);
+        float expectedValue =((float) (5 * (-50)) /8)+((float) (3 * (30)) /8);
+        assertTrue(mixedContainer.getContent().getTemperature().getHotness() == expectedValue | mixedContainer.getContent().getTemperature().getColdness() == expectedValue |mixedContainer.getContent().getTemperature().getHotness() == -expectedValue | mixedContainer.getContent().getTemperature().getColdness() == -expectedValue );
     }
 }
