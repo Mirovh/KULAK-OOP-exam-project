@@ -1,6 +1,7 @@
 import com.alchemy.*;
 import com.alchemy.IngredientConditions.*;
 import com.alchemy.quantity.PowderUnit;
+import com.alchemy.quantity.Quantity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,9 +47,9 @@ public class LaboratoryTest {
     public void testAddContainer() throws IngredientName.IllegalNameException {
         assertThrows(IllegalArgumentException.class, () -> testLab.addContainer(emptyContainer));
         testLab.addContainer(containerLiquid, 40);
+        assertTrue(testLab.getContainers().getFirst().getContent().getQuantity().isEqualTo(new Quantity(40, DROP)));
         testLab.addContainer(containerSolid);       // no second argument adds all contents of container
-        assertNull(containerLiquid);    //container should be destroyed
-        assertNull(containerSolid);    //container should be destroyed
+        assertEquals(testLab.getContainers().get(1), containerSolid);
     }
 
     @Test

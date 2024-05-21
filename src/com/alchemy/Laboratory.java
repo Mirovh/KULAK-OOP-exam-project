@@ -36,6 +36,10 @@ public class Laboratory {
         }
     }
 
+    public ArrayList<IngredientContainer> getContainers() {
+        return containers;
+    }
+
     /**
      * Calculates and returns the filled space in the storeroom.
      *
@@ -230,7 +234,7 @@ public class Laboratory {
                 } catch (Device.DeviceFullException | LaboratoryMissingDeviceException e) {
                     throw new RuntimeException(e);
                 }
-                AlchemicIngredient partialIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), container.getContent().getQuantity().convertToFluidUnit(DROP) - amount);
+                AlchemicIngredient partialIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), container.getContent().getQuantity().convertTo(container.getContent().getQuantity().getUnit()) - amount);
                 AlchemicIngredient labIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), amount);
                 IngredientContainer partialContainer = new IngredientContainer(partialIngredient, container.getContainerUnit());
                 IngredientContainer labContainer = new IngredientContainer(labIngredient, container.getContainerUnit());
