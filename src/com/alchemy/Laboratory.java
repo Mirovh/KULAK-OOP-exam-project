@@ -7,7 +7,7 @@ import com.alchemy.recipes.Recipe;
 import com.alchemy.recipes.Recipe.*;
 import com.alchemy.quantity.Unit;
 
-import java.awt.*;
+import java.util.List;
 import java.util.ArrayList;
 
 import static com.alchemy.quantity.FluidUnit.*;
@@ -255,22 +255,19 @@ public class Laboratory {
     /**
      * Removes a specified amount of an AlchemicIngredient from the laboratory and returns it in a new IngredientContainer.
      *
-     * @param ingredient The AlchemicIngredient to be removed from the laboratory.
      * @param containerUnit The unit of the new IngredientContainer.
      * @param amount The amount of the ingredient to be removed.
      * @throws IngredientName.IllegalNameException If the name of the ingredient is illegal.
      * @throws IllegalArgumentException If there is not enough of the ingredient to remove or if the ingredient is not found in the laboratory.
      */
-    private ArrayList<IngredientContainer> labContainers;
-    public void removeIngredient(String ingredientName, Unit containerUnit, int amount) throws IngredientName.IllegalNameException {
+    public ArrayList<IngredientContainer> removeIngredient(String ingredientName, Unit containerUnit, int amount) throws IngredientName.IllegalNameException {
         if (amount > 0) {
-            labContainers = new ArrayList<IngredientContainer>();
+            ArrayList<IngredientContainer> labContainers = new ArrayList<IngredientContainer>();
             for (int i = 0; i < amount; i++) {
                 boolean found = false;
                 for (IngredientContainer container : containers) {
                     if ((container.getContent().getBasicName().equals(ingredientName) || container.getContent().getFullName().equals(ingredientName)) && container.getContainerUnit().equals(containerUnit) ) {
                         int newAmount = amount - i;
-                        containers.add(new IngredientContainer(new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), newAmount), containerUnit));
                         labContainers.add(new IngredientContainer(new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), 1), containerUnit));
                         containers.remove(container);
                         found = true;
@@ -281,18 +278,19 @@ public class Laboratory {
                     throw new IllegalArgumentException("Ingredient not found in laboratory");
                 }
             }
+            return labContainers;
         } else{
             throw new IllegalArgumentException("amount must be greater than 0");
         }
     }
 
     /**
-     * Retrieves the list of laboratory-made containers.
+     * Retrieves the list of containers in the laboratory.
      *
-     * @return The list of laboratory-made containers.
+     * @return The list of containers.
      */
     public ArrayList<IngredientContainer> getLabContainers() {
-        return labContainers;
+        return containers;
     }
 
     /**
