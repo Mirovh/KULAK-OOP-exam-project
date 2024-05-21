@@ -54,7 +54,6 @@ public class LaboratoryTest {
 
     @Test
     public void testRemoveContainer() throws IngredientName.IllegalNameException {
-        IngredientContainer containerLabLiquid = null;
         testLab.addContainer(containerLiquid);
         testLab.addContainer(containerSolid);
         System.out.println(testLab.getLabContainers());

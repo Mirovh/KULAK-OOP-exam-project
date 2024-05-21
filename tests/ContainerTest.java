@@ -49,7 +49,7 @@ public class ContainerTest {
         assertThrows(IllegalArgumentException.class, () ->  new IngredientContainer(PINCH));
         assertThrows(IllegalArgumentException.class, () ->  new IngredientContainer(PowderUnit.STOREROOM));             //not sure if these are allowed as containers
         assertThrows(IllegalArgumentException.class, () ->  new IngredientContainer(FluidUnit.STOREROOM));
-        assertThrows(IllegalArgumentException.class, () ->  new IngredientContainer(wrongState, BOX));
+        assertThrows(IllegalArgumentException.class, () ->  new IngredientContainer(wrongState, BARREL));
     }
 
     @Test
