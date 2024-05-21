@@ -1,5 +1,6 @@
 package com.alchemy.IngredientConditions;
 
+import be.kuleuven.cs.som.annotate.Basic;
 import com.alchemy.AlchemicIngredient;
 import com.alchemy.IngredientContainer;
 import com.alchemy.Laboratory;
@@ -102,6 +103,7 @@ public abstract class Device {
      * @return true if laboratory exists
      *  |laboratory != null
      */
+    @Basic
     public boolean isInLaboratory() {
         return laboratory!=null;
     }

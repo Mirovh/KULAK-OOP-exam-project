@@ -1,5 +1,7 @@
 package com.alchemy;
 
+import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Raw;
 import com.alchemy.quantity.FluidUnit;
 import com.alchemy.quantity.PowderUnit;
 import com.alchemy.quantity.Unit;
@@ -54,6 +56,7 @@ public class IngredientContainer {
      *    | this.content = content
      *    | this.containerUnit = containerUnit
      */
+    @Raw
     public IngredientContainer(AlchemicIngredient content, Unit containerUnit) {
         for (Unit unit : blacklistedUnits) {
             if (unit.equals(containerUnit)) {
@@ -79,6 +82,7 @@ public class IngredientContainer {
      *     | this.containerUnit = containerUnit
      *     | this.content = null
      */
+    @Raw
     public IngredientContainer(Unit containerUnit) {
         this(null, containerUnit);
     }
@@ -109,6 +113,7 @@ public class IngredientContainer {
      *
      * @return the unit of this IngredientContainer
      */
+    @Basic
     public Unit getContainerUnit() {
         return containerUnit;
     }
@@ -118,6 +123,7 @@ public class IngredientContainer {
      *
      * @return the content of this IngredientContainer, or null if it is empty
      */
+    @Basic
     public AlchemicIngredient getContent() {
         return content;
     }
@@ -143,6 +149,7 @@ public class IngredientContainer {
      *
      * @return a string representation of this IngredientContainer
      */
+    @Basic
     public String toString() {
         return content.getQuantity().toString() + " of " + content.getBasicName();
     }

@@ -1,4 +1,5 @@
 package com.alchemy;
+import be.kuleuven.cs.som.annotate.*;
 import com.alchemy.IngredientConditions.*;
 import com.alchemy.quantity.FluidUnit;
 import com.alchemy.quantity.PowderUnit;
@@ -47,6 +48,7 @@ public class Laboratory {
      * @param amount the number of storerooms in the laboratory
      * @throws IllegalArgumentException if the number of storerooms is less than 1
      */
+    @Raw
     public Laboratory(int amount){
         if(amount >= 1) {
             this.storeroom = amount;
@@ -62,6 +64,7 @@ public class Laboratory {
      *
      * @return An ArrayList of IngredientContainer objects representing all the containers in the Laboratory.
      */
+    @Basic
     public ArrayList<IngredientContainer> getContainers() {
         return containers;
     }
@@ -93,8 +96,8 @@ public class Laboratory {
      */
     public float getFreeSpace() {
         float FilledSpace = this.getFilledSpace();
-        float Space = this.getSpace();
-        return Space - FilledSpace;
+        float space = this.getSpace();
+        return space - FilledSpace;
     }
 
     /**
@@ -102,6 +105,7 @@ public class Laboratory {
      *
      * @return the amount of storerooms.
      */
+    @Basic
     public float getSpace(){
         return this.getStoreroom();
     }
@@ -359,6 +363,7 @@ public class Laboratory {
      *
      * @return The list of containers.
      */
+    @Basic
     public ArrayList<IngredientContainer> getLabContainers() {
         return containers;
     }
@@ -412,6 +417,7 @@ public class Laboratory {
      *
      * @return true if the containers list is empty, false otherwise
      */
+    @Basic
     public Boolean isEmpty(){
         return containers.isEmpty();
     }
@@ -422,6 +428,7 @@ public class Laboratory {
      *
      * @return the current number of storerooms
      */
+    @Basic
     public int getStoreroom(){
         return storeroom;
     }
@@ -432,6 +439,7 @@ public class Laboratory {
      *
      * @return an ArrayList of Device objects representing the devices currently stored
      */
+    @Basic
     public ArrayList<Device> getDevices() {
         return devices;
     }
@@ -489,20 +497,6 @@ public class Laboratory {
             }
         }
         return valid;
-    }
-
-    /**
-     * Exception thrown when the laboratory is full.
-     */
-    public static class LaboratoryFullException extends Exception {
-        public LaboratoryFullException(String e){super(e);}
-    }
-
-    /**
-     * exception when a device is missing in the laboratory.
-     */
-    public static class LaboratoryMissingDeviceException extends Exception {
-        public LaboratoryMissingDeviceException(String e){super(e);}
     }
 
     /**
@@ -716,5 +710,24 @@ public class Laboratory {
 
         }
 
+    }
+
+
+    /******************************************************************
+     * Exceptions
+     ******************************************************************/
+
+    /**
+     * Exception thrown when the laboratory is full.
+     */
+    public static class LaboratoryFullException extends Exception {
+        public LaboratoryFullException(String e){super(e);}
+    }
+
+    /**
+     * exception when a device is missing in the laboratory.
+     */
+    public static class LaboratoryMissingDeviceException extends Exception {
+        public LaboratoryMissingDeviceException(String e){super(e);}
     }
 }

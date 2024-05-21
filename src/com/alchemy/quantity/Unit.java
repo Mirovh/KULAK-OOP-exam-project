@@ -30,7 +30,6 @@ public interface Unit {
      * @param amount The amount to convert
      * @return The converted amount
      */
-    @Basic
     default Float convertTo(Unit unit, Float amount) {
         return amount * getConversionMap().get(unit);
     }
@@ -41,7 +40,6 @@ public interface Unit {
      * @param amount The amount to convert
      * @return The converted amount
      */
-    @Basic
     default Float convertToBase(Float amount) {
         return convertTo(getBaseUnit(), amount);
     }
@@ -51,7 +49,6 @@ public interface Unit {
      *
      * @return The base unit
      */
-    @Basic
     Unit getBaseUnit();
 
     /**

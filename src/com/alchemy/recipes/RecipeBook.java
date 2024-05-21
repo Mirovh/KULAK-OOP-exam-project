@@ -39,6 +39,7 @@ public class RecipeBook {
      * @post The recipes of the RecipeBook are set to the specified values.
      *       | this.recipes = recipes
      */
+    @Raw
     public RecipeBook(Recipe[] recipes) {
         for (Recipe recipe : recipes) {
             if (recipe == null) {

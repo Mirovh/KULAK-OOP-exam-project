@@ -1,4 +1,5 @@
 package com.alchemy.IngredientConditions;
+import be.kuleuven.cs.som.annotate.Raw;
 import com.alchemy.*;
 import com.alchemy.quantity.FluidUnit;
 import com.alchemy.quantity.PowderUnit;
@@ -39,6 +40,7 @@ public class Kettle extends Device {
      * Variable referencing the amount of pinches in a spoon
      */
     static final int pinchInSpoon = Math.round(new Quantity(1, PowderUnit.SPOON).convertTo(PowderUnit.PINCH));
+
     /**
      * Variable referencing the amount of drops in a spoon
      */
@@ -49,6 +51,7 @@ public class Kettle extends Device {
      * Constructors
      **********************************************************/
 
+    @Raw
     public Kettle() {
         super();
     }

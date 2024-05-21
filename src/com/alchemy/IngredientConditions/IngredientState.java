@@ -1,6 +1,7 @@
 package com.alchemy.IngredientConditions;
 
 import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Raw;
 
 /**********************************************************
  * Class made to define the states of the ingredient
@@ -33,6 +34,7 @@ public class IngredientState {
      * constructor to make a state based on a boolean
      * @param solid whether the state is solid
      */
+    @Raw
     public IngredientState(boolean solid){
         if(solid){
             state = State.Powder;
@@ -46,6 +48,7 @@ public class IngredientState {
      * constructor to make a state
      * @param state whether the state is solid
      */
+    @Raw
     public IngredientState(State state){
         this.state = state;
     }

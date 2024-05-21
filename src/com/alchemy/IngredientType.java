@@ -1,5 +1,6 @@
 package com.alchemy;
 
+import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Raw;
 import com.alchemy.IngredientConditions.Temperature;
 import com.alchemy.IngredientConditions.IngredientState;
@@ -92,6 +93,7 @@ public class IngredientType {
      *
      * @return The standard temperature.
      */
+    @Basic
     public Temperature getStandardTemperature() {
         return standardTemperature;
     }
@@ -101,6 +103,7 @@ public class IngredientType {
      *
      * @return The name of the ingredient.
      */
+    @Basic
     public IngredientName getName() {
         return ingredientName;
     }
@@ -110,6 +113,7 @@ public class IngredientType {
      *
      * @return The standard state of the ingredient.
      */
+    @Basic
     public IngredientState getStandardState() {
         return standardState;
     }

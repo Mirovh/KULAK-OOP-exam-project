@@ -1,5 +1,6 @@
 package com.alchemy.IngredientConditions;
 import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Raw;
 
 import java.util.ArrayList;
 import java.lang.Math;
@@ -45,6 +46,7 @@ public class Temperature {
      * @param coldness the coldness of the temperature
      * @param hotness the hotness of the temperature
      */
+    @Raw
     public Temperature(Float coldness, Float hotness){
         if(coldness != 0 && hotness != 0){
             this.hotness = hotness;
@@ -68,6 +70,7 @@ public class Temperature {
      * @param coldness the coldness of the temperature
      * @param hotness the hotness of the temperature
      */
+    @Raw
     public Temperature(int coldness, int hotness){this((float)coldness,(float)hotness);}
 
 

@@ -1,4 +1,5 @@
 package com.alchemy.IngredientConditions;
+import be.kuleuven.cs.som.annotate.Raw;
 import com.alchemy.IngredientContainer;
 
 import java.util.Random;
@@ -33,6 +34,7 @@ public class Oven extends Device {
      * @param coldness the coldness of the temperature of the oven
      * @param hotness the hotness of the temperature of the oven
      */
+    @Raw
     public Oven(Float coldness, Float hotness){
         this.temperature = new Temperature(0F,0F);
         setTemperature(coldness,hotness);
@@ -41,6 +43,7 @@ public class Oven extends Device {
     /**
      * creates an oven with temperature [0,20]
      */
+    @Raw
     public Oven(){
         this.temperature = new Temperature(0F,20F);
     }

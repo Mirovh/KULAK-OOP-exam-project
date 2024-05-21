@@ -7,6 +7,12 @@ import java.util.List;
 
 /**
  * A class representing the name of an alchemic ingredient.
+ * @invar The name parts of an ingredient must form a valid name.
+ *      | isValidMixtureName(String.join(nameParts, " mixed with "))
+ * @invar The special name of an ingredient must be a valid special name.
+ *      | isValidIngredientPartName(specialName) && nameParts.length > 1
+ * @invar Every name part of an ingredient must be a valid ingredient part name.
+ *     | for (String namePart : nameParts) { isValidIngredientPartName(namePart) }
  * Defensively programmed.
  *
  * @author MiroVanHoef
@@ -74,6 +80,7 @@ public class IngredientName {
      * @throws IllegalNameException If the given name is not a valid name.
      * @throws IllegalSpecialNameException If the given special name is not a valid special name.
      */
+    @Raw
     public IngredientName(String name, String specialName, String[] blacklistedWords) throws IllegalNameException, IllegalSpecialNameException {
         this.blacklistedWords = blacklistedWords;
         if (isValidIngredientPartName(name)) {
@@ -93,6 +100,7 @@ public class IngredientName {
      * @param name The name of the ingredient.
      * @throws IllegalNameException If the given name is not a valid name.
      */
+    @Raw
     public IngredientName(String name, String[] blacklistedWords) throws IllegalNameException {
         this.blacklistedWords = blacklistedWords;
         if (isValidIngredientPartName(name)) {
@@ -111,6 +119,7 @@ public class IngredientName {
      * @throws IllegalNameException If the given name is not a valid name.
      * @throws IllegalSpecialNameException If the given special name is not a valid special name.
      */
+    @Raw
     public IngredientName(String name, String specialName) throws IllegalNameException, IllegalSpecialNameException {
         this(name, specialName, new String[0]);
     }
@@ -121,6 +130,7 @@ public class IngredientName {
      * @param name The name of the ingredient.
      * @throws IllegalNameException If the given name is not a valid name.
      */
+    @Raw
     public IngredientName(String name) throws IllegalNameException {
         this(name, new String[0]);
     }
@@ -268,7 +278,6 @@ public class IngredientName {
      * @param name The name to add pre- and suffixes to.
      * @return The name with pre- and suffixes added.
      */
-    @Basic
     private String addPreAndSuffixes(String name) {
         StringBuilder nameBuilder = new StringBuilder(name);
 
@@ -298,7 +307,6 @@ public class IngredientName {
      * @param name The mixture name to be checked.
      * @return True if the mixture name is valid, false otherwise.
      */
-    @Basic
     private boolean isValidMixtureName(String name) {
         // the name mustn't contain any blacklisted words
         for (String word : blacklistedWords) {
@@ -329,7 +337,6 @@ public class IngredientName {
      * @param name The ingredient part name to be checked.
      * @return True if the ingredient part name is valid, false otherwise.
      */
-    @Basic
     private boolean isValidIngredientPartName(String name) {
         // the name mustn't contain any blacklisted words
         for (String word : blacklistedWordsIngredientPart) {
