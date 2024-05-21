@@ -6,7 +6,7 @@
       <option name="minLength" value="644" />
     </inspection_tool>
     <inspection_tool class="JavadocDeclaration" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="ADDITIONAL_TAGS" value="pre,post,invar,effect,note" />
+      <option name="ADDITIONAL_TAGS" value="pre,post,invar,effect,note,invars" />
     </inspection_tool>
   </profile>
 </component>

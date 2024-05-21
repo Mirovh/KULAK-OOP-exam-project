@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * Class representing a Laboratory.
  * Only in a laboratory can something happen with alchemical ingredients.
  * Devices must therefore be in the lab before they can be used.
+ * @invars  The lab must contain at least 1
  *
  * @author MiroVanHoef
  * @author BenDeMets
