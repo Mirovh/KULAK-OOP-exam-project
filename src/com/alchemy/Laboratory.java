@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Class representing a Laboratory.
  * Only in a laboratory can something happen with alchemical ingredients.
  * Devices must therefore be in the lab before they can be used.
- * @invars  The lab must contain at least 1
+ * @invar The lab must contain at least 1 storeroom.
  *
  * @author MiroVanHoef
  * @author BenDeMets
@@ -72,7 +72,7 @@ public class Laboratory {
      * @return the filled space in the storeroom, expressed in storerooms.
      */
     public float getFilledSpace() {
-        float FilledSpace = 0L;
+        float FilledSpace = 0F;
 
         for (IngredientContainer container : containers) {
             if (container.getContent().getQuantity().isFluidUnit()){
@@ -89,7 +89,7 @@ public class Laboratory {
     /**
      * Calculates and returns the free space available in the storeroom.
      *
-     * @return the free space in the storeroom
+     * @return the free space in the storeroom expressed in storerooms
      */
     public float getFreeSpace() {
         float FilledSpace = this.getFilledSpace();
@@ -111,7 +111,7 @@ public class Laboratory {
      *
      * @return A string describing the amount, unit, and name of each ingredient in the laboratory.
      *         The string is in the format: "The lab contains: {amount} {unit} of {ingredient}, ..."
-     *         If the laboratory is empty, the returned string will simply be: "The lab contains: "
+     *         If the laboratory is empty, the returned string will simply be: "The lab is empty".
      */
     public String getContents() {
         if(!this.isEmpty()) {
@@ -303,11 +303,13 @@ public class Laboratory {
      * @param amount The amount of the ingredient to be removed.
      * @return A new IngredientContainer containing the removed ingredient.
      * @throws IngredientName.IllegalNameException If the ingredient name is illegal.
-     * @throws IllegalArgumentException If the amount to be removed is less than or equal to 0, or if the ingredient is not found in the laboratory.
+     * @throws IllegalArgumentException If the amount to be removed is less than or equal to 0, or if not enough ingredient is not found in the laboratory.
+     * @effect The specified amount of the ingredient is removed from the laboratory.
+     * @effect If there is not enough of the ingredient in the laboratory, this function will throw an IllegalArgumentException, but will still remove as much as possible.
      */
     public IngredientContainer removeIngredient(String ingredientName, Unit containerUnit, int amount) throws IngredientName.IllegalNameException {
         if (amount > 0) {
-            ArrayList<IngredientContainer> labContainers = new ArrayList<>();
+            ArrayList<IngredientContainer> removedContainers = new ArrayList<>();
             int newAmount = amount;
             while (newAmount > 0) {
                 boolean found = false;
@@ -322,11 +324,11 @@ public class Laboratory {
                             this.addContainer(newContainer);
                             newIngredient = new AlchemicIngredient(container.getContent().getFullName(), container.getContent().getTemperature(), container.getContent().getState(), newAmount - removedAmount);
                             newContainer = new IngredientContainer(newIngredient, newIngredient.getQuantity().getSmallestContainer());
-                            labContainers.add(newContainer);
+                            removedContainers.add(newContainer);
                             newAmount = 0;
                             this.containers.remove(container);
                         } else {
-                            labContainers.add(container);
+                            removedContainers.add(container);
                             this.containers.remove(container);
                             newAmount -= removedAmount;
                         }
@@ -341,10 +343,10 @@ public class Laboratory {
             // merge all labcontainers into one container
             // all ingredients which were removed are the same alchemicingredient, so we can merge their quantities (convert everything to base unit and add up the amounts)
             Float totalAmount = 0F;
-            for (IngredientContainer container : labContainers) {
+            for (IngredientContainer container : removedContainers) {
                 totalAmount += container.getContent().getQuantity().convertToBase();
             }
-            AlchemicIngredient reference = labContainers.getFirst().getContent();
+            AlchemicIngredient reference = removedContainers.getFirst().getContent();
             AlchemicIngredient newIngredient = new AlchemicIngredient(reference.getFullName(), reference.getTemperature(), reference.getState(), totalAmount);
             return new IngredientContainer(newIngredient, newIngredient.getQuantity().getSmallestContainer());
         } else{
@@ -367,7 +369,7 @@ public class Laboratory {
      * @param amount The number of storerooms to be added to the laboratory.
      * @throws IllegalArgumentException if the specified number of storerooms is negative.
      */
-    public void addStorerooms(int amount){
+    public void addStorerooms(int amount) {
         if (amount >= 0) {
             this.storeroom += amount;
         } else{
@@ -385,7 +387,7 @@ public class Laboratory {
      * @param amount the number of storerooms to be removed
      * @throws IllegalArgumentException if the specified number of storerooms cannot be removed
      */
-    public void removeStorerooms(int amount){
+    public void removeStorerooms(int amount) {
         if (canRemoveStoreRoom(amount)){
             this.storeroom -= amount;
         }else{
@@ -454,8 +456,7 @@ public class Laboratory {
                 container.destroy();
                 container.setContent(null);
             }
-            }
-        else{
+        } else {
             throw new LaboratoryFullException("Laboratory already has " + device.getClass().getSimpleName());
         }
     }
@@ -466,7 +467,7 @@ public class Laboratory {
      *
      * @param device The Device to be removed.
      */
-    public void removeDevice(Device device){
+    public void removeDevice(Device device) {
         devices.remove(device);
         device.setLaboratory(null);
     }
@@ -478,7 +479,7 @@ public class Laboratory {
      * @param checkedDevice the device to be checked
      * @return true if the specified device can be added, false otherwise
      */
-    public Boolean canAddDevice(Device checkedDevice){
+    public Boolean canAddDevice(Device checkedDevice) {
         boolean valid = true;
         if(devices == null){return true;}
         for(Device device: devices){

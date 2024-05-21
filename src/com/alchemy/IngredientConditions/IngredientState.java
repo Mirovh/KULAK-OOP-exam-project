@@ -14,13 +14,21 @@ import be.kuleuven.cs.som.annotate.Basic;
 
 
 public class IngredientState {
+
     /**********************************************************
      * Variables
      **********************************************************/
+
+    /**
+     * Variable referencing the state of the ingredient
+     */
     private State state;
+
+
     /**********************************************************
      * Constructors
      **********************************************************/
+
     /**
      * constructor to make a state based on a boolean
      * @param solid whether the state is solid
@@ -46,24 +54,44 @@ public class IngredientState {
      * enum to keep track of the state of the ingredient
      */
     public enum State {
-        Powder(true),Liquid(false);
+        Powder(true),
+        Liquid(false);
+
         private final boolean solid;
-        State(boolean solid){
+
+        State(boolean solid) {
             this.solid = solid;
         }
-        public boolean isSolid(){return solid;}
+
+        public boolean isSolid() {
+            return solid;
+        }
     }
+
 
     /**********************************************************
      * Getters and Setters
      **********************************************************/
+
+    /**
+     * method to get the state of the ingredient
+     * @return the state of the ingredient
+     */
     @Basic
     public State getState(){return state;}
+
+    /**
+     * method to check if the ingredient is solid
+     * @return whether the ingredient is solid
+     */
     @Basic
     public boolean isSolid(){return state.isSolid();}
+
+
     /**********************************************************
      * Mutators
      **********************************************************/
+
     /**
      * method to change the state to the other one (change from fluid to solid or the other way)
      * @effect state is changed.
@@ -76,5 +104,4 @@ public class IngredientState {
             state = State.Powder;
         }
     }
-
 }

@@ -15,6 +15,11 @@ import java.util.Objects;
  * @version 1.0
  */
 public class Quantity {
+
+    /**********************************************************
+     * Variables
+     **********************************************************/
+
     /**
      * The amount of the quantity. (in the unit specified by the unit variable)
      */
@@ -23,6 +28,11 @@ public class Quantity {
      * The unit of the quantity.
      */
     private Unit unit;
+
+
+    /**********************************************************
+     * Constructors
+     **********************************************************/
 
     /**
      * Constructs a new Quantity with the specified amount and unit.
@@ -55,6 +65,11 @@ public class Quantity {
         this.amount = amount;
         this.unit = unit;
     }
+
+
+    /**********************************************************
+     * Methods
+     **********************************************************/
 
     /**
      * Converts this quantity to the specified unit.
@@ -372,5 +387,4 @@ public class Quantity {
     public String toString() {
         return amount + " " + unit.getName();
     }
-
 }

@@ -3,6 +3,7 @@ package com.alchemy;
 import com.alchemy.quantity.FluidUnit;
 import com.alchemy.quantity.PowderUnit;
 import com.alchemy.quantity.Unit;
+
 /**********************************************************
  * Represents a container for alchemic ingredients.
  * @invar The containerUnit of the IngredientContainer is always non-null.
@@ -14,10 +15,34 @@ import com.alchemy.quantity.Unit;
  * @version 1.0
  **********************************************************/
 public class IngredientContainer {
-    private AlchemicIngredient content;
-    private final Unit containerUnit;
-    private static final Unit[] blacklistedUnits = {PowderUnit.values()[0], PowderUnit.values()[PowderUnit.values().length - 1], FluidUnit.values()[0], FluidUnit.values()[FluidUnit.values().length - 1]};
 
+    /**********************************************************
+     * Variables
+     **********************************************************/
+
+    /**
+     * The ingredient contained in this IngredientContainer.
+     */
+    private AlchemicIngredient content;
+    /**
+     * The unit of the container. (e.g. BOTTLE, BOX, BARREL)
+     */
+    private final Unit containerUnit;
+
+
+    /**********************************************************
+     * Constants
+     **********************************************************/
+
+    /**
+     * An array of units that are not allowed to be used as container units.
+     */
+    public static final Unit[] blacklistedUnits = {PowderUnit.values()[0], PowderUnit.values()[PowderUnit.values().length - 1], FluidUnit.values()[0], FluidUnit.values()[FluidUnit.values().length - 1]};
+
+
+    /**********************************************************
+     * Constructors
+     **********************************************************/
 
     /**
      * Constructs a new IngredientContainer with the specified content and container unit.
@@ -58,6 +83,11 @@ public class IngredientContainer {
         this(null, containerUnit);
     }
 
+
+    /**********************************************************
+     * Methods
+     **********************************************************/
+
     /**
      * Checks if the specified alchemic ingredient fits in this IngredientContainer.
      *
@@ -71,7 +101,6 @@ public class IngredientContainer {
         if (ingredient == null) {
             return true;
         }
-        boolean test = ((containerUnit.getClass() == PowderUnit.class))==ingredient.getQuantity().isPowderUnit();
         return(ingredient.getQuantity().isSmallerThanOrEqualTo(this.containerUnit, 1)&&((containerUnit.getClass() == PowderUnit.class))==ingredient.getQuantity().isPowderUnit());
     }
 
@@ -102,7 +131,7 @@ public class IngredientContainer {
      * @post The content of the IngredientContainer is set to the specified value.
      *   | this.content = content
      */
-    public void setContent(AlchemicIngredient content){
+    public void setContent(AlchemicIngredient content) {
         if (content != null && !this.fits(content)) {
                 throw new IllegalArgumentException("The ingredient does not fit in the container.");
         }

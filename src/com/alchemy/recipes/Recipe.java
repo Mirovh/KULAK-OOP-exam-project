@@ -16,6 +16,11 @@ import com.alchemy.AlchemicIngredient;
  * @version 1.0
  */
 public class Recipe {
+
+    /**********************************************************
+     * Variables
+     **********************************************************/
+
     /**
      * Represents the type of action that can be performed on an ingredient.
      */
@@ -30,6 +35,11 @@ public class Recipe {
      * The ingredients to be used in the recipe.
      */
     private final AlchemicIngredient[] ingredients;
+
+
+    /**********************************************************
+     * Constructors
+     **********************************************************/
 
     /**
      * Constructs a new Recipe with the specified actions and ingredients.
@@ -59,6 +69,11 @@ public class Recipe {
         }
         this.ingredients = ingredients;
     }
+
+
+    /**********************************************************
+     * Methods
+     **********************************************************/
 
     /**
      * Returns the actions of this Recipe.

@@ -16,21 +16,26 @@ import com.alchemy.quantity.Unit;
  * @version 1.0
 **********************************************************/
 public abstract class Device {
+
     /**********************************************************
      * Variables
      **********************************************************/
+
     /**
      * Variable referencing the ingredient inside the device
      */
     protected AlchemicIngredient ingredient;
+
     /**
      * Variable referencing the laboratory the device is in
      */
     private Laboratory laboratory;
 
+
     /**********************************************************
      * Getters and Setters
      **********************************************************/
+
     /**
      * remove the contents of the device and return the smallest possible container containing the contents of the device
      * @return smallest possible container containing the contents of the device. If quantity is too large, biggest possible
@@ -52,6 +57,7 @@ public abstract class Device {
         ingredient = null;
         return container;
     }
+
     /**
      * Sets the laboratory. which the device is in.
      *
@@ -61,9 +67,11 @@ public abstract class Device {
         this.laboratory = laboratory;
     }
 
+
     /**********************************************************
      * Mutators
      **********************************************************/
+
     /**
      * method used to add an ingredient to the device
      * @param container the container containing the ingredient that has to be added to the device
@@ -76,24 +84,33 @@ public abstract class Device {
 
     public void react() throws NotInLaboratoryException {}
 
+
     /**********************************************************
      * Inspectors
      **********************************************************/
+
     /**
      * @param ingredient Check if ingredient can be added to the device
      * @return true
      */
-    public boolean canAddIngredient(AlchemicIngredient ingredient) {return true;}
+    public boolean canAddIngredient(AlchemicIngredient ingredient) {
+        return true;
+    }
 
     /**
      * Check if device is in a Laboratory
      * @return true if laboratory exists
      *  |laboratory != null
      */
-    public boolean isInLaboratory(){return laboratory!=null;}
+    public boolean isInLaboratory() {
+        return laboratory!=null;
+    }
+
+
     /**********************************************************
      * Exceptions
      **********************************************************/
+
     /**
      * Exception for when a device is full
      */

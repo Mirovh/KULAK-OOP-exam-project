@@ -15,24 +15,31 @@ import com.alchemy.IngredientConditions.IngredientState;
  * @version 1.0
  */
 public class IngredientType {
+
     /**********************************************************
      * Variables
      **********************************************************/
+
     /**
      * The standard temperature of the ingredient, also the temperature the ingredient will have on construction.
      */
     final private Temperature standardTemperature;
+
     /**
      * The name of the ingredient
      */
     final private IngredientName ingredientName;
+
     /**
      * The state the ingredient will start in
      */
     final private IngredientState standardState;
+
+
     /**********************************************************
      * Constructors //
      **********************************************************/
+
     /**
      * initializes an IngredientType with given parameters
      * @param name the name of the IngredientType
@@ -46,6 +53,7 @@ public class IngredientType {
         this.ingredientName = new IngredientName(name);
         this.standardState = standardState;
     }
+
     /**
      * initializes an IngredientType with given parameters
      * @param name the name of the IngredientType
@@ -73,6 +81,7 @@ public class IngredientType {
         standardTemperature = new Temperature(0F,20F);
         standardState = new IngredientState(IngredientState.State.Liquid);
     }
+
 
     /**********************************************************
      * Getters and Setters

@@ -13,24 +13,29 @@ import java.util.Random;
  * @version 1.0
 **********************************************************/
 public class Oven extends Device {
+
     /**********************************************************
      * Variables
      **********************************************************/
+
     /**
      * Variable referencing the Temperature of the oven
      */
     private Temperature temperature;
 
+
     /**********************************************************
      * Constructors
      **********************************************************/
+
     /**
      * Creates a new oven with a temperature with coldness and hotness as given
      * @param coldness the coldness of the temperature of the oven
      * @param hotness the hotness of the temperature of the oven
      */
     public Oven(Float coldness, Float hotness){
-        this.temperature = new Temperature(0F,0F);setTemperature(coldness,hotness);
+        this.temperature = new Temperature(0F,0F);
+        setTemperature(coldness,hotness);
     }
 
     /**
@@ -39,6 +44,7 @@ public class Oven extends Device {
     public Oven(){
         this.temperature = new Temperature(0F,20F);
     }
+
 
     /**********************************************************
      * Getters and Setters
@@ -50,17 +56,18 @@ public class Oven extends Device {
      * @param coldness the coldness the oven will be set to
      * @param hotness the hotness the oven will be set to
      */
-    public void setTemperature(Float coldness,Float hotness){
+    public void setTemperature(Float coldness,Float hotness) {
         temperature.heat(temperature.getColdness());
         temperature.cool(temperature.getHotness());//temperature is set to 0,0
         temperature.cool(coldness);
         temperature.heat(hotness);
     }
+
     /**
      * method to set the temperature of the oven
      * @param temperature the temperature the oven will be set to
      */
-    public void setTemperature(Temperature temperature){
+    public void setTemperature(Temperature temperature) {
         Float coldness = temperature.getColdness();
         Float hotness = temperature.getHotness();
         this.temperature.heat(temperature.getColdness());
@@ -69,8 +76,9 @@ public class Oven extends Device {
         temperature.heat(hotness);
     }
 
+
     /**********************************************************
-     * Mutators
+     * Methods
      **********************************************************/
 
     /**
@@ -79,14 +87,13 @@ public class Oven extends Device {
      * @throws DeviceFullException if there already is an ingredient in the oven, the device is considered full
      */
     @Override
-    public void addIngredient(IngredientContainer container) throws DeviceFullException{
+    public void addIngredient(IngredientContainer container) throws DeviceFullException {
         if (ingredient != null){
             throw new DeviceFullException("Oven Full");
         }
         else{
             super.addIngredient(container);
         }
-
     }
 
     /**
@@ -95,7 +102,7 @@ public class Oven extends Device {
      *if the ingredient is hotter than the temperature of the oven, nothing happens.
      */
     @Override
-    public void react() throws NotInLaboratoryException{
+    public void react() throws NotInLaboratoryException {
         if(!isInLaboratory()){
             throw new NotInLaboratoryException("Oven not in Laboratory");
         }
@@ -118,11 +125,12 @@ public class Oven extends Device {
             }
         }
     }
+
     /**
      * method to higher ovens own temperature by 10 degrees
      * @effect the temperature of oven will be heated by 10 degrees
      */
-    public void heatOwnTemperature(){
+    public void heatOwnTemperature() {
         temperature.heat(10F);
     }
 }

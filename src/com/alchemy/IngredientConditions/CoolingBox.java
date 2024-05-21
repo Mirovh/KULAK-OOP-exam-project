@@ -13,36 +13,37 @@ import com.alchemy.IngredientContainer;
  * @version 1.0
 **********************************************************/
 public class CoolingBox extends Device {
+
     /**********************************************************
      * Variables
      **********************************************************/
+
     /**
      * Variable referencing the Temperature of the coolingBox
      */
     private Temperature temperature;
+
+
     /**********************************************************
      * Constructors
      **********************************************************/
+
     /**
      * creates a CoolingBox with given coldness and hotness
      * @param coldness the coldness of the temperature of the CoolingBox
      * @param hotness the hotness of the temperature of the CoolingBox
      */
-    public CoolingBox(Float coldness, Float hotness){
+    public CoolingBox(Float coldness, Float hotness) {
         this.temperature = new Temperature(0F,0F);setTemperature(coldness,hotness);
     }
 
     /**
      * creates a coolingbox with temperature 0,20
      */
-    public CoolingBox(){
+    public CoolingBox() {
         this.temperature = new Temperature(0F,20F);
     }
-    /**
-     * method for adding an ingredient to the coolingbox
-     * @param container the container containing the ingredient that has to be added to the device
-     * @throws DeviceFullException if there already is an ingredient in the coolingbox, the device is considered full
-     */
+
 
     /**********************************************************
      * Getters and Setters
@@ -55,7 +56,7 @@ public class CoolingBox extends Device {
      * @param hotness the hotness the coolingBox will be set to
      */
     @Basic
-    public void setTemperature(Float coldness,Float hotness){
+    public void setTemperature(Float coldness,Float hotness) {
         temperature.heat(temperature.getColdness());
         temperature.cool(temperature.getHotness());
         temperature.cool(coldness);
@@ -67,7 +68,7 @@ public class CoolingBox extends Device {
      * @param temperature the temperature the coolingBox will be set to
      */
     @Basic
-    public void setTemperature(Temperature temperature){
+    public void setTemperature(Temperature temperature) {
         Float coldness = temperature.getColdness();
         Float hotness = temperature.getHotness();
         this.temperature.heat(temperature.getColdness());
@@ -76,16 +77,18 @@ public class CoolingBox extends Device {
         this.temperature.heat(hotness);
     }
 
+
     /**********************************************************
      * Mutators
      **********************************************************/
+
     /**
      * method used to add an ingredient to the device
      * @param container the container containing the ingredient that has to be added to the device
      * @throws DeviceFullException if the device is full, deviceFullException is thrown.
      */
     @Override
-    public void addIngredient(IngredientContainer container) throws DeviceFullException{
+    public void addIngredient(IngredientContainer container) throws DeviceFullException {
         if (ingredient != null){
             throw new DeviceFullException("CoolingBox Full");
         }
@@ -98,7 +101,7 @@ public class CoolingBox extends Device {
     /**
      * method to start the reaction
      * @effect the temperature of the content in the coolingbox will be cooled to the temperature of the coolingbox
-     *if the ingredient is colder than the temperature of the coolingbox, nothing happens.
+     * if the ingredient is colder than the temperature of the coolingbox, nothing happens.
      *  |if(!ingredientTemperature.isColderThan(temperature){
      *  |ingredientTemperature = temperature
      *  |}
@@ -124,7 +127,7 @@ public class CoolingBox extends Device {
      * method to cool coolingboxes own temperature by 10 degrees
      * @effect the temperature of coolinbox will be lowered by 10 degrees
      */
-    public void lowerOwnTemp(){
+    public void lowerOwnTemp() {
         temperature.cool(10F);
     }
 }

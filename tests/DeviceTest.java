@@ -95,17 +95,17 @@ public class DeviceTest {
 
     @Test
     public void TransmorgrifierTest() throws Exception{
-       Transmorgrifier transmorgrifier = new Transmorgrifier();
-       lab.addDevice(transmorgrifier);
+       Transmogrifier transmogrifier = new Transmogrifier();
+       lab.addDevice(transmogrifier);
        Assert.assertFalse(container1.getContent().getState().getState().isSolid());
        //test basic function
-       transmorgrifier.addIngredient(container1);
-       transmorgrifier.react();
-       IngredientContainer changedContainer = transmorgrifier.getContents();
+       transmogrifier.addIngredient(container1);
+       transmogrifier.react();
+       IngredientContainer changedContainer = transmogrifier.getContents();
        Assert.assertTrue(changedContainer.getContent().getState().getState().isSolid());
-       transmorgrifier.addIngredient(changedContainer);
-       transmorgrifier.react();
-        IngredientContainer changedContainer2 = transmorgrifier.getContents();
+       transmogrifier.addIngredient(changedContainer);
+       transmogrifier.react();
+        IngredientContainer changedContainer2 = transmogrifier.getContents();
         Assert.assertFalse(changedContainer2.getContent().getState().getState().isSolid());
     }
 

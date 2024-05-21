@@ -16,7 +16,20 @@ import java.util.List;
  * @version 1.0
  */
 public class RecipeBook {
+
+    /**********************************************************
+     * Variables
+     **********************************************************/
+
+    /**
+     * The recipes in the recipe book.
+     */
     private List<Recipe> recipes;
+
+
+    /**********************************************************
+     * Constructors
+     **********************************************************/
 
     /**
      * Constructs a new RecipeBook with the specified recipes.
@@ -34,6 +47,11 @@ public class RecipeBook {
         }
         this.recipes = List.of(recipes);
     }
+
+
+    /**********************************************************
+     * Methods
+     **********************************************************/
 
     /**
      * Returns the recipes of this RecipeBook.
@@ -91,5 +109,4 @@ public class RecipeBook {
         }
         return recipes.get(index);
     }
-
 }

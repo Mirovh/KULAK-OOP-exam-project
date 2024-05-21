@@ -18,10 +18,12 @@ import java.util.Map;
  * @version 1.0
  */
 public enum PowderUnit implements Unit {
+
     /**
      * The base unit for powder measurements.
      */
     PINCH("pinch"),
+
     SPOON("spoon", 6F, PINCH),
     SACHET("sachet", 7F, SPOON),
     BOX("box", 6F, SACHET),
@@ -29,12 +31,25 @@ public enum PowderUnit implements Unit {
     CHEST("chest", 10F, SACK),
     STOREROOM("storeroom", 5F, CHEST);
 
+
+    /**********************************************************
+     * Variables
+     **********************************************************/
+
     /**
      * The name of the unit in human-readable format.
      */
     private final String name;
+
+    /**
+     * The conversion map of the unit to other untis of the same type.
+     */
     final Map<Unit, Float> conversionMap = new HashMap<>();
 
+
+    /**********************************************************
+     * Constructors
+     **********************************************************/
 
     /**
      * Initializes a new PowderUnit with the specified name.
@@ -64,6 +79,11 @@ public enum PowderUnit implements Unit {
         Unit.calculateConversionMaps(values());
     }
 
+
+    /**********************************************************
+     * Methods
+     **********************************************************/
+
     /**
      * Returns the base unit of PowderUnit.
      *
@@ -87,11 +107,11 @@ public enum PowderUnit implements Unit {
     /**
      * Returns the conversion map of the unit.
      *
-     * @return The conversion map of the unit
+     * @return A copy of the conversion map of the unit
      */
     @Override @Basic
     public Map<Unit, Float> getConversionMap() {
-        return conversionMap;
+        return Map.copyOf(conversionMap);
     }
 
     /**

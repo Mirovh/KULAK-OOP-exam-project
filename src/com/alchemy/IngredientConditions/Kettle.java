@@ -15,27 +15,49 @@ import java.util.ArrayList;
  * @version 1.0
 **********************************************************/
 public class Kettle extends Device {
+
     /**********************************************************
      * Variables
      **********************************************************/
+
+    /**
+     * Variable referencing the ingredients in the kettle
+     */
     private ArrayList<AlchemicIngredient> ingredients = new ArrayList<>();
 
+    /**
+     * Variable referencing the target temperature of the kettle
+     */
     static Temperature targetTemp = new Temperature(0,20);
+
 
     /**********************************************************
      * Constants
      **********************************************************/
 
+    /**
+     * Variable referencing the amount of pinches in a spoon
+     */
     static final int pinchInSpoon = Math.round(new Quantity(1, PowderUnit.SPOON).convertTo(PowderUnit.PINCH));
+    /**
+     * Variable referencing the amount of drops in a spoon
+     */
     static final int dropInSpoon = Math.round(new Quantity(1, FluidUnit.SPOON).convertTo(FluidUnit.DROP));
+
 
     /**********************************************************
      * Constructors
      **********************************************************/
 
+    public Kettle() {
+        super();
+    }
+
+
     /**********************************************************
      * Getters and Setters
      **********************************************************/
+
     /**
      * method used to add an ingredient to the device
      * @param container the container containing the ingredient that has to be added to the device
@@ -73,7 +95,7 @@ public class Kettle extends Device {
 
 
     /**********************************************************
-     * Mutators
+     * Methods
      **********************************************************/
 
     /**

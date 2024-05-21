@@ -18,11 +18,10 @@ import java.util.Map;
  * @version 1.0
  */
 public interface Unit {
-    /**
-     * The conversion map for this unit.
-     * This map contains the conversion rates to all other units.
-     */
 
+    /**********************************************************
+     * Methods
+     **********************************************************/
 
     /**
      * Converts the specified amount to the specified unit.
@@ -46,6 +45,36 @@ public interface Unit {
     default Float convertToBase(Float amount) {
         return convertTo(getBaseUnit(), amount);
     }
+
+    /**
+     * Returns the base unit of this unit.
+     *
+     * @return The base unit
+     */
+    @Basic
+    Unit getBaseUnit();
+
+    /**
+     * Returns the name of this unit.
+     *
+     * @return The name of this unit
+     */
+    @Basic
+    String getName();
+
+    /**
+     * Returns the conversion map of this unit.
+     *
+     * @return The conversion map of this unit
+     */
+    @Basic
+    Map<Unit, Float> getConversionMap();
+
+    /**
+     * Adds a conversion rate to the conversion map.
+     */
+    @Raw
+    void addConversionRate(Unit unit, Float amount);
 
     /**
      * Calculates the conversion maps for the specified units.
@@ -96,34 +125,4 @@ public interface Unit {
             }
         }
     }
-
-    /**
-     * Returns the base unit of this unit.
-     *
-     * @return The base unit
-     */
-    @Basic
-    Unit getBaseUnit();
-
-    /**
-     * Returns the name of this unit.
-     *
-     * @return The name of this unit
-     */
-    @Basic
-    String getName();
-
-    /**
-     * Returns the conversion map of this unit.
-     *
-     * @return The conversion map of this unit
-     */
-    @Basic
-    Map<Unit, Float> getConversionMap();
-
-    /**
-     * Adds a conversion rate to the conversion map.
-     */
-    @Raw
-    void addConversionRate(Unit unit, Float amount);
 }

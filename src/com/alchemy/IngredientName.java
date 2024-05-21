@@ -23,13 +23,12 @@ public class IngredientName {
     /**
      * The regex used to check if a name is a valid ingredient part name.
      */
-    private final static String ingredientPartRegex = "^[a-zA-Z'\\(\\)\\s]*$";
+    private final static String ingredientPartRegex = "^[a-zA-Z'()\\s]*$";
 
     /**
      * The words that are not allowed in an ingredient part name. (eg "mixed" or "with")
      */
     private final static String[] blacklistedWordsIngredientPart = {"mixed", "with","Heated","Cooled"};
-
 
 
     /**********************************************************
@@ -60,7 +59,6 @@ public class IngredientName {
      * The special name of the ingredient.
      */
     private String specialName = null;
-
 
 
     /**********************************************************
@@ -228,6 +226,7 @@ public class IngredientName {
         prefixes.clear();
         suffixes.clear();
     }
+
     /**
      * Get all prefixes of the name of the ingredient.
      *
@@ -259,7 +258,6 @@ public class IngredientName {
     }
 
 
-
     /**********************************************************
      * Helper methods
      **********************************************************/
@@ -284,7 +282,6 @@ public class IngredientName {
 
         return nameBuilder.toString();
     }
-
 
 
     /**********************************************************
@@ -361,7 +358,6 @@ public class IngredientName {
         }
         return true;
     }
-
 
 
     /**********************************************************

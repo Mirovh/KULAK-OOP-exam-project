@@ -47,7 +47,6 @@ public class AlchemicIngredient {
     private final Quantity quantity;
 
 
-
     /**********************************************************
      * Constructors
      **********************************************************/
@@ -189,7 +188,6 @@ public class AlchemicIngredient {
     }
 
 
-
     /**********************************************************
      * Getters and Setters
      **********************************************************/
@@ -304,7 +302,6 @@ public class AlchemicIngredient {
     public ArrayList<String> getParts() {
         return ingredientName.getPartNames();
     }
-
 
 
     /**********************************************************

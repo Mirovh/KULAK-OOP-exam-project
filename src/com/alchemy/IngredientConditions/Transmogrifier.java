@@ -5,7 +5,7 @@ import com.alchemy.quantity.FluidUnit;
 import com.alchemy.quantity.PowderUnit;
 
 /**********************************************************
- * A class representing a transmorgrifier, used to change the state of an ingredient
+ * A class representing a transmogrifier, used to change the state of an ingredient
  * defensively programmed
  *
  * @author MiroVanHoef
@@ -13,24 +13,29 @@ import com.alchemy.quantity.PowderUnit;
  * @author SimonVandeputte
  * @version 1.0
 **********************************************************/
-public class Transmorgrifier extends Device {
+public class Transmogrifier extends Device {
+    
     /**********************************************************
      * Constructors
      **********************************************************/
+    
     /**
-     * creates an empty Transmorgrifier
+     * creates an empty Transmogrifier
      */
-    public Transmorgrifier(){}
+    public Transmogrifier(){}
+    
+    
     /**********************************************************
      * Methods
      **********************************************************/
+    
     /**
      * method to start the reaction
-     * @throws NotInLaboratoryException if the transmorgrifier isn't in a Laboratory
+     * @throws NotInLaboratoryException if the transmogrifier isn't in a Laboratory
      */
     @Override
     public void react() throws NotInLaboratoryException {
-        if(!isInLaboratory()){throw new NotInLaboratoryException("Transmorgrifier not in a Laboratory");}
+        if(!isInLaboratory()){throw new NotInLaboratoryException("transmogrifier not in a Laboratory");}
         ingredient.getState().switchState();
         if(ingredient.getState().isSolid()) {
             ingredient.getQuantity().convertToPowderUnit(PowderUnit.PINCH);
@@ -41,14 +46,14 @@ public class Transmorgrifier extends Device {
     }
 
     /**
-     * method to add the contents of a container to the transmorgrifier, destroying the container in the process
+     * method to add the contents of a container to the transmogrifier, destroying the container in the process
      * @param container the container containing the ingredient that has to be added to the device
-     * @throws DeviceFullException if there already is an ingredient in the transmorgrifier
+     * @throws DeviceFullException if there already is an ingredient in the transmogrifier
      */
     @Override
     public void addIngredient(IngredientContainer container) throws DeviceFullException{
         if (ingredient != null){
-            throw new DeviceFullException("Transmorgrifier Full");
+            throw new DeviceFullException("transmogrifier Full");
         }
         else{
             super.addIngredient(container);

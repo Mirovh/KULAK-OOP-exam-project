@@ -18,10 +18,12 @@ import java.util.Map;
  * @version 1.0
  */
 public enum FluidUnit implements Unit {
+
     /**
-     * The base unit for powder measurements.
+     * The base unit for fluid measurements.
      */
     DROP("drop"),
+
     SPOON("spoon", 8F, DROP),
     VIAL("sachet", 5F, SPOON),
     BOTTLE("box", 3F, VIAL),
@@ -29,8 +31,24 @@ public enum FluidUnit implements Unit {
     BARREL("chest", 12F, JUG),
     STOREROOM("storeroom", 5F, BARREL);
 
+
+    /******************************************************************
+     * Variables
+     **********************************************************/
+
+    /**
+     * The name of the unit in human-readable format.
+     */
     private final String name;
+    /**
+     * The conversion map of the unit to other untis of the same type.
+     */
     final Map<Unit, Float> conversionMap = new HashMap<>();
+
+
+    /******************************************************************
+     * Constructors
+     **********************************************************/
 
     /**
      * Initializes a new FluidUnit with the specified name.
@@ -60,6 +78,11 @@ public enum FluidUnit implements Unit {
         Unit.calculateConversionMaps(values());
     }
 
+
+    /******************************************************************
+     * Methods
+     **********************************************************/
+
     /**
      * Returns the base unit of FluidUnit.
      *
@@ -87,7 +110,7 @@ public enum FluidUnit implements Unit {
      */
     @Override @Basic
     public Map<Unit, Float> getConversionMap() {
-        return conversionMap;
+        return Map.copyOf(conversionMap);
     }
 
     /**
