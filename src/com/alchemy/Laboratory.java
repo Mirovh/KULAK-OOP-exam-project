@@ -41,6 +41,8 @@ public class Laboratory {
      * Constructs a new Laboratory with the specified number of storerooms.
      * Initializes the lists of devices and alchemic containers.
      *
+     * @pre amount >= 1
+     * @post A new Laboratory object is created with the specified number of storerooms. The lists of devices and containers are initialized.
      * @param amount the number of storerooms in the laboratory
      * @throws IllegalArgumentException if the number of storerooms is less than 1
      */
@@ -173,6 +175,8 @@ public class Laboratory {
     /**
      * Adds a given IngredientContainer to the laboratory.
      *
+     * @pre size of container must be smaller than amount of space left in storeroom
+     * @post added container must be changed to standard temperature
      * @param container The IngredientContainer to be added to the laboratory.
      * @throws IllegalArgumentException if the laboratory does not have enough free space to accommodate the ingredient in the container.
      */
@@ -234,6 +238,8 @@ public class Laboratory {
     /**
      * Adds a specified amount of an IngredientContainer to the laboratory.
      *
+     * @pre size of container must be smaller than amount of space left in storeroom
+     * @post added container must be changed to standard temperature
      * @param container The IngredientContainer to be added to the laboratory.
      * @param amount The amount of the ingredient to be added from the container.
      * @throws IllegalArgumentException if the laboratory does not have enough free space to accommodate the specified amount of the ingredient in the container,
@@ -290,6 +296,7 @@ public class Laboratory {
      * If the ingredient is not found, an exception is thrown.
      * If the amount to be removed is less than the amount in a container, the remaining amount is added back to the laboratory.
      *
+     * @pre Ingredient must be in Laboratory
      * @param ingredientName The name of the ingredient to be removed.
      * @param containerUnit The unit of the amount to be removed.
      * @param amount The amount of the ingredient to be removed.
@@ -373,6 +380,7 @@ public class Laboratory {
      * (i.e., the number of storerooms after the removal would not be negative and the laboratory would still have enough space),
      * it decreases the current number of storerooms. Otherwise, it throws an IllegalArgumentException.
      *
+     * @pre The Laboratory must still be able to contain all of its Containers
      * @param amount the number of storerooms to be removed
      * @throws IllegalArgumentException if the specified number of storerooms cannot be removed
      */
@@ -431,6 +439,7 @@ public class Laboratory {
      * (i.e., the laboratory has enough space for the device), it adds the device to the laboratory's list of devices
      * and sets the laboratory for the device. Otherwise, it throws a LaboratoryFullException.
      *
+     * @pre Device of same kind must not already be in Laboratory
      * @param device the device to be added
      * @throws LaboratoryFullException if the laboratory does not have enough space for the device
      */
